@@ -39,8 +39,9 @@ CREATE TABLE public.salesman (
     phone_num character varying(15) NOT NULL,
     works_from date NOT NULL,
     works_to date,
-    salary money NOT NULL,
-    PRIMARY KEY(tab_num)
+    salary int NOT NULL,
+    login character varying(20),
+    constraint salesman_usr_credentials_login_fk FOREIGN KEY (login) REFERENCES public.usr_credentials(login)
 );
 
 CREATE TABLE public.customer (
