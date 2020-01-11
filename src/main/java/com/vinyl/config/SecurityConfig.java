@@ -2,7 +2,6 @@ package com.vinyl.config;
 
 import com.vinyl.security.JwtAuthenticationEntryPoint;
 import com.vinyl.security.JwtAuthenticationFilter;
-import com.vinyl.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
