@@ -23,9 +23,13 @@ SET default_table_access_method = heap;
 --
 -- Name: album; Type: TABLE; Schema: public; Owner: vbozhko
 --
+CREATE TABLE public.usr_credentials (
+    login character varying(20) PRIMARY KEY,
+    password character varying(100) NOT NULL
+);
 
 CREATE TABLE public.salesman (
-    tab_num integer,
+    tab_num serial PRIMARY KEY,
     salesman_name character varying(50) NOT NULL,
     passport_num character varying(12) NOT NULL UNIQUE,
     address_city character varying(20) NOT NULL,
@@ -40,37 +44,33 @@ CREATE TABLE public.salesman (
 );
 
 CREATE TABLE public.customer (
-    customer_num integer,
+    customer_num serial PRIMARY KEY,
     customer_name character varying(50) NOT NULL,
     email character varying(50),
-    discount smallint NOT NULL,
-    PRIMARY KEY(customer_num)
+    discount smallint NOT NULL
 );
 
 CREATE TABLE public.supplier (
-    edrpou character(8),
+    edrpou character(8) PRIMARY KEY,
     address character varying(100) NOT NULL,
-    phone_num character varying(15) NOT NULL,
-    PRIMARY KEY(edrpou)
+    phone_num character varying(15) NOT NULL
 );
 
 CREATE TABLE public.customer_phone_number (
-    phone_number character varying(15),
-    customer_num integer,
-    PRIMARY KEY(phone_number),
+    phone_number character varying(15) PRIMARY KEY,
+    customer_num integer NOT NULL,
     CONSTRAINT customer_phone_number_customer_customer_num_fk FOREIGN KEY (customer_num) REFERENCES public.customer(customer_num) ON DELETE CASCADE
 );
 
 CREATE TABLE public.album (
-    catalog_num character varying(15),
+    catalog_num character varying(15) PRIMARY KEY,
     release_year smallint NOT NULL,
     album_name character varying(100) NOT NULL,
-    various_artists boolean NOT NULL,
-    PRIMARY KEY (catalog_num)
+    various_artists boolean NOT NULL
 );
 
 CREATE TABLE public.release (
-    bar_code character varying(15),
+    bar_code character varying(15) PRIMARY KEY,
     album_catalog_num character varying(15) NOT NULL,
     country character(2) NOT NULL,
     release_date date NOT NULL,
@@ -79,8 +79,7 @@ CREATE TABLE public.release (
     copies_cnt integer NOT NULL,
     repress boolean NOT NULL,
     label character varying(30),
-    PRIMARY KEY(bar_code),
-    CONSTRAINT release_album_catalog_num_fk FOREIGN KEY (album_catalog_num) REFERENCES public.album(catalog_num)
+    CONSTRAINT release_album_catalog_num_fk FOREIGN KEY (album_catalog_num) REFERENCES public.album(catalog_num) ON DELETE CASCADE
 );
 
 CREATE TABLE public.albumgenre (
@@ -91,22 +90,20 @@ CREATE TABLE public.albumgenre (
 );
 
 CREATE TABLE public.artist (
-    artist_alias character varying(100),
+    artist_alias character varying(100) PRIMARY KEY,
     activity boolean,
     country character(2) NOT NULL,
     artist_name character varying(50),
     birth_date date,
-    death_date date,
-    PRIMARY KEY(artist_alias)
+    death_date date
 );
 
 CREATE TABLE public.band (
-    band_alias character varying(100),
+    band_alias character varying(100) PRIMARY KEY,
     activity boolean,
     country character(2) NOT NULL,
     start_year date NOT NULL,
-    end_year date,
-    PRIMARY KEY(band_alias)
+    end_year date
 );
 
 CREATE TABLE public.artist2band (
@@ -114,55 +111,54 @@ CREATE TABLE public.artist2band (
     band_alias character varying(100) NOT NULL,
     join_date date NOT NULL,
     exit_date date,
-    PRIMARY KEY(artist_alias, band_alias),
+    PRIMARY KEY(artist_alias, band_alias, join_date),
     CONSTRAINT artist2band_artist_artist_alias_fk FOREIGN KEY (artist_alias) REFERENCES public.artist(artist_alias) ON UPDATE CASCADE,
     CONSTRAINT artist2band_band_band_alias_fk FOREIGN KEY (band_alias) REFERENCES public.band(band_alias) ON UPDATE CASCADE
 );
 
 CREATE TABLE public."check" (
-    check_num serial,
+    check_num serial PRIMARY KEY,
     salesman_tab_num integer NOT NULL,
     customer_num integer,
     date_time timestamp without time zone NOT NULL,
-    PRIMARY KEY(check_num),
     UNIQUE (salesman_tab_num, date_time),
-    CONSTRAINT check_customer_customer_num_fk FOREIGN KEY (customer_num) REFERENCES public.customer(customer_num) ON DELETE SET NULL
+    CONSTRAINT check_customer_customer_num_fk FOREIGN KEY (customer_num)
+        REFERENCES public.customer(customer_num) ON DELETE SET NULL,
+    CONSTRAINT check_salesman_salesman_tab_num_fk FOREIGN KEY (salesman_tab_num)
+        REFERENCES public.salesman(tab_num)
 );
 
 CREATE TABLE public.cartridge (
-    bar_code character(15),
+    bar_code character(15) PRIMARY KEY,
     check_num integer,
     supplier_edrpou character(8) NOT NULL,
+    manufacturer_name character varying(30) NOT NULL,
     model_num character varying(20) NOT NULL,
     prod_date date NOT NULL,
     prod_country character(2) NOT NULL,
     warranty_period date NOT NULL,
-    manufacturer_name character varying(30) NOT NULL,
     purchase_date date NOT NULL,
-    purchase_price money NOT NULL,
-    sell_price money NOT NULL,
+    purchase_price int NOT NULL,
+    sell_price int NOT NULL,
     available boolean NOT NULL,
     shape character varying(10) NOT NULL,
     material character varying(10) NOT NULL,
     capacity smallint NOT NULL,
-    PRIMARY KEY(bar_code),
     CONSTRAINT cartridge_check_check_num_fk FOREIGN KEY (check_num) REFERENCES public."check"(check_num),
     CONSTRAINT cartridge_manufacturer_name_manufacturer_name_fk FOREIGN KEY (manufacturer_name) REFERENCES public.supplier(edrpou) ON UPDATE CASCADE,
     CONSTRAINT cartridge_supplier_edrpou_fk FOREIGN KEY (supplier_edrpou) REFERENCES public.supplier(edrpou)
 );
 
 CREATE TABLE public.composer (
-    composer_name character varying(50),
+    composer_name character varying(50) PRIMARY KEY,
     country character(2) NOT NULL,
     activity_start date NOT NULL,
-    activity_end date,
-    PRIMARY KEY(composer_name)
+    activity_end date
 );
 
 CREATE TABLE public.manufacturer (
-    manufacturer_name character varying(30),
-    registration_country character(2) NOT NULL,
-    PRIMARY KEY(manufacturer_name)
+    manufacturer_name character varying(30) PRIMARY KEY,
+    registration_country character(2) NOT NULL
 );
 
 CREATE TABLE public.performance (
@@ -176,19 +172,18 @@ CREATE TABLE public.performance (
 );
 
 CREATE TABLE public.player (
-    bar_code character(15),
+    bar_code character(15) PRIMARY KEY,
     check_num integer,
     supplier_edrpou character(8) NOT NULL,
+    manufacturer_name character varying(30) NOT NULL,
     model_num character varying(20) NOT NULL,
     prod_date date NOT NULL,
     prod_country character(2) NOT NULL,
     warranty_period date NOT NULL,
-    manufacturer_name character varying(30) NOT NULL,
     purchase_date date NOT NULL,
-    purchase_price money NOT NULL,
-    sell_price money NOT NULL,
+    purchase_price int NOT NULL,
+    sell_price int NOT NULL,
     available boolean NOT NULL,
-    PRIMARY KEY(bar_code),
     CONSTRAINT player_check_check_num_fk FOREIGN KEY (check_num) REFERENCES public."check"(check_num),
     CONSTRAINT player_manufacturer_manufacturer_name_fk FOREIGN KEY (manufacturer_name) REFERENCES public.manufacturer(manufacturer_name) ON UPDATE CASCADE,
     CONSTRAINT player_supplier_edrpou_fk FOREIGN KEY (supplier_edrpou) REFERENCES public.supplier(edrpou)
@@ -209,27 +204,25 @@ CREATE TABLE public.playerspeed (
 );
 
 CREATE TABLE public.record (
-    bar_code character(15),
+    bar_code character(15) PRIMARY KEY,
     release_bar_code character varying(15) NOT NULL,
     check_num integer,
     supplier_edrpou character(8) NOT NULL,
     purchase_date date NOT NULL,
-    purchase_price money NOT NULL,
-    sell_price money NOT NULL,
+    purchase_price int NOT NULL,
+    sell_price int NOT NULL,
     available boolean NOT NULL,
     state character varying(3) NOT NULL,
     state_check_date date NOT NULL,
-    PRIMARY KEY(bar_code),
     CONSTRAINT record_check_check_num_fk FOREIGN KEY (check_num) REFERENCES public."check"(check_num),
     CONSTRAINT record_release_bar_code_fk FOREIGN KEY (release_bar_code) REFERENCES public.release(bar_code),
     CONSTRAINT record_supplier_edrpou_fk FOREIGN KEY (supplier_edrpou) REFERENCES public.supplier(edrpou)
 );
 
 CREATE TABLE public.track (
-    catalog_num character varying(15),
+    catalog_num character varying(15) PRIMARY KEY,
     track_name character varying(100) NOT NULL,
-    duration integer NOT NULL,
-    PRIMARY KEY(catalog_num)
+    duration int NOT NULL
 );
 
 CREATE TABLE public.track2album (
@@ -273,7 +266,7 @@ CREATE TABLE public.write_off (
     cartridge_bar_code character varying(15),
     salesman_num integer NOT NULL,
     write_off_date date NOT NULL,
-    fee money,
+    fee int,
     reason character varying(200) NOT NULL,
     CONSTRAINT write_off_salesman_tab_num_fk FOREIGN KEY (salesman_num) REFERENCES public.salesman(tab_num),
     CONSTRAINT write_off_record_bar_code_fk FOREIGN KEY (record_bar_code) REFERENCES public.record(bar_code),
