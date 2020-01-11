@@ -1,14 +1,14 @@
 package com.vinyl.dao.impl;
 
 import com.vinyl.dao.UserDao;
-import lombok.extern.slf4j.Slf4j;
 import com.vinyl.model.UserCredentials;
+import com.vinyl.utils.QuerySupplier;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import com.vinyl.utils.QuerySupplier;
 
 import javax.annotation.Resource;
 import java.sql.ResultSet;
@@ -29,11 +29,11 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public void save(UserCredentials userCredentials) {
+	public void save(UserCredentials credentials) {
 		String createUserQuery = QuerySupplier.getQuery(createUserQueryPath);
 
-		String login = userCredentials.getLogin();
-		String password = userCredentials.getPassword();
+		String login = credentials.getLogin();
+		String password = credentials.getPassword();
 
 		jdbcTemplate.update(createUserQuery, login, password);
 	}
@@ -52,10 +52,11 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 
 	@Override
 	public UserCredentials mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-		UserCredentials userCredentials = new UserCredentials();
-		userCredentials.setLogin(resultSet.getString("login"));
-		userCredentials.setPassword(resultSet.getString("password"));
-		return userCredentials;
+		UserCredentials credentials = new UserCredentials();
+		credentials.setLogin(resultSet.getString("login"));
+		credentials.setPassword(resultSet.getString("password"));
+		credentials.setDirector(resultSet.getBoolean("isDirector"));
+		return credentials;
 	}
 
 }

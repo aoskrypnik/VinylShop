@@ -3,8 +3,9 @@ package com.vinyl.service.impl;
 import com.vinyl.dao.UserDao;
 import com.vinyl.exception.LoginExistException;
 import com.vinyl.model.UserCredentials;
-import org.springframework.stereotype.Service;
 import com.vinyl.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -17,13 +18,15 @@ public class UserServiceImpl implements UserService {
 
 	@Resource
 	private UserDao userDao;
+	@Resource
+	private PasswordEncoder passwordEncoder;
 
 	@Override
-	public void save(UserCredentials userCredentials) throws LoginExistException {
-		if (loginExist(userCredentials.getLogin())) {
+	public void save(UserCredentials credentials) throws LoginExistException {
+		if (nonNull(findByLogin(credentials.getLogin()))) {
 			throw new LoginExistException(LOGIN_EXIST_EXCEPTION_MESSAGE);
 		}
-		userDao.save(userCredentials);
+		userDao.save(credentials);
 	}
 
 	@Override
@@ -31,9 +34,11 @@ public class UserServiceImpl implements UserService {
 		return userDao.findByLogin(login);
 	}
 
-	private boolean loginExist(String login) {
-		UserCredentials credentials = findByLogin(login);
-		return nonNull(credentials);
+	@Override
+	public UserCredentials prepareForSaving(UserCredentials credentials) {
+		credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
+		credentials.setDirector(false);
+		return credentials;
 	}
 
 }

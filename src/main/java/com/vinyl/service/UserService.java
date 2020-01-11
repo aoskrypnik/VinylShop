@@ -5,8 +5,10 @@ import com.vinyl.model.UserCredentials;
 
 public interface UserService {
 
-	void save (UserCredentials userCredentials) throws LoginExistException;
+	void save(UserCredentials userCredsDetails) throws LoginExistException;
 
-	UserCredentials findByLogin (String login);
+	UserCredentials findByLogin(String login);
+
+	UserCredentials prepareForSaving(UserCredentials userCredsDetails);
 
 }

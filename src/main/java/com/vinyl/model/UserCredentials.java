@@ -10,8 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserCredentials {
-
 	private String login;
 	private String password;
-
+	private boolean isDirector;
 }

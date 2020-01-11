@@ -28,6 +28,12 @@ CREATE TABLE public.usr_credentials (
     password character varying(100) NOT NULL
 );
 
+CREATE TABLE public.usr_credentials (
+    login character varying(20),
+    password character varying(100),
+    PRIMARY KEY(login)
+)
+
 CREATE TABLE public.salesman (
     tab_num serial PRIMARY KEY,
     salesman_name character varying(50) NOT NULL,

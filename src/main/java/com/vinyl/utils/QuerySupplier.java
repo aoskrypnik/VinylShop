@@ -6,7 +6,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import static org.apache.commons.codec.CharEncoding.UTF_8;
+import static org.apache.commons.lang3.CharEncoding.UTF_8;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Slf4j
