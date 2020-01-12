@@ -25,6 +25,7 @@ public class AuthController {
 
 	private static final String LOGIN_IS_ALREADY_TAKEN = "Login is already taken!";
 	private static final String USER_REGISTERED_SUCCESSFULLY = "User registered successfully";
+	private static final String JWT_TOKEN_TYPE_BEARER = "Bearer";
 
 	@Resource
 	private AuthenticationManager authenticationManager;
@@ -45,7 +46,7 @@ public class AuthController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		String jwt = tokenProvider.generateToken(authentication);
-		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, JWT_TOKEN_TYPE_BEARER));
 	}
 
 	@PostMapping("/sign-up")

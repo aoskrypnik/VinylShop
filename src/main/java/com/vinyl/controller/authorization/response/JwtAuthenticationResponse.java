@@ -2,10 +2,11 @@ package com.vinyl.controller.authorization.response;
 
 public class JwtAuthenticationResponse {
 	private String accessToken;
-	private String tokenType = "Bearer";
+	private String tokenType;
 
-	public JwtAuthenticationResponse(String accessToken) {
+	public JwtAuthenticationResponse(String accessToken, String tokenType) {
 		this.accessToken = accessToken;
+		this.tokenType = tokenType;
 	}
 
 	public String getAccessToken() {

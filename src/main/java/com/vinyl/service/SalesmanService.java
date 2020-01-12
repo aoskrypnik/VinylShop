@@ -13,4 +13,7 @@ public interface SalesmanService {
     void save(Salesman salesman);
 
     void updateSalesman(Salesman salesmanNew);
+
+	void updateSalesmanByTabNum(Salesman salesman, int tabNum);
+
 }

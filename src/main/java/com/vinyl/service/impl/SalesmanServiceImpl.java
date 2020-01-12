@@ -33,4 +33,11 @@ public class SalesmanServiceImpl implements SalesmanService {
     public void updateSalesman(Salesman salesmanNew) {
         salesmanDao.updateSalesman(salesmanNew);
     }
+
+	@Override
+	public void updateSalesmanByTabNum(Salesman salesman, int tabNum) {
+		salesman.setTabNum(tabNum);
+		updateSalesman(salesman);
+	}
+
 }
