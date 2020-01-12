@@ -12,12 +12,18 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import static java.util.Objects.nonNull;
 
 @RestController
 @RequestMapping("/auth")
@@ -25,6 +31,7 @@ public class AuthController {
 
 	private static final String LOGIN_IS_ALREADY_TAKEN = "Login is already taken!";
 	private static final String USER_REGISTERED_SUCCESSFULLY = "User registered successfully";
+	private static final String USER_LOGGED_OUT_SUCCESSFULLY = "User logged out successfully";
 	private static final String JWT_TOKEN_TYPE_BEARER = "Bearer";
 
 	@Resource
@@ -56,9 +63,20 @@ public class AuthController {
 		try {
 			userService.save(credentials);
 		} catch (LoginExistException e) {
-			return new ResponseEntity(new ApiResponse(false, LOGIN_IS_ALREADY_TAKEN), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ApiResponse(false, LOGIN_IS_ALREADY_TAKEN), HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity(new ApiResponse(true, USER_REGISTERED_SUCCESSFULLY), HttpStatus.CREATED);
+		return new ResponseEntity<>(new ApiResponse(true, USER_REGISTERED_SUCCESSFULLY), HttpStatus.CREATED);
 	}
+
+	//TODO possibly we should add server-side storage for jwt tokens and revoke any corresponding token after log-out
+	@GetMapping(value="/logout")
+	public ResponseEntity<?> logout (HttpServletRequest request, HttpServletResponse response) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (nonNull(auth)){
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+		}
+		return new ResponseEntity<>(new ApiResponse(true, USER_LOGGED_OUT_SUCCESSFULLY), HttpStatus.NO_CONTENT);
+	}
+
 }
