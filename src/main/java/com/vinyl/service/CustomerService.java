@@ -10,7 +10,9 @@ public interface CustomerService {
 
 	Customer getCustomerByNum(int num);
 
-	Customer update(Customer customer);
+	void update(Customer customer);
+
+	void updateCustomerByNum(Customer customer, int num);
 
 	void deleteByNum(int num);
 

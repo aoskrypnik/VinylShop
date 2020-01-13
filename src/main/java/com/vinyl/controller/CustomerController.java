@@ -3,7 +3,6 @@ package com.vinyl.controller;
 import com.vinyl.model.Customer;
 import com.vinyl.service.CustomerService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,14 +32,18 @@ public class CustomerController {
 	}
 
 	@GetMapping("/{num}")
-	public Customer getCustomerByNum(@PathVariable Integer num) {
-		return customerService.getCustomerByNum(num);
+	public ResponseEntity<?> getCustomerByNum(@PathVariable Integer num) {
+		Customer foundCustomer = customerService.getCustomerByNum(num);
+		if (isNull(foundCustomer)) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(foundCustomer);
 	}
 
 	@PostMapping
 	public ResponseEntity<?> saveCustomer(@RequestBody Customer customer) {
 		int generatedKey = customerService.save(customer);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{tabNum}")
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{num}")
 				.buildAndExpand(generatedKey).toUri();
 		return ResponseEntity.created(location).build();
 	}
@@ -50,8 +53,8 @@ public class CustomerController {
 		if (isNull(customerService.getCustomerByNum(num))) {
 			return ResponseEntity.notFound().build();
 		}
-		Customer updatedCustomer = customerService.update(customer);
-		return ResponseEntity.ok(updatedCustomer);
+		customerService.updateCustomerByNum(customer, num);
+		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping("/{num}")

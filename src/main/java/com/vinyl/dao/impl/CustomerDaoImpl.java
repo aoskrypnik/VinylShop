@@ -1,7 +1,6 @@
 package com.vinyl.dao.impl;
 
 import com.vinyl.dao.CustomerDao;
-import com.vinyl.exception.KeyHolderException;
 import com.vinyl.model.Customer;
 import com.vinyl.utils.KeyHolderUtils;
 import com.vinyl.utils.QuerySupplier;
@@ -18,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Objects;
 
 @Repository
 public class CustomerDaoImpl implements CustomerDao, RowMapper<Customer> {
@@ -29,7 +27,7 @@ public class CustomerDaoImpl implements CustomerDao, RowMapper<Customer> {
 	private String getCustomerByNumQueryPath;
 	@Value("${sql.update.customer.query.path}")
 	private String updateCustomerQueryPath;
-	@Value("{sql.delete.customer.query.path}")
+	@Value("${sql.delete.customer.query.path}")
 	private String deleteCustomerQueryPath;
 	@Value("${sql.get.all.customers.query.path}")
 	private String getAllCustomersQueryPath;
@@ -61,15 +59,14 @@ public class CustomerDaoImpl implements CustomerDao, RowMapper<Customer> {
 	}
 
 	@Override
-	public Customer update(Customer customer) {
+	public void update(Customer customer) {
 		String updateCustomerQuery = QuerySupplier.getQuery(updateCustomerQueryPath);
 
 		int num = customer.getNum();
 		String email = customer.getEmail();
 		int discount = customer.getDiscount();
 
-		List<Customer> customers = jdbcTemplate.query(updateCustomerQuery, new Object[]{email, discount, num}, this);
-		return customers.size() == 0 ? null : customers.get(0);
+		jdbcTemplate.update(updateCustomerQuery, email, discount, num);
 	}
 
 	@Override
