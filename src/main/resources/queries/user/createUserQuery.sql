@@ -1,1 +1,1 @@
-INSERT INTO usr_credentials (login, password) VALUES (?, ?)
+INSERT INTO usr_credentials (login, password, is_director) VALUES (?, ?, ?)

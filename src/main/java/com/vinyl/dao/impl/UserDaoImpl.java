@@ -34,8 +34,9 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 
 		String login = credentials.getLogin();
 		String password = credentials.getPassword();
+		boolean isDirector = credentials.isDirector();
 
-		jdbcTemplate.update(createUserQuery, login, password);
+		jdbcTemplate.update(createUserQuery, login, password, isDirector);
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 		UserCredentials credentials = new UserCredentials();
 		credentials.setLogin(resultSet.getString("login"));
 		credentials.setPassword(resultSet.getString("password"));
-		credentials.setDirector(resultSet.getBoolean("isDirector"));
+		credentials.setDirector(resultSet.getBoolean("is_director"));
 		return credentials;
 	}
 
