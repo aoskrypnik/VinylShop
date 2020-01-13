@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface SalesmanService {
 
-    Salesman getSalesman(int tubNum);
+    int save(Salesman salesman);
 
-    List<Salesman> getAllSalesmen();
-
-    void save(Salesman salesman);
-
-    void updateSalesman(Salesman salesmanNew);
+    void update(Salesman salesmanNew);
 
 	void updateSalesmanByTabNum(Salesman salesman, int tabNum);
+
+	List<Salesman> getAll();
+
+	Salesman getSalesmanByTabNum(int tabNum);
 
 }

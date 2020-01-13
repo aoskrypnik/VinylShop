@@ -6,11 +6,12 @@ import java.util.List;
 
 public interface SalesmanDao {
 
+    int save(Salesman salesman);
+
+    void update(Salesman salesmanNew);
+
+    List<Salesman> getAll();
+
     Salesman getSalesmanByTabNum(int tabNum);
 
-    List<Salesman> getAllSalesmen();
-
-    void save(Salesman salesman);
-
-    void updateSalesman(Salesman salesmanNew);
 }

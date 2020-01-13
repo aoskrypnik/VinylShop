@@ -26,27 +26,28 @@ public class SalesmanController {
     private SalesmanService salesmanService;
 
     @GetMapping
-    public List<Salesman> getAllSalesMen() {
-        return salesmanService.getAllSalesmen();
+    public List<Salesman> getAllSalesmen() {
+        return salesmanService.getAll();
     }
 
+	//TODO handle exception
     @GetMapping("/{tabNum}")
     public Salesman getSalesmanByTabNum(@PathVariable Integer tabNum) {
-        return salesmanService.getSalesman(tabNum);
+        return salesmanService.getSalesmanByTabNum(tabNum);
     }
 
+    //TODO make method save return saved object
     @PostMapping
-    public ResponseEntity<Object> saveNewSalesman(@RequestBody Salesman salesman) {
-        salesmanService.save(salesman);
+    public ResponseEntity<Object> saveSalesman(@RequestBody Salesman salesman) {
+        int createdSalesmanId = salesmanService.save(salesman);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{tabNum}")
-                .buildAndExpand(salesman.getTabNum()).toUri();
-
+                .buildAndExpand(createdSalesmanId).toUri();
         return ResponseEntity.created(location).build();
     }
 
 	@PutMapping("/{tabNum}")
 	public ResponseEntity<Object> updateSalesman(@RequestBody Salesman salesman, @PathVariable int tabNum) {
-		if (isNull(salesmanService.getSalesman(tabNum))) {
+		if (isNull(salesmanService.getSalesmanByTabNum(tabNum))) {
 			return ResponseEntity.notFound().build();
 		}
 		salesmanService.updateSalesmanByTabNum(salesman, tabNum);

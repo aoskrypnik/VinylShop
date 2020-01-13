@@ -1,1 +1,3 @@
-SELECT * FROM salesman WHERE tab_num = ?
+SELECT *
+FROM salesman
+WHERE tab_num = ?;

@@ -1,1 +1,2 @@
-SELECT * FROM salesman
+SELECT *
+FROM salesman;

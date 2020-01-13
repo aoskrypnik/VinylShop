@@ -15,29 +15,29 @@ public class SalesmanServiceImpl implements SalesmanService {
     private SalesmanDao salesmanDao;
 
     @Override
-    public Salesman getSalesman(int tubNum) {
+    public Salesman getSalesmanByTabNum(int tubNum) {
         return salesmanDao.getSalesmanByTabNum(tubNum);
     }
 
     @Override
-    public List<Salesman> getAllSalesmen() {
-        return salesmanDao.getAllSalesmen();
+    public List<Salesman> getAll() {
+        return salesmanDao.getAll();
     }
 
     @Override
-    public void save(Salesman salesman) {
-        salesmanDao.save(salesman);
+    public int save(Salesman salesman) {
+        return salesmanDao.save(salesman);
     }
 
     @Override
-    public void updateSalesman(Salesman salesmanNew) {
-        salesmanDao.updateSalesman(salesmanNew);
+    public void update(Salesman salesmanNew) {
+        salesmanDao.update(salesmanNew);
     }
 
 	@Override
 	public void updateSalesmanByTabNum(Salesman salesman, int tabNum) {
 		salesman.setTabNum(tabNum);
-		updateSalesman(salesman);
+		update(salesman);
 	}
 
 }

@@ -2,89 +2,100 @@ package com.vinyl.dao.impl;
 
 import com.vinyl.dao.SalesmanDao;
 import com.vinyl.model.Salesman;
+import com.vinyl.utils.KeyHolderUtils;
 import com.vinyl.utils.QuerySupplier;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
+@Slf4j
 @Repository
 public class SalesmanDaoImpl implements SalesmanDao, RowMapper<Salesman> {
 
-    @Value("${sql.get.all.salesmen.query.path}")
-    private String getGetAllSalesmenQueryPath;
-    @Value("${sql.get.salesman.by.tab.num.query.path}")
-    private String getGetSalesmanByTabNumQueryPath;
-    @Value("${sql.create.salesman.query.path}")
-    private String createSalesmanQueryPath;
-    @Value("${sql.update.salesman.query.path}")
-    private String updateSalesmanQueryPath;
+	@Value("${sql.get.all.salesmen.query.path}")
+	private String getGetAllSalesmenQueryPath;
+	@Value("${sql.get.salesman.by.tab.num.query.path}")
+	private String getGetSalesmanByTabNumQueryPath;
+	@Value("${sql.create.salesman.query.path}")
+	private String createSalesmanQueryPath;
+	@Value("${sql.update.salesman.query.path}")
+	private String updateSalesmanQueryPath;
 
-    @Resource
-    private JdbcTemplate jdbcTemplate;
+	@Resource
+	private JdbcTemplate jdbcTemplate;
 
-    @Override
-    public Salesman getSalesmanByTabNum(int tabNum) {
-        String getGetSalesmanByTabNumQuery = QuerySupplier.getQuery(getGetSalesmanByTabNumQueryPath);
-        return jdbcTemplate.queryForObject(getGetSalesmanByTabNumQuery, new Object[]{tabNum}, this);
-    }
+	@Override
+	public Salesman getSalesmanByTabNum(int tabNum) {
+		String getGetSalesmanByTabNumQuery = QuerySupplier.getQuery(getGetSalesmanByTabNumQueryPath);
+		List<Salesman> salesmen = jdbcTemplate.query(getGetSalesmanByTabNumQuery, new Object[]{tabNum}, this);
+		return salesmen.size() == 0 ? null : salesmen.get(0);
+	}
 
-    @Override
-    public List<Salesman> getAllSalesmen() {
-        String getGetAllSalesmenQuery = QuerySupplier.getQuery(getGetAllSalesmenQueryPath);
-        return jdbcTemplate.query(getGetAllSalesmenQuery, this);
-    }
+	@Override
+	public List<Salesman> getAll() {
+		String getGetAllSalesmenQuery = QuerySupplier.getQuery(getGetAllSalesmenQueryPath);
+		return jdbcTemplate.query(getGetAllSalesmenQuery, this);
+	}
 
-    @Override
-    public void save(Salesman salesman) {
-        String createSalesmanQuery = QuerySupplier.getQuery(createSalesmanQueryPath);
+	@Override
+	public int save(Salesman salesman) {
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		String createSalesmanQuery = QuerySupplier.getQuery(createSalesmanQueryPath);
 
-        String name = salesman.getName();
-        String passportNum = salesman.getPassportNum();
-        String addressCity = salesman.getAddressCity();
-        String addressStr = salesman.getAddressStr();
-        String addressHome = salesman.getAddressHome();
-        Integer addressApt = salesman.getAddressApt();
-        String phoneNum = salesman.getPhoneNum();
-        Date worksFrom = salesman.getWorksFrom();
-        Date worksTo = salesman.getWorksTo();
-        Integer salary = salesman.getSalary();
-        String login = null;
+		jdbcTemplate.update(connection -> {
+			PreparedStatement ps = connection
+					.prepareStatement(createSalesmanQuery, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, salesman.getName());
+			ps.setString(2, salesman.getPassportNum());
+			ps.setString(3, salesman.getAddressCity());
+			ps.setString(4, salesman.getAddressStr());
+			ps.setString(5, salesman.getAddressHome());
+			ps.setInt(6, salesman.getAddressApt());
+			ps.setString(7, salesman.getPhoneNum());
+			ps.setDate(8, salesman.getWorksFrom());
+			ps.setDate(9, salesman.getWorksTo());
+			ps.setInt(10, salesman.getSalary());
+			ps.setString(11, null);
+			return ps;
+		}, keyHolder);
+		return KeyHolderUtils.extractInt(keyHolder, "tab_num");
+	}
 
-        jdbcTemplate.update(createSalesmanQuery, name, passportNum, addressCity,
-                addressStr, addressHome, addressApt, phoneNum, worksFrom, worksTo, salary, login);
-    }
+	@Override
+	public void update(Salesman salesmanNew) {
+		String updateSalesmanQuery = QuerySupplier.getQuery(updateSalesmanQueryPath);
+		jdbcTemplate.update(updateSalesmanQuery, salesmanNew.getAddressCity(), salesmanNew.getAddressStr(),
+				salesmanNew.getAddressHome(), salesmanNew.getAddressApt(), salesmanNew.getPhoneNum(),
+				salesmanNew.getWorksTo(), salesmanNew.getSalary(), salesmanNew.getTabNum());
+	}
 
-    @Override
-    public void updateSalesman(Salesman salesmanNew) {
-        String updateSalesmanQuery = QuerySupplier.getQuery(updateSalesmanQueryPath);
-        jdbcTemplate.update(updateSalesmanQuery, salesmanNew.getAddressCity(), salesmanNew.getAddressStr(),
-                salesmanNew.getAddressHome(), salesmanNew.getAddressApt(), salesmanNew.getPhoneNum(),
-                salesmanNew.getWorksTo(), salesmanNew.getSalary(), salesmanNew.getTabNum());
-    }
+	@Override
+	public Salesman mapRow(ResultSet resultSet, int i) throws SQLException {
+		return Salesman.builder()
+				.tabNum(resultSet.getInt("tab_num"))
+				.name(resultSet.getString("salesman_name"))
+				.passportNum(resultSet.getString("passport_num"))
+				.addressCity(resultSet.getString("address_city"))
+				.addressStr(resultSet.getString("address_str"))
+				.addressHome(resultSet.getString("address_home"))
+				.addressApt(resultSet.getInt("address_apt"))
+				.phoneNum(resultSet.getString("phone_num"))
+				.worksFrom(resultSet.getDate("works_from"))
+				.worksTo(resultSet.getDate("works_to"))
+				.salary(resultSet.getInt("salary"))
+				.login(resultSet.getString("login"))
+				.build();
+	}
 
-
-    @Override
-    public Salesman mapRow(ResultSet resultSet, int i) throws SQLException {
-        return Salesman.builder()
-                .tabNum(resultSet.getInt("tab_num"))
-                .name(resultSet.getString("salesman_name"))
-                .passportNum(resultSet.getString("passport_num"))
-                .addressCity(resultSet.getString("address_city"))
-                .addressStr(resultSet.getString("address_str"))
-                .addressHome(resultSet.getString("address_home"))
-                .addressApt(resultSet.getInt("address_apt"))
-                .phoneNum(resultSet.getString("phone_num"))
-                .worksFrom(resultSet.getDate("works_from"))
-                .worksTo(resultSet.getDate("works_to"))
-                .salary(resultSet.getInt("salary"))
-                .login(resultSet.getString("login"))
-                .build();
-    }
 }
