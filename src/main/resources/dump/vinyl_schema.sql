@@ -25,7 +25,8 @@ SET default_table_access_method = heap;
 --
 CREATE TABLE public.usr_credentials (
     login character varying(20) PRIMARY KEY,
-    password character varying(100) NOT NULL
+    password character varying(100) NOT NULL,
+    is_director boolean
 );
 
 CREATE TABLE public.salesman (
