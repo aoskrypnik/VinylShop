@@ -7,12 +7,14 @@ import com.vinyl.utils.QuerySupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Component
 public class ArtistRowMapper implements RowMapper<Artist> {
 
 	@Value("${sql.artist.get.current.bands.query.path}")
