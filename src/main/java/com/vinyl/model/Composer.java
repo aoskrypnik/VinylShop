@@ -16,12 +16,11 @@ import java.util.List;
 @Setter
 @Builder
 public class Composer {
-
 	private String name;
 	private String country;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date activityStart;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date activityEnd;
-	private List<Track> tracks;
+	private List<String> trackIds;
 }

@@ -18,7 +18,7 @@ public class Track {
 	private String catalogNum;
 	private String name;
 	private Integer duration;
-	private List<Composer> composers;
+	private List<String> composerIds;
 	private List<Album> albums;
 	private List<Artist> artists;
 	private List<Band> bands;

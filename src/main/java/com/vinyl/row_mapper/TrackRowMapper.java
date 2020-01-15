@@ -47,7 +47,7 @@ public class TrackRowMapper implements RowMapper<Track> {
 	@Override
 	public Track mapRow(ResultSet resultSet, int i) throws SQLException {
 		String trackCatalogNum = resultSet.getString("catalog_num");
-		List<Composer> composers = getComposersByTrackCatalogNum(trackCatalogNum);
+		List<String> composers = getComposersByTrackCatalogNum(trackCatalogNum);
 		List<Artist> artists = getArtistsByTrackCatalogNum(trackCatalogNum);
 		List<Band> bands = getBandsByTrackCatalogNum(trackCatalogNum);
 		List<Artist> featuringArtists = getFeaturingArtistsByTrackCatalogNum(trackCatalogNum);
@@ -57,7 +57,7 @@ public class TrackRowMapper implements RowMapper<Track> {
 				.catalogNum(trackCatalogNum)
 				.name(resultSet.getString("track_name"))
 				.duration(resultSet.getInt("duration"))
-				.composers(composers)
+				.composerIds(composers)
 				.albums(albums)
 				.artists(artists)
 				.bands(bands)
@@ -66,9 +66,9 @@ public class TrackRowMapper implements RowMapper<Track> {
 				.build();
 	}
 
-	private List<Composer> getComposersByTrackCatalogNum(String trackCatalogNum) {
+	private List<String> getComposersByTrackCatalogNum(String trackCatalogNum) {
 		String trackGetComposersQuery = QuerySupplier.getQuery(trackGetComposersQueryPath);
-		return jdbcTemplate.query(trackGetComposersQuery, new Object[]{trackCatalogNum}, composerRowMapper);
+		return jdbcTemplate.queryForList(trackGetComposersQuery, new Object[]{trackCatalogNum}, String.class);
 	}
 
 	private List<Album> getAlbumsByTrackCatalogNum(String trackCatalogNum) {

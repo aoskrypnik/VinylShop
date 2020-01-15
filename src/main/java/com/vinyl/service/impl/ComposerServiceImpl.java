@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Service
 public class ComposerServiceImpl implements ComposerService {
 
@@ -48,6 +50,12 @@ public class ComposerServiceImpl implements ComposerService {
 	@Override
 	public List<Composer> findComposerByCriteria(String countryCode, Date activityStart, Date activityEnd) {
 		return composerDao.findComposersByMultiplyCriteria(countryCode, activityStart, activityEnd);
+	}
+
+	@Override
+	public List<String> getTracksByName(String composerName) {
+		Composer foundComposer = getComposerByName(composerName);
+		return isNull(foundComposer)? null : foundComposer.getTrackIds();
 	}
 
 }

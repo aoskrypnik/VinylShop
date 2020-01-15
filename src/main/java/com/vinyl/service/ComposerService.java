@@ -21,4 +21,6 @@ public interface ComposerService {
 
 	List<Composer> findComposerByCriteria(String countryCode, Date activityStart, Date activityEnd);
 
+	List<String> getTracksByName(String composerName);
+
 }

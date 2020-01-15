@@ -1,6 +1,8 @@
 package com.vinyl.controller;
 
+import com.vinyl.dao.TrackDao;
 import com.vinyl.model.Composer;
+import com.vinyl.model.Track;
 import com.vinyl.service.ComposerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -53,7 +55,7 @@ public class ComposerController {
 		return ResponseEntity.created(location).build();
 	}
 
-	@PutMapping("/{composerName}")
+	@PutMapping("/{composer-name}")
 	public ResponseEntity<?> updateComposer(@RequestBody Composer composer, @PathVariable String composerName) {
 		if (isNull(composerService.getComposerByName(composerName))) {
 			return ResponseEntity.notFound().build();
@@ -74,4 +76,12 @@ public class ComposerController {
 		return ResponseEntity.ok(foundComposers);
 	}
 
+	@GetMapping("/{composerName}/tracks")
+	public ResponseEntity<?> getTracksByComposerName(@PathVariable String composerName){
+		List<String> tracks = composerService.getTracksByName(composerName);
+		if (isNull(tracks)) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(tracks);
+	}
 }

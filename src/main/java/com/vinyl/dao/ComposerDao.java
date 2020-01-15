@@ -1,6 +1,7 @@
 package com.vinyl.dao;
 
 import com.vinyl.model.Composer;
+import com.vinyl.model.Track;
 
 import java.util.Date;
 import java.util.List;

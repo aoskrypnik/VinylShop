@@ -27,19 +27,19 @@ public class ComposerRowMapper implements RowMapper<Composer> {
 	@Override
 	public Composer mapRow(ResultSet resultSet, int i) throws SQLException {
 		String composerName = resultSet.getString("composer_name");
-		List<Track> tracks = getTracksByComposerName(composerName);
+		List<String> tracks = getTracksByComposerName(composerName);
 		return Composer.builder()
 				.name(composerName)
 				.country(resultSet.getString("country"))
 				.activityStart(resultSet.getDate("activity_start"))
 				.activityEnd(resultSet.getDate("activity_end"))
-				.tracks(tracks)
+				.trackIds(tracks)
 				.build();
 	}
 
-	private List<Track> getTracksByComposerName(String composerName) {
+	private List<String> getTracksByComposerName(String composerName) {
 		String getTracksQuery = QuerySupplier.getQuery(getTracksQueryPath);
-		return jdbcTemplate.query(getTracksQuery, new Object[]{composerName}, trackRowMapper);
+		return jdbcTemplate.queryForList(getTracksQuery, new Object[]{composerName}, String.class);
 	}
 
 }

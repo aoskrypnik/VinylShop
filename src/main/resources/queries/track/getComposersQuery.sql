@@ -1,4 +1,4 @@
-SELECT *
+SELECT composer_name
 FROM composer
 WHERE composer_name IN
     (SELECT composer_name

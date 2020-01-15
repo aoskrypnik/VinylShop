@@ -2,6 +2,7 @@ package com.vinyl.dao.impl;
 
 import com.vinyl.dao.ComposerDao;
 import com.vinyl.model.Composer;
+import com.vinyl.model.Track;
 import com.vinyl.utils.QuerySupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class ComposerDaoImpl implements ComposerDao{
+public class ComposerDaoImpl implements ComposerDao {
 
 	@Value("${sql.create.composer.query.path}")
 	private String createComposerQueryPath;
