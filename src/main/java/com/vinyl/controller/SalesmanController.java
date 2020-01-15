@@ -22,31 +22,33 @@ import static java.util.Objects.isNull;
 @RequestMapping("/salesman")
 public class SalesmanController {
 
-    @Resource
-    private SalesmanService salesmanService;
+	@Resource
+	private SalesmanService salesmanService;
 
-    @GetMapping
-    public List<Salesman> getAllSalesmen() {
-        return salesmanService.getAll();
-    }
+	@GetMapping
+	public List<Salesman> getAllSalesmen() {
+		return salesmanService.getAll();
+	}
 
-	//TODO handle exception
-    @GetMapping("/{tabNum}")
-    public Salesman getSalesmanByTabNum(@PathVariable Integer tabNum) {
-        return salesmanService.getSalesmanByTabNum(tabNum);
-    }
+	@GetMapping("/{tabNum}")
+	public ResponseEntity<?> getSalesmanByTabNum(@PathVariable Integer tabNum) {
+		Salesman foundSalesman = salesmanService.getSalesmanByTabNum(tabNum);
+		if (isNull(foundSalesman)) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(foundSalesman);
+	}
 
-    //TODO make method save return saved object
-    @PostMapping
-    public ResponseEntity<Object> saveSalesman(@RequestBody Salesman salesman) {
-        int createdSalesmanId = salesmanService.save(salesman);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{tabNum}")
-                .buildAndExpand(createdSalesmanId).toUri();
-        return ResponseEntity.created(location).build();
-    }
+	@PostMapping
+	public ResponseEntity<?> saveSalesman(@RequestBody Salesman salesman) {
+		int generatedKey = salesmanService.save(salesman);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{tabNum}")
+				.buildAndExpand(generatedKey).toUri();
+		return ResponseEntity.created(location).build();
+	}
 
 	@PutMapping("/{tabNum}")
-	public ResponseEntity<Object> updateSalesman(@RequestBody Salesman salesman, @PathVariable int tabNum) {
+	public ResponseEntity<?> updateSalesman(@RequestBody Salesman salesman, @PathVariable int tabNum) {
 		if (isNull(salesmanService.getSalesmanByTabNum(tabNum))) {
 			return ResponseEntity.notFound().build();
 		}

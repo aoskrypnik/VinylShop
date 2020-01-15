@@ -8,12 +8,12 @@ public interface SalesmanService {
 
     int save(Salesman salesman);
 
-    void update(Salesman salesmanNew);
-
-	void updateSalesmanByTabNum(Salesman salesman, int tabNum);
+	Salesman getSalesmanByTabNum(int tabNum);
 
 	List<Salesman> getAll();
 
-	Salesman getSalesmanByTabNum(int tabNum);
+    void update(Salesman salesmanNew);
+
+	void updateSalesmanByTabNum(Salesman salesman, int tabNum);
 
 }

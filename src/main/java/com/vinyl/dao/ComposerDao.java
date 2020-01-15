@@ -2,7 +2,7 @@ package com.vinyl.dao;
 
 import com.vinyl.model.Composer;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 public interface ComposerDao {
@@ -18,4 +18,7 @@ public interface ComposerDao {
 	void update(Composer composer, String composerName);
 
 	List<Composer> getAll();
+
+	List<Composer> findComposersByMultiplyCriteria(String countryCode, Date activityStart, Date activityEnd);
+
 }

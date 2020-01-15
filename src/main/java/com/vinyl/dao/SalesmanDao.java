@@ -8,10 +8,10 @@ public interface SalesmanDao {
 
     int save(Salesman salesman);
 
-    void update(Salesman salesmanNew);
+    Salesman getSalesmanByTabNum(int tabNum);
 
     List<Salesman> getAll();
 
-    Salesman getSalesmanByTabNum(int tabNum);
+    void update(Salesman salesmanNew);
 
 }

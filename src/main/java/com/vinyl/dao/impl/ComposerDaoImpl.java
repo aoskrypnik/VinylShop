@@ -6,13 +6,14 @@ import com.vinyl.utils.QuerySupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import javax.print.attribute.standard.JobKOctets;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -30,9 +31,13 @@ public class ComposerDaoImpl implements ComposerDao, RowMapper<Composer> {
 	private String updateComposerQueryPath;
 	@Value("${sql.get.all.composers.query.path}")
 	private String getAllComposersQueryPath;
+	@Value("${sql.find.composer.by.multiply.criteria.query.path}")
+	private String findComposerByMultiplyCriteriaQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
+	@Resource
+	private NamedParameterJdbcOperations namedParameterJdbcTemplate;
 
 	@Override
 	public void save(Composer composer) {
@@ -54,6 +59,18 @@ public class ComposerDaoImpl implements ComposerDao, RowMapper<Composer> {
 	}
 
 	@Override
+	public List<Composer> getAll() {
+		String getAllComposersQuery = QuerySupplier.getQuery(getAllComposersQueryPath);
+		return jdbcTemplate.query(getAllComposersQuery, this);
+	}
+
+	@Override
+	public void update(Composer composer, String composerName) {
+		String updateComposerQuery = QuerySupplier.getQuery(updateComposerQueryPath);
+		jdbcTemplate.update(updateComposerQuery, composer.getActivityEnd(), composerName);
+	}
+
+	@Override
 	public List<Composer> findComposersByCountry(String country) {
 		String findComposerByCountryQuery = QuerySupplier.getQuery(findComposerByCountryQueryPath);
 		return jdbcTemplate.query(findComposerByCountryQuery, new Object[]{country}, this);
@@ -66,15 +83,14 @@ public class ComposerDaoImpl implements ComposerDao, RowMapper<Composer> {
 	}
 
 	@Override
-	public void update(Composer composer, String composerName) {
-		String updateComposerQuery = QuerySupplier.getQuery(updateComposerQueryPath);
-		jdbcTemplate.update(updateComposerQuery, composer.getActivityEnd(), composerName);
-	}
-
-	@Override
-	public List<Composer> getAll() {
-		String getAllComposersQuery = QuerySupplier.getQuery(getAllComposersQueryPath);
-		return jdbcTemplate.query(getAllComposersQuery, this);
+	public List<Composer> findComposersByMultiplyCriteria(String countryCode, Date activityStart, Date activityEnd) {
+		String findComposerByMultiplyCriteriaQuery = QuerySupplier.getQuery(findComposerByMultiplyCriteriaQueryPath);
+		return namedParameterJdbcTemplate.query(findComposerByMultiplyCriteriaQuery,
+				new MapSqlParameterSource()
+						.addValue("country", countryCode)
+						.addValue("activity_start", activityStart)
+						.addValue("activity_end", activityEnd),
+				this);
 	}
 
 	@Override
