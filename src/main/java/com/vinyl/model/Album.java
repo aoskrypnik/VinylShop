@@ -20,4 +20,5 @@ public class Album {
 	private String name;
 	private Boolean variousArtists;
 	private List<Track> tracks;
+	private List<Release> releases;
 }

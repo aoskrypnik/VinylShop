@@ -1,6 +1,7 @@
 package com.vinyl.row_mapper;
 
 import com.vinyl.model.Album;
+import com.vinyl.model.Release;
 import com.vinyl.model.Track;
 import com.vinyl.utils.QuerySupplier;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,11 +21,15 @@ public class AlbumRowMapper implements RowMapper<Album> {
 	private String getTracksByAlbumCatalogNumQueryPath;
 	@Value("${sql.get.album.genre.by.catalog.num.query.path}")
 	private String getAlbumGenreByCatalogNumQueryPath;
+	@Value("${sql.get.releases.by.catalog.num.query.path}")
+	private String getReleasesByAlbumCatalogNumQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
 	@Resource
 	private RowMapper<Track> trackRowMapper;
+	@Resource
+	private RowMapper<Release> releaseRowMapper;
 
 	@Override
 	public Album mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -36,7 +41,13 @@ public class AlbumRowMapper implements RowMapper<Album> {
 				.releaseYear(resultSet.getInt("release_year"))
 				.variousArtists(resultSet.getBoolean("various_artists"))
 				.tracks(getTracksByAlbumCatalogNum(catalogNum))
+				.releases(getReleasesByAlbumCatalogNum(catalogNum))
 				.build();
+	}
+
+	private List<Release> getReleasesByAlbumCatalogNum(String catalogNum) {
+		String getReleasesByAlbumCatalogNumQuery = QuerySupplier.getQuery(getReleasesByAlbumCatalogNumQueryPath);
+		return jdbcTemplate.query(getReleasesByAlbumCatalogNumQuery, new Object[]{catalogNum}, releaseRowMapper);
 	}
 
 	private List<Track> getTracksByAlbumCatalogNum(String catalogNum) {
