@@ -9,8 +9,10 @@ import java.sql.SQLException;
 
 @Component
 public class BandRowMapper implements RowMapper<Band> {
+
 	@Override
 	public Band mapRow(ResultSet resultSet, int i) throws SQLException {
 		return null;
 	}
+
 }
