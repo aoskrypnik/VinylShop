@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,5 +23,5 @@ public class Composer {
 	private Date activityStart;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date activityEnd;
-
+	private List<Track> tracks;
 }
