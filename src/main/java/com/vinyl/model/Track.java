@@ -19,6 +19,7 @@ public class Track {
 	private String name;
 	private Integer duration;
 	private List<Composer> composers;
+	private List<Album> albums;
 	private List<Artist> artists;
 	private List<Band> bands;
 	private List<Artist> featuring_artists;

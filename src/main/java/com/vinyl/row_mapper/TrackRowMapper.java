@@ -1,5 +1,6 @@
 package com.vinyl.row_mapper;
 
+import com.vinyl.model.Album;
 import com.vinyl.model.Artist;
 import com.vinyl.model.Band;
 import com.vinyl.model.Composer;
@@ -28,6 +29,9 @@ public class TrackRowMapper implements RowMapper<Track> {
 	private String trackGetFeaturingArtistsQueryPath;
 	@Value("${sql.track.get.featuring.bands.query.path}")
 	private String trackGetFeaturingBandsQueryPath;
+	@Value("${sql.track.get.albums.query.path}")
+	private String trackGetAlbumsQueryPath;
+
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -37,6 +41,8 @@ public class TrackRowMapper implements RowMapper<Track> {
 	private RowMapper<Artist> artistRowMapper;
 	@Resource
 	private RowMapper<Band> bandRowMapper;
+	@Resource
+	private RowMapper<Album> albumRowMapper;
 
 	@Override
 	public Track mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -46,11 +52,13 @@ public class TrackRowMapper implements RowMapper<Track> {
 		List<Band> bands = getBandsByTrackCatalogNum(trackCatalogNum);
 		List<Artist> featuringArtists = getFeaturingArtistsByTrackCatalogNum(trackCatalogNum);
 		List<Band> featuringBands = getFeaturingBandsByTrackCatalogNum(trackCatalogNum);
+		List<Album> albums = getAlbumsByTrackCatalogNum(trackCatalogNum);
 		return Track.builder()
 				.catalogNum(trackCatalogNum)
 				.name(resultSet.getString("track_name"))
 				.duration(resultSet.getInt("duration"))
 				.composers(composers)
+				.albums(albums)
 				.artists(artists)
 				.bands(bands)
 				.featuring_artists(featuringArtists)
@@ -61,6 +69,11 @@ public class TrackRowMapper implements RowMapper<Track> {
 	private List<Composer> getComposersByTrackCatalogNum(String trackCatalogNum) {
 		String trackGetComposersQuery = QuerySupplier.getQuery(trackGetComposersQueryPath);
 		return jdbcTemplate.query(trackGetComposersQuery, new Object[]{trackCatalogNum}, composerRowMapper);
+	}
+
+	private List<Album> getAlbumsByTrackCatalogNum(String trackCatalogNum) {
+		String trackGetAlbumsQuery = QuerySupplier.getQuery(trackGetAlbumsQueryPath);
+		return jdbcTemplate.query(trackGetAlbumsQuery, new Object[]{trackCatalogNum}, albumRowMapper);
 	}
 
 	private List<Artist> getArtistsByTrackCatalogNum(String trackCatalogNum) {
@@ -82,4 +95,5 @@ public class TrackRowMapper implements RowMapper<Track> {
 		String trackGetFeaturingBandsQuery = QuerySupplier.getQuery(trackGetFeaturingBandsQueryPath);
 		return jdbcTemplate.query(trackGetFeaturingBandsQuery, new Object[]{trackCatalogNum}, bandRowMapper);
 	}
+
 }
