@@ -19,10 +19,10 @@ public class Track {
 	private String name;
 	private Integer duration;
 	private List<String> composerIds;
-	private List<Album> albums;
-	private List<Artist> artists;
-	private List<Band> bands;
-	private List<Artist> featuring_artists;
-	private List<Band> featuring_bands;
+	private List<String> albumIds;
+	private List<String> artistIds;
+	private List<String> bandIds;
+	private List<String> featuringArtistIds;
+	private List<String> featuringBandIds;
 
 }

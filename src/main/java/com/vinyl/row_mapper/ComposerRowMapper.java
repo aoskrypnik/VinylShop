@@ -1,7 +1,6 @@
 package com.vinyl.row_mapper;
 
 import com.vinyl.model.Composer;
-import com.vinyl.model.Track;
 import com.vinyl.utils.QuerySupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,8 +18,6 @@ public class ComposerRowMapper implements RowMapper<Composer> {
 	@Value("${sql.get.tracks.query.path}")
 	private String getTracksQueryPath;
 
-	@Resource
-	private RowMapper<Track> trackRowMapper;
 	@Resource
 	private JdbcTemplate jdbcTemplate;
 
