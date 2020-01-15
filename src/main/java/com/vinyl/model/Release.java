@@ -24,5 +24,5 @@ public class Release {
 	private Integer copiesCount;
 	private Boolean isRepress;
 	private String label;
-	private List<Record> records;
+	private List<String> recordBarcodes;
 }

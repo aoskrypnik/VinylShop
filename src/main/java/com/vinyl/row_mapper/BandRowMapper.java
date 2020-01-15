@@ -1,8 +1,6 @@
 package com.vinyl.row_mapper;
 
-import com.vinyl.model.Artist;
 import com.vinyl.model.Band;
-import com.vinyl.model.Track;
 import com.vinyl.utils.QuerySupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,10 +26,6 @@ public class BandRowMapper implements RowMapper<Band> {
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
-	@Resource
-	private RowMapper<Artist> artistRowMapper;
-	@Resource
-	private RowMapper<Track> trackRowMapper;
 
 	@Override
 	public Band mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -42,31 +36,31 @@ public class BandRowMapper implements RowMapper<Band> {
 				.countryCode(resultSet.getString("country"))
 				.startYear(resultSet.getDate("start_year"))
 				.endYear(resultSet.getDate("end_year"))
-				.artists(getCurrentArtistsByBandAlias(bandAlias))
-				.formerArtists(getPreviousArtistsByBandAlias(bandAlias))
-				.tracks(getTracksByBandAlias(bandAlias))
-				.featuringTracks(getFeaturingTracksByBandAlias(bandAlias))
+				.artistAliases(getCurrentArtistsByBandAlias(bandAlias))
+				.formerArtistAliases(getPreviousArtistsByBandAlias(bandAlias))
+				.trackCatalogNums(getTracksByBandAlias(bandAlias))
+				.featuringTracksCatalogNums(getFeaturingTracksByBandAlias(bandAlias))
 				.build();
 	}
 
-	private List<Artist> getCurrentArtistsByBandAlias(String bandAlias) {
+	private List<String> getCurrentArtistsByBandAlias(String bandAlias) {
 		String artistGetCurrentBandsQuery = QuerySupplier.getQuery(getCurrentArtistsByBandAliasQueryPath);
-		return jdbcTemplate.query(artistGetCurrentBandsQuery, new Object[]{bandAlias}, artistRowMapper);
+		return jdbcTemplate.queryForList(artistGetCurrentBandsQuery, new Object[]{bandAlias}, String.class);
 	}
 
-	private List<Artist> getPreviousArtistsByBandAlias(String bandAlias) {
+	private List<String> getPreviousArtistsByBandAlias(String bandAlias) {
 		String artistGetPreviousBandsQuery = QuerySupplier.getQuery(getFormerArtistsByBandAliasQueryPath);
-		return jdbcTemplate.query(artistGetPreviousBandsQuery, new Object[]{bandAlias}, artistRowMapper);
+		return jdbcTemplate.queryForList(artistGetPreviousBandsQuery, new Object[]{bandAlias}, String.class);
 	}
 
-	private List<Track> getTracksByBandAlias(String bandAlias) {
+	private List<String> getTracksByBandAlias(String bandAlias) {
 		String artistGetTracksQuery = QuerySupplier.getQuery(getTracksByBandAliasQueryPath);
-		return jdbcTemplate.query(artistGetTracksQuery, new Object[]{bandAlias}, trackRowMapper);
+		return jdbcTemplate.queryForList(artistGetTracksQuery, new Object[]{bandAlias}, String.class);
 	}
 
-	private List<Track> getFeaturingTracksByBandAlias(String bandAlias) {
+	private List<String> getFeaturingTracksByBandAlias(String bandAlias) {
 		String artistGetFeaturingTracksQuery = QuerySupplier.getQuery(getFeaturingTracksByBandAliasQueryPath);
-		return jdbcTemplate.query(artistGetFeaturingTracksQuery, new Object[]{bandAlias}, trackRowMapper);
+		return jdbcTemplate.queryForList(artistGetFeaturingTracksQuery, new Object[]{bandAlias}, String.class);
 	}
 
 }

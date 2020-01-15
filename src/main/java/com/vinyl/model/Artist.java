@@ -21,8 +21,8 @@ public class Artist {
 	private String name;
 	private Date birthDate;
 	private Date deathDate;
-	private List<Band> currentBands;
-	private List<Band> previousBands;
-	private List<Track> tracks;
-	private List<Track> featuringTracks;
+	private List<String> currentBandAliases;
+	private List<String> previousBandAliases;
+	private List<String> trackCatalogNums;
+	private List<String> featuringTrackCatalogNums;
 }

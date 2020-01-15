@@ -19,6 +19,6 @@ public class Album {
 	private String genre;
 	private String name;
 	private Boolean variousArtists;
-	private List<Track> tracks;
-	private List<Release> releases;
+	private List<String> trackCatalogNums;
+	private List<String> releaseBarcodes;
 }

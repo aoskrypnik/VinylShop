@@ -1,8 +1,6 @@
 package com.vinyl.row_mapper;
 
 import com.vinyl.model.Artist;
-import com.vinyl.model.Band;
-import com.vinyl.model.Track;
 import com.vinyl.utils.QuerySupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,18 +26,10 @@ public class ArtistRowMapper implements RowMapper<Artist> {
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
-	@Resource
-	private RowMapper<Band> bandRowMapper;
-	@Resource
-	private RowMapper<Track> trackRowMapper;
 
 	@Override
 	public Artist mapRow(ResultSet resultSet, int i) throws SQLException {
 		String artistAlias = resultSet.getString("artist_alias");
-		List<Band> currentBands = getCurrentBandsByArtistAlias(artistAlias);
-		List<Band> previousBands = getPreviousBandsByArtistAlias(artistAlias);
-		List<Track> tracks = getTracksByArtistAlias(artistAlias);
-		List<Track> featuringTracks = getFeaturingTracksByArtistAlias(artistAlias);
 		return Artist.builder()
 				.alias(artistAlias)
 				.isActive(resultSet.getBoolean("activity"))
@@ -47,31 +37,31 @@ public class ArtistRowMapper implements RowMapper<Artist> {
 				.name(resultSet.getString("artist_name"))
 				.birthDate(resultSet.getDate("birth_date"))
 				.deathDate(resultSet.getDate("death_date"))
-				.currentBands(currentBands)
-				.previousBands(previousBands)
-				.tracks(tracks)
-				.featuringTracks(featuringTracks)
+				.currentBandAliases(getCurrentBandsByArtistAlias(artistAlias))
+				.previousBandAliases(getPreviousBandsByArtistAlias(artistAlias))
+				.trackCatalogNums(getTracksByArtistAlias(artistAlias))
+				.featuringTrackCatalogNums(getFeaturingTracksByArtistAlias(artistAlias))
 				.build();
 	}
 
-	private List<Band> getCurrentBandsByArtistAlias(String artistAlias) {
+	private List<String> getCurrentBandsByArtistAlias(String artistAlias) {
 		String artistGetCurrentBandsQuery = QuerySupplier.getQuery(artistGetCurrentBandsQueryPath);
-		return jdbcTemplate.query(artistGetCurrentBandsQuery, new Object[]{artistAlias}, bandRowMapper);
+		return jdbcTemplate.queryForList(artistGetCurrentBandsQuery, new Object[]{artistAlias}, String.class);
 	}
 
-	private List<Band> getPreviousBandsByArtistAlias(String artistAlias) {
+	private List<String> getPreviousBandsByArtistAlias(String artistAlias) {
 		String artistGetPreviousBandsQuery = QuerySupplier.getQuery(artistGetPreviousBandsQueryPath);
-		return jdbcTemplate.query(artistGetPreviousBandsQuery, new Object[]{artistAlias}, bandRowMapper);
+		return jdbcTemplate.queryForList(artistGetPreviousBandsQuery, new Object[]{artistAlias}, String.class);
 	}
 
-	private List<Track> getTracksByArtistAlias(String artistAlias) {
+	private List<String> getTracksByArtistAlias(String artistAlias) {
 		String artistGetTracksQuery = QuerySupplier.getQuery(artistGetTracksQueryPath);
-		return jdbcTemplate.query(artistGetTracksQuery, new Object[]{artistAlias}, trackRowMapper);
+		return jdbcTemplate.queryForList(artistGetTracksQuery, new Object[]{artistAlias}, String.class);
 	}
 
-	private List<Track> getFeaturingTracksByArtistAlias(String artistAlias) {
+	private List<String> getFeaturingTracksByArtistAlias(String artistAlias) {
 		String artistGetFeaturingTracksQuery = QuerySupplier.getQuery(artistGetFeaturingTracksQueryPath);
-		return jdbcTemplate.query(artistGetFeaturingTracksQuery, new Object[]{artistAlias}, trackRowMapper);
+		return jdbcTemplate.queryForList(artistGetFeaturingTracksQuery, new Object[]{artistAlias}, String.class);
 	}
 
 }

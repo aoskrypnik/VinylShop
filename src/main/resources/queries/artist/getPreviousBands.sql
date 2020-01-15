@@ -1,7 +1,4 @@
-SELECT *
-FROM band
-WHERE band_alias IN
-    (SELECT band_alias
-     FROM artist2band
-     WHERE artist_alias = ?
-     AND exit_date IS NOT NULL)
+SELECT band_alias
+FROM artist2band
+WHERE artist_alias = ?
+AND exit_date IS NOT NULL

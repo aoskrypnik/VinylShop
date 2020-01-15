@@ -20,8 +20,8 @@ public class Band {
 	private String countryCode;
 	private Date startYear;
 	private Date endYear;
-	private List<Artist> artists;
-	private List<Artist> formerArtists;
-	private List<Track> tracks;
-	private List<Track> featuringTracks;
+	private List<String> artistAliases;
+	private List<String> formerArtistAliases;
+	private List<String> trackCatalogNums;
+	private List<String> featuringTracksCatalogNums;
 }
