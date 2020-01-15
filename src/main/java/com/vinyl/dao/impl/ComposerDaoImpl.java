@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class ComposerDaoImpl implements ComposerDao, RowMapper<Composer> {
+public class ComposerDaoImpl implements ComposerDao{
 
 	@Value("${sql.create.composer.query.path}")
 	private String createComposerQueryPath;
@@ -38,6 +38,8 @@ public class ComposerDaoImpl implements ComposerDao, RowMapper<Composer> {
 	private JdbcTemplate jdbcTemplate;
 	@Resource
 	private NamedParameterJdbcOperations namedParameterJdbcTemplate;
+	@Resource
+	private RowMapper<Composer> composerRowMapper;
 
 	@Override
 	public void save(Composer composer) {
@@ -54,14 +56,14 @@ public class ComposerDaoImpl implements ComposerDao, RowMapper<Composer> {
 	@Override
 	public Composer getComposerByName(String composerName) {
 		String getComposerByNameQuery = QuerySupplier.getQuery(getComposerByNameQueryPath);
-		List<Composer> composers = jdbcTemplate.query(getComposerByNameQuery, new Object[]{composerName}, this);
+		List<Composer> composers = jdbcTemplate.query(getComposerByNameQuery, new Object[]{composerName}, composerRowMapper);
 		return composers.size() == 0 ? null : composers.get(0);
 	}
 
 	@Override
 	public List<Composer> getAll() {
 		String getAllComposersQuery = QuerySupplier.getQuery(getAllComposersQueryPath);
-		return jdbcTemplate.query(getAllComposersQuery, this);
+		return jdbcTemplate.query(getAllComposersQuery, composerRowMapper);
 	}
 
 	@Override
@@ -73,13 +75,13 @@ public class ComposerDaoImpl implements ComposerDao, RowMapper<Composer> {
 	@Override
 	public List<Composer> findComposersByCountry(String country) {
 		String findComposerByCountryQuery = QuerySupplier.getQuery(findComposerByCountryQueryPath);
-		return jdbcTemplate.query(findComposerByCountryQuery, new Object[]{country}, this);
+		return jdbcTemplate.query(findComposerByCountryQuery, new Object[]{country}, composerRowMapper);
 	}
 
 	@Override
 	public List<Composer> findComposersByActivityPeriod(Date activityStart, Date activityEnd) {
 		String findComposersByActivityPeriodQuery = QuerySupplier.getQuery(findComposersByActivityPeriodQueryPath);
-		return jdbcTemplate.query(findComposersByActivityPeriodQuery, new Object[]{activityStart, activityEnd}, this);
+		return jdbcTemplate.query(findComposersByActivityPeriodQuery, new Object[]{activityStart, activityEnd}, composerRowMapper);
 	}
 
 	@Override
@@ -90,17 +92,8 @@ public class ComposerDaoImpl implements ComposerDao, RowMapper<Composer> {
 						.addValue("country", countryCode)
 						.addValue("activity_start", activityStart)
 						.addValue("activity_end", activityEnd),
-				this);
+				composerRowMapper);
 	}
 
-	@Override
-	public Composer mapRow(ResultSet resultSet, int i) throws SQLException {
-		return Composer.builder()
-				.name(resultSet.getString("composer_name"))
-				.country(resultSet.getString("country"))
-				.activityStart(resultSet.getDate("activity_start"))
-				.activityEnd(resultSet.getDate("activity_end"))
-				.build();
-	}
 
 }
