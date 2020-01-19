@@ -13,11 +13,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import static java.util.Objects.nonNull;
 
-@RestController
+@Controller
 @RequestMapping("/auth")
 public class AuthController {
 
@@ -41,7 +42,14 @@ public class AuthController {
 	@Resource
 	private JwtTokenProvider tokenProvider;
 
+	@GetMapping("/someview")
+	public String getTestPage(HttpServletResponse response) {
+		response.setHeader("Content-Type","text/html");
+		return "test1.html";
+	}
+
 	@PostMapping("/sign-in")
+	@ResponseBody
 	public ResponseEntity<?> authenticateUser(@RequestBody UserCredentials credentials) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(
@@ -57,6 +65,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/sign-up")
+	@ResponseBody
 	public ResponseEntity<?> registerUser(@RequestBody UserCredentials credentials) {
 		userService.prepareForSaving(credentials);
 
@@ -71,6 +80,7 @@ public class AuthController {
 
 	//TODO possibly we should add server-side storage for jwt tokens and revoke any corresponding token after log-out
 	@GetMapping(value="/logout")
+	@ResponseBody
 	public ResponseEntity<?> logout (HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (nonNull(auth)){
