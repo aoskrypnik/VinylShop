@@ -34,7 +34,7 @@ public class ReleaseRowMapper implements RowMapper<Release> {
 				.countryCode(resultSet.getString("country"))
 				.isRepress(resultSet.getBoolean("repress"))
 				.label(resultSet.getString("label"))
-				.recordBarcodes(getRecordsByReleaseBarcode(barcode))
+//				.recordBarcodes(getRecordsByReleaseBarcode(barcode))
 				.recordSize(resultSet.getInt("record_size"))
 				.recordSpeed(resultSet.getInt("record_speed"))
 				.releaseDate(resultSet.getDate("release_date"))

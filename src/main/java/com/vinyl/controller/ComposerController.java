@@ -55,7 +55,7 @@ public class ComposerController {
 		return ResponseEntity.created(location).build();
 	}
 
-	@PutMapping("/{composer-name}")
+	@PutMapping("/{composerName}")
 	public ResponseEntity<?> updateComposer(@RequestBody Composer composer, @PathVariable String composerName) {
 		if (isNull(composerService.getComposerByName(composerName))) {
 			return ResponseEntity.notFound().build();

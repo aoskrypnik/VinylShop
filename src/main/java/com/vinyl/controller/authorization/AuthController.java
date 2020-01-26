@@ -45,7 +45,7 @@ public class AuthController {
 	@GetMapping("/someview")
 	public String getTestPage(HttpServletResponse response) {
 		response.setHeader("Content-Type","text/html");
-		return "test1.html";
+		return "index.html";
 	}
 
 	@PostMapping("/sign-in")
