@@ -27,6 +27,8 @@ public class TrackRowMapper implements RowMapper<Track> {
 	private String trackGetFeaturingBandsQueryPath;
 	@Value("${sql.track.get.albums.query.path}")
 	private String trackGetAlbumsQueryPath;
+	@Value("${sql.track.get.languages.query.path}")
+	private String trackGetLanguagesQueryPath;
 
 
 	@Resource
@@ -41,6 +43,7 @@ public class TrackRowMapper implements RowMapper<Track> {
 		List<String> featuringArtistIds = getFeaturingArtistsByTrackCatalogNum(trackCatalogNum);
 		List<String> featuringBandIds = getFeaturingBandsByTrackCatalogNum(trackCatalogNum);
 		List<String> albumIds = getAlbumsByTrackCatalogNum(trackCatalogNum);
+		List<String> trackLanguages = getTrackLanguages(trackCatalogNum);
 		return Track.builder()
 				.catalogNum(trackCatalogNum)
 				.name(resultSet.getString("track_name"))
@@ -51,7 +54,13 @@ public class TrackRowMapper implements RowMapper<Track> {
 				.bandIds(bandIds)
 				.featuringArtistIds(featuringArtistIds)
 				.featuringBandIds(featuringBandIds)
+				.languages(trackLanguages)
 				.build();
+	}
+
+	private List<String> getTrackLanguages(String trackCatalogNum) {
+		String trackGetLanguagesQuery = QuerySupplier.getQuery(trackGetLanguagesQueryPath);
+		return jdbcTemplate.queryForList(trackGetLanguagesQuery, new Object[]{trackCatalogNum}, String.class);
 	}
 
 	private List<String> getComposersByTrackCatalogNum(String trackCatalogNum) {

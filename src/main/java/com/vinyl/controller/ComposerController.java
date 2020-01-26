@@ -37,7 +37,7 @@ public class ComposerController {
 		return composerService.getAll();
 	}
 
-	@GetMapping("/name/{composerName}")
+	@GetMapping("/{composerName}")
 	public ResponseEntity<?> getComposerByName(@PathVariable String composerName) {
 		Composer foundComposer = composerService.getComposerByName(composerName);
 		if (isNull(foundComposer)) {
@@ -64,7 +64,7 @@ public class ComposerController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/searchComposer")
+	@GetMapping("/search-composer")
 	public ResponseEntity<?> findComposerByCriteria
 			(@RequestParam(value = "code", required = false) String countryCode,
 			 @RequestParam(value = "start", required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") Date activityStart,

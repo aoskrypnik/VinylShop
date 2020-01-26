@@ -24,5 +24,5 @@ public class Track {
 	private List<String> bandIds;
 	private List<String> featuringArtistIds;
 	private List<String> featuringBandIds;
-
+	private List<String> languages;
 }
