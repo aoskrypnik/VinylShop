@@ -18,8 +18,13 @@ public class ArtistServiceImpl implements ArtistService {
 	private ArtistDao artistDao;
 
 	@Override
+	public void save(Artist artist) {
+		artistDao.save(artist);
+	}
+
+	@Override
 	public List<Artist> getAll() {
-		return null;
+		return artistDao.getAll();
 	}
 
 	@Override
