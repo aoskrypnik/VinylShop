@@ -2,7 +2,6 @@ package com.vinyl.dao.impl;
 
 import com.vinyl.dao.ComposerDao;
 import com.vinyl.model.Composer;
-import com.vinyl.model.Track;
 import com.vinyl.utils.QuerySupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;

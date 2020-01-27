@@ -1,3 +1,3 @@
 SELECT *
 FROM artist
-WHERE country = ?
+WHERE country = ?;

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TrackDao {
 
-	int save(Track track);
+	String save(Track track);
 
 	Track getTrackByCatalogNum(String catalogNum);
 

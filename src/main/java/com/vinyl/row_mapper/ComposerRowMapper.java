@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class ComposerRowMapper implements RowMapper<Composer> {
 
-	@Value("${sql.get.tracks.query.path}")
+	@Value("${sql.composer.get.tracks.query.path}")
 	private String getTracksQueryPath;
 
 	@Resource

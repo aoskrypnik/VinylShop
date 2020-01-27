@@ -18,9 +18,13 @@ public class RecordDaoImpl implements RecordDao, RowMapper<Record> {
 
 	private static final String RC_BARCODE_PREFIX = "RC";
 
-	@Value("${sql.create.record.query.path}")
+	@Value("${sql.record.create.record.query.path}")
 	private String createRecordQueryPath;
-	@Value("${sql.get.barcode.sequence.next.value.quey.path}")
+	@Value("${sql.record.get.all.records.query.path}")
+	private String getAllRecordsQueryPath;
+	@Value("${sql.record.get.record.by.barcode.query.path}")
+	private String getRecordByBarcodeQueryPath;
+	@Value("${sql.get.barcode.sequence.next.value.query.path}")
 	private String getBarcodeSequenceNextValueQueryPath;
 
 	@Resource
@@ -44,7 +48,9 @@ public class RecordDaoImpl implements RecordDao, RowMapper<Record> {
 
 	@Override
 	public Record getRecordByBarcode(String barcode) {
-		return null;
+		String getRecordByBarcodeQuery = QuerySupplier.getQuery(getRecordByBarcodeQueryPath);
+		List<Record> queryResult = jdbcTemplate.queryForList(getRecordByBarcodeQuery, Record.class);
+		return queryResult.size() == 0 ? null : queryResult.get(0);
 	}
 
 	@Override
@@ -54,7 +60,8 @@ public class RecordDaoImpl implements RecordDao, RowMapper<Record> {
 
 	@Override
 	public List<Record> getAll() {
-		return null;
+		String getAllRecordsQuery = QuerySupplier.getQuery(getAllRecordsQueryPath);
+		return jdbcTemplate.queryForList(getAllRecordsQuery, Record.class);
 	}
 
 	@Override

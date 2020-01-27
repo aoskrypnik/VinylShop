@@ -23,13 +23,13 @@ import java.util.List;
 @Repository
 public class SalesmanDaoImpl implements SalesmanDao, RowMapper<Salesman> {
 
-	@Value("${sql.get.all.salesmen.query.path}")
+	@Value("${sql.salesmen.get.all.salesmen.query.path}")
 	private String getGetAllSalesmenQueryPath;
-	@Value("${sql.get.salesman.by.tab.num.query.path}")
+	@Value("${sql.salesmen.get.salesman.by.tab.num.query.path}")
 	private String getGetSalesmanByTabNumQueryPath;
-	@Value("${sql.create.salesman.query.path}")
+	@Value("${sql.salesmen.create.salesman.query.path}")
 	private String createSalesmanQueryPath;
-	@Value("${sql.update.salesman.query.path}")
+	@Value("${sql.salesmen.update.salesman.query.path}")
 	private String updateSalesmanQueryPath;
 
 	@Resource

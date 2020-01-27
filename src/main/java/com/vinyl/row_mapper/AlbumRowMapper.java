@@ -17,9 +17,9 @@ public class AlbumRowMapper implements RowMapper<Album> {
 
 	@Value("${sql.album.get.tracks.by.catalog.num.query.path}")
 	private String getTracksByAlbumCatalogNumQueryPath;
-	@Value("${sql.get.album.genre.by.catalog.num.query.path}")
+	@Value("${sql.album.get.album.genre.by.catalog.num.query.path}")
 	private String getAlbumGenreByCatalogNumQueryPath;
-	@Value("${sql.get.releases.by.catalog.num.query.path}")
+	@Value("${sql.album.get.releases.by.catalog.num.query.path}")
 	private String getReleasesByAlbumCatalogNumQueryPath;
 
 	@Resource

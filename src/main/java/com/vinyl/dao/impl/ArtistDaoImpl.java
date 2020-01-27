@@ -17,17 +17,17 @@ import java.util.List;
 @Repository
 public class ArtistDaoImpl implements ArtistDao {
 
-	@Value("${sql.create.artist.query.path}")
+	@Value("${sql.artist.create.artist.query.path}")
 	private String createArtistQueryPath;
-	@Value("${sql.get.artist.by.alias.query.path}")
+	@Value("${sql.artist.get.artist.by.alias.query.path}")
 	private String getArtistByAliasQueryPath;
-	@Value("${sql.get.all.artists.query.path}")
+	@Value("${sql.artist.get.all.artists.query.path}")
 	private String getAllArtistsQueryPath;
-	@Value("${sql.update.artist.query.path}")
+	@Value("${sql.artist.update.artist.query.path}")
 	private String updateArtistQueryPath;
-	@Value("${sql.get.all.bands.in.certain.period.membership}")
+	@Value("${sql.artist.get.all.bands.in.certain.period.membership}")
 	private String getAllBandsInCertainPeriodMembershipQueryPath;
-	@Value("${sql.get.artists.by.country.query.path}")
+	@Value("${sql.artist.get.artists.by.country.query.path}")
 	private String getArtistsByCountryQueryPath;
 
 	@Resource

@@ -20,6 +20,9 @@ public class TrackDaoImpl implements TrackDao {
 	private String getTrackByCatalogNumQueryPath;
 	@Value("${sql.track.get.all.tracks.query.path}")
 	private String getAllTracksQueryPath;
+	@Value("${sql.track.create.track.query.path}")
+	private String createTrackQueryPath;
+
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -27,8 +30,10 @@ public class TrackDaoImpl implements TrackDao {
 	private RowMapper<Track> trackRowMapper;
 
 	@Override
-	public int save(Track track) {
-		return 0;
+	public String save(Track track) {
+		String createTrackQuery = QuerySupplier.getQuery(createTrackQueryPath);
+		jdbcTemplate.update(createTrackQuery, track.getCatalogNum(), track.getName(), track.getDuration());
+		return track.getCatalogNum();
 	}
 
 	@Override

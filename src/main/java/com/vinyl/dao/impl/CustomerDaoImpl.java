@@ -21,15 +21,15 @@ import java.util.List;
 @Repository
 public class CustomerDaoImpl implements CustomerDao, RowMapper<Customer> {
 
-	@Value("${sql.create.customer.query.path}")
+	@Value("${sql.customer.create.customer.query.path}")
 	private String createCustomerQueryPath;
-	@Value("${sql.get.customer.by.num.query.path}")
+	@Value("${sql.customer.get.customer.by.num.query.path}")
 	private String getCustomerByNumQueryPath;
-	@Value("${sql.update.customer.query.path}")
+	@Value("${sql.customer.update.customer.query.path}")
 	private String updateCustomerQueryPath;
-	@Value("${sql.delete.customer.query.path}")
+	@Value("${sql.customer.delete.customer.query.path}")
 	private String deleteCustomerQueryPath;
-	@Value("${sql.get.all.customers.query.path}")
+	@Value("${sql.customer.get.all.customers.query.path}")
 	private String getAllCustomersQueryPath;
 
 	@Resource
