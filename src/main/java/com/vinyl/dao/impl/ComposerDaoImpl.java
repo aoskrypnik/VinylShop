@@ -17,19 +17,19 @@ import java.util.List;
 @Repository
 public class ComposerDaoImpl implements ComposerDao {
 
-	@Value("${sql.create.composer.query.path}")
+	@Value("${sql.composer.create.composer.query.path}")
 	private String createComposerQueryPath;
-	@Value("${sql.get.composer.by.name.query.path}")
+	@Value("${sql.composer.get.composer.by.name.query.path}")
 	private String getComposerByNameQueryPath;
-	@Value("${sql.find.composers.by.country.query.path}")
+	@Value("${sql.composer.find.composers.by.country.query.path}")
 	private String findComposerByCountryQueryPath;
-	@Value("${sql.find.composers.by.activity.period.query.path}")
+	@Value("${sql.composer.find.composers.by.activity.period.query.path}")
 	private String findComposersByActivityPeriodQueryPath;
-	@Value("${sql.update.composer.query.path}")
+	@Value("${sql.composer.update.composer.query.path}")
 	private String updateComposerQueryPath;
-	@Value("${sql.get.all.composers.query.path}")
+	@Value("${sql.composer.get.all.composers.query.path}")
 	private String getAllComposersQueryPath;
-	@Value("${sql.find.composer.by.multiply.criteria.query.path}")
+	@Value("${sql.composer.find.composer.by.multiply.criteria.query.path}")
 	private String findComposerByMultiplyCriteriaQueryPath;
 
 	@Resource
