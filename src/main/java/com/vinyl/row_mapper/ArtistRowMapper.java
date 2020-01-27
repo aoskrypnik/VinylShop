@@ -37,10 +37,14 @@ public class ArtistRowMapper implements RowMapper<Artist> {
 				.name(resultSet.getString("artist_name"))
 				.birthDate(resultSet.getDate("birth_date"))
 				.deathDate(resultSet.getDate("death_date"))
-				.currentBandAliases(getCurrentBandsByArtistAlias(artistAlias))
-				.previousBandAliases(getPreviousBandsByArtistAlias(artistAlias))
-				.trackCatalogNums(getTracksByArtistAlias(artistAlias))
-				.featuringTrackCatalogNums(getFeaturingTracksByArtistAlias(artistAlias))
+//				.currentBandAliases(getCurrentBandsByArtistAlias(artistAlias))
+//				.previousBandAliases(getPreviousBandsByArtistAlias(artistAlias))
+//				.trackCatalogNums(getTracksByArtistAlias(artistAlias))
+//				.featuringTrackCatalogNums(getFeaturingTracksByArtistAlias(artistAlias))
+				.currentBandAliases(null)
+				.previousBandAliases(null)
+				.trackCatalogNums(null)
+				.featuringTrackCatalogNums(null)
 				.build();
 	}
 

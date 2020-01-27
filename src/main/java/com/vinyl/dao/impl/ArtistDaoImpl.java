@@ -48,7 +48,7 @@ public class ArtistDaoImpl implements ArtistDao {
 	@Override
 	public Artist getArtistByAlias(String alias) {
 		String getArtistByAliasQuery = QuerySupplier.getQuery(getArtistByAliasQueryPath);
-		List<Artist> queryResult = jdbcTemplate.queryForList(getArtistByAliasQuery, Artist.class);
+		List<Artist> queryResult = jdbcTemplate.query(getArtistByAliasQuery, new Object[]{alias}, artistRowMapper);
 		return queryResult.size() == 0 ? null : queryResult.get(0);
 	}
 
@@ -82,6 +82,11 @@ public class ArtistDaoImpl implements ArtistDao {
 	public List<Artist> getArtistsByCountryCode(String countryCode) {
 		String getArtistsByCountryQuery = QuerySupplier.getQuery(getArtistsByCountryQueryPath);
 		return jdbcTemplate.query(getArtistsByCountryQuery, new Object[]{countryCode}, artistRowMapper);
+	}
+
+	@Override
+	public List<Artist> searchArtists(String query) {
+		return jdbcTemplate.queryForList(query, Artist.class);
 	}
 
 }

@@ -18,4 +18,6 @@ public interface ArtistDao {
 	List<Band> getBandsArtistWasMemberInCertainPeriod(ArtistBandMembershipDto artistBandMembershipDto);
 
 	List<Artist> getArtistsByCountryCode(String countryCode);
+
+	List<Artist> searchArtists(String query);
 }
