@@ -5,6 +5,7 @@ import java.util.Map;
 
 import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 public class QueryBuilder {
 
@@ -15,7 +16,7 @@ public class QueryBuilder {
 		stringBuilder.append(tableName).append(".* ").append("FROM ").append(tableName).append(" ");
 
 		//?joins=artist
-		if (isFalse(joins.isEmpty())) {
+		if (isFalse(isEmpty(joins))) {
 			for (String join : joins) {
 				stringBuilder.append("INNER JOIN ").append(join).append(" ON ")
 						.append(joinTablesMap.get(tableName + "," + join)).append(" ");
@@ -23,7 +24,7 @@ public class QueryBuilder {
 		}
 
 		//?wheres=age:10
-		if (isFalse(whereParams.isEmpty())) {
+		if (isFalse(isEmpty(whereParams))) {
 			whereAlreadyUsed = true;
 			stringBuilder.append("WHERE TRUE ");
 			for (String param : whereParams) {
@@ -33,7 +34,7 @@ public class QueryBuilder {
 		}
 
 		//?likes=name:ania
-		if (isFalse(likeParams.isEmpty())) {
+		if (isFalse(isEmpty(likeParams))) {
 			if (isFalse(whereAlreadyUsed)) {
 				stringBuilder.append("WHERE TRUE ");
 				whereAlreadyUsed = true;
@@ -46,7 +47,7 @@ public class QueryBuilder {
 		}
 
 		//?betweens=age:10:20
-		if (isFalse(betweenParams.isEmpty())) {
+		if (isFalse(isEmpty(betweenParams))) {
 			if (isFalse(whereAlreadyUsed)) {
 				stringBuilder.append("WHERE TRUE ");
 			}

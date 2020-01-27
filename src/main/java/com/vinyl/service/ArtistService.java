@@ -5,6 +5,9 @@ import com.vinyl.model.Artist;
 import java.util.List;
 
 public interface ArtistService {
+
+	void save(Artist artist);
+
 	List<Artist> getAll();
 
 	Artist getArtistByAlias(String alias);
