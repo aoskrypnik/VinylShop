@@ -6,11 +6,9 @@ import java.util.List;
 
 public interface TrackService {
 
-	int save(Track track);
+	String save(Track track);
 
 	Track getTrackByCatalogNum(String catalogNum);
-
-	List<Track> getTrackByName(String name);
 
 	void update(Track track);
 
@@ -18,8 +16,6 @@ public interface TrackService {
 
 	void deleteByCatalogNum(String catalogNum);
 
-	List<Track> findTrackByLanguage(String language);
-
-	List<String> findAlbumsWithThisTrack(String catalogNum);
-
+	List<Track> searchTracks(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
+							 List<String> joins, String sorting, String order);
 }

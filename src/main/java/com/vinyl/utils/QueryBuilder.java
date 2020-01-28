@@ -74,7 +74,7 @@ public class QueryBuilder {
 			String[] splitParam = param.split(":");
 			String firstParam = formatUrlKey(splitParam[0]);
 			String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
-			secondParam = secondParam.substring(1,secondParam.length()-1);
+			secondParam = secondParam.substring(1, secondParam.length() - 1);
 			stringBuilder.append("AND ").append(firstParam).append(" LIKE ").append("'%").append(secondParam).append("%' ");
 		}
 	}
@@ -125,5 +125,9 @@ public class QueryBuilder {
 			.put("composerName", List.of("composer_name", STRING_TYPE_NAME))
 			.put("activityStart", List.of("activity_start", STRING_TYPE_NAME))
 			.put("activityEnd", List.of("activity_end", STRING_TYPE_NAME))
+			.put("trackCatalogNum", List.of("catalog_num", STRING_TYPE_NAME))
+			.put("trackName", List.of("track_name", STRING_TYPE_NAME))
+			.put("duration", List.of("duration", NOT_STRING_TYPE_NAME))
 			.build();
+
 }

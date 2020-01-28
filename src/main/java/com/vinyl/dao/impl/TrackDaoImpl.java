@@ -22,6 +22,8 @@ public class TrackDaoImpl implements TrackDao {
 	private String getAllTracksQueryPath;
 	@Value("${sql.track.create.track.query.path}")
 	private String createTrackQueryPath;
+	@Value("${sql.track.delete.query.path}")
+	private String deleteTrackQueryPath;
 
 
 	@Resource
@@ -32,13 +34,8 @@ public class TrackDaoImpl implements TrackDao {
 	@Override
 	public String save(Track track) {
 		String createTrackQuery = QuerySupplier.getQuery(createTrackQueryPath);
-		jdbcTemplate.update(createTrackQuery, track.getCatalogNum(), track.getName(), track.getDuration());
-		return track.getCatalogNum();
-	}
-
-	@Override
-	public List<Track> getTrackByName(String name) {
-		return null;
+		jdbcTemplate.update(createTrackQuery, track.getTrackCatalogNum(), track.getTrackName(), track.getDuration());
+		return track.getTrackCatalogNum();
 	}
 
 	@Override
@@ -57,20 +54,17 @@ public class TrackDaoImpl implements TrackDao {
 
 	@Override
 	public void update(Track track) {
-
 	}
 
 	@Override
 	public void deleteByCatalogNum(String catalogNum) {
-
+		String deleteCustomerQuery = QuerySupplier.getQuery(deleteTrackQueryPath);
+		jdbcTemplate.update(deleteCustomerQuery, catalogNum);
 	}
 
 	@Override
-	public List<Track> findTrackByLanguage(String language) {
-		String findTracksByLanguageQuery = QuerySupplier.getQuery(findTracksByLanguageQueryPath);
-		jdbcTemplate.query(findTracksByLanguageQuery, new Object[]{language}, trackRowMapper);
-		return null;
+	public List<Track> searchTracks(String query) {
+		return jdbcTemplate.query(query, trackRowMapper);
 	}
-//оновити трек
 
 }

@@ -14,9 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class Track {
-
-	private String catalogNum;
-	private String name;
+	private String trackCatalogNum;
+	private String trackName;
 	private Integer duration;
 	private List<String> composerIds;
 	private List<String> albumIds;

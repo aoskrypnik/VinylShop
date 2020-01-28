@@ -3,11 +3,13 @@ package com.vinyl.controller;
 import com.vinyl.model.Track;
 import com.vinyl.service.TrackService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -40,19 +42,33 @@ public class TrackController {
 
 	@PostMapping
 	public ResponseEntity<?> saveTrack(@RequestBody Track track) {
-		int generatedKey = trackService.save(track);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{catalog-num}")
-				.buildAndExpand(generatedKey).toUri();
+		String trackCatalogNum = trackService.save(track);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{catalogNum}")
+				.buildAndExpand(trackCatalogNum).toUri();
 		return ResponseEntity.created(location).build();
 	}
 
-	@GetMapping("/{catalogNum}/albums")
-	public ResponseEntity<?> getTracksByComposerName(@PathVariable String catalogNum) {
-		List<String> albums = trackService.findAlbumsWithThisTrack(catalogNum);
-		if (isNull(albums)) {
+	@DeleteMapping("/{catalogNnum}")
+	public ResponseEntity<?> deleteCustomer(@PathVariable String catalogNnum) {
+		if (isNull(trackService.getTrackByCatalogNum(catalogNnum))) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(albums);
+		trackService.deleteByCatalogNum(catalogNnum);
+		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/search")
+	public ResponseEntity<?> getArtistByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
+												 @RequestParam(value = "likes", required = false) List<String> likeParams,
+												 @RequestParam(value = "betweens", required = false) List<String> betweenParams,
+												 @RequestParam(value = "joins", required = false) List<String> joins,
+												 @RequestParam(value = "sort", required = false) String sorting,
+												 @RequestParam(value = "order", required = false) String order) {
+		List<Track> tracks = trackService.searchTracks(whereParams, likeParams, betweenParams, joins, sorting, order);
+		if (tracks.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(tracks);
 	}
 
 }
