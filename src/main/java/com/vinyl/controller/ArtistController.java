@@ -34,7 +34,7 @@ public class ArtistController {
 	public ResponseEntity<?> saveCustomer(@RequestBody Artist artist) {
 		artistService.save(artist);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{alias}")
-				.buildAndExpand(artist.getAlias()).toUri();
+				.buildAndExpand(artist.getArtistAlias()).toUri();
 
 		return ResponseEntity.created(location).build();
 	}

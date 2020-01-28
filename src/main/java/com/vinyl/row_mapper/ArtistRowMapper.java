@@ -31,12 +31,12 @@ public class ArtistRowMapper implements RowMapper<Artist> {
 	public Artist mapRow(ResultSet resultSet, int i) throws SQLException {
 		String artistAlias = resultSet.getString("artist_alias");
 		return Artist.builder()
-				.alias(artistAlias)
-				.isActive(resultSet.getBoolean("activity"))
+				.artistAlias(artistAlias)
+				.isArtistActive(resultSet.getBoolean("activity"))
 				.countryCode(resultSet.getString("country"))
-				.name(resultSet.getString("artist_name"))
-				.birthDate(resultSet.getDate("birth_date"))
-				.deathDate(resultSet.getDate("death_date"))
+				.artistName(resultSet.getString("artist_name"))
+				.artistBirthDate(resultSet.getDate("birth_date"))
+				.artistDeathDate(resultSet.getDate("death_date"))
 				.currentBandAliases(getCurrentBandsByArtistAlias(artistAlias))
 				.previousBandAliases(getPreviousBandsByArtistAlias(artistAlias))
 				.trackCatalogNums(getTracksByArtistAlias(artistAlias))

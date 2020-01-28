@@ -15,12 +15,12 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class Artist {
-	private String alias;
-	private Boolean isActive;
+	private String artistAlias;
+	private Boolean isArtistActive;
 	private String countryCode;
-	private String name;
-	private Date birthDate;
-	private Date deathDate;
+	private String artistName;
+	private Date artistBirthDate;
+	private Date artistDeathDate;
 	private List<String> currentBandAliases;
 	private List<String> previousBandAliases;
 	private List<String> trackCatalogNums;
