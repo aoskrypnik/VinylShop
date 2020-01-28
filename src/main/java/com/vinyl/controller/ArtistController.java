@@ -3,6 +3,7 @@ package com.vinyl.controller;
 import com.vinyl.model.Artist;
 import com.vinyl.service.ArtistService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ import java.net.URI;
 import java.util.List;
 
 import static java.util.Objects.isNull;
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @RestController
 @RequestMapping("/artist")
@@ -60,5 +63,20 @@ public class ArtistController {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(artists);
+	}
+
+	@DeleteMapping("/{alias}")
+	public ResponseEntity<?> deleteArtist(@PathVariable String alias) {
+		Artist foundArtist = artistService.getArtistByAlias(alias);
+		if (isNull(foundArtist)){
+			return ResponseEntity.notFound().build();
+		}
+
+		if (isFalse(isEmpty(foundArtist.getCurrentBandAliases())) || isFalse(isEmpty(foundArtist.getPreviousBandAliases()))
+				|| isFalse(isEmpty(foundArtist.getTrackCatalogNums())) || isFalse(isEmpty(foundArtist.getFeaturingTrackCatalogNums()))){
+			return ResponseEntity.status(403).build();
+		}
+		artistService.deleteArtist(alias);
+		return ResponseEntity.ok().build();
 	}
 }

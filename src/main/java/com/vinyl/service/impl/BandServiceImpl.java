@@ -36,4 +36,9 @@ public class BandServiceImpl implements BandService {
 		String query = QueryBuilder.build(whereParams, likeParams, betweenParams, joins, sorting, order, BAND_TABLE_NAME);
 		return bandDao.searchBands(query);
 	}
+
+	@Override
+	public void deleteBand(String alias) {
+		bandDao.deleteBand(alias);
+	}
 }

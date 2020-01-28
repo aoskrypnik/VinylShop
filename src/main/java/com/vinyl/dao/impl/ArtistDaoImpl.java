@@ -22,6 +22,8 @@ public class ArtistDaoImpl implements ArtistDao {
 	private String getAllArtistsQueryPath;
 	@Value("${sql.artist.update.artist.query.path}")
 	private String updateArtistQueryPath;
+	@Value("${sql.artist.delete.artist.by.alias.query.path}")
+	private String deleteArtistByAliasQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -59,6 +61,12 @@ public class ArtistDaoImpl implements ArtistDao {
 	@Override
 	public List<Artist> searchArtists(String query) {
 		return jdbcTemplate.query(query, artistRowMapper);
+	}
+
+	@Override
+	public void deleteArtist(String alias) {
+		String deleteArtistByAliasQuery = QuerySupplier.getQuery(deleteArtistByAliasQueryPath);
+		jdbcTemplate.update(deleteArtistByAliasQuery, alias);
 	}
 
 }

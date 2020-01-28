@@ -20,6 +20,8 @@ public class BandDaoImpl implements BandDao {
 	private String getAllBandsQueryPath;
 	@Value("${sql.band.get.band.by.alias.name.query.path}")
 	private String getBandByAliasQueryPath;
+	@Value("${sql.band.delete.band.by.alias.query.path}")
+	private String deleteBandQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -56,4 +58,11 @@ public class BandDaoImpl implements BandDao {
 	public List<Band> searchBands(String query) {
 		return jdbcTemplate.query(query, bandRowMapper);
 	}
+
+	@Override
+	public void deleteBand(String alias) {
+		String deleteBandQuery = QuerySupplier.getQuery(deleteBandQueryPath);
+		jdbcTemplate.update(deleteBandQuery, alias);
+	}
+
 }

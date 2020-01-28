@@ -37,4 +37,9 @@ public class ArtistServiceImpl implements ArtistService {
 		String query = QueryBuilder.build(whereParams, likeParams, betweenParams, joins, sorting, order, ARTIST_TABLE_NAME);
 		return artistDao.searchArtists(query);
 	}
+
+	@Override
+	public void deleteArtist(String alias) {
+		artistDao.deleteArtist(alias);
+	}
 }

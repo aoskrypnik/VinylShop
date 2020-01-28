@@ -14,4 +14,6 @@ public interface ArtistService {
 
 	List<Artist> searchArtists(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
 							   List<String> joins, String sorting, String order);
+
+	void deleteArtist(String alias);
 }

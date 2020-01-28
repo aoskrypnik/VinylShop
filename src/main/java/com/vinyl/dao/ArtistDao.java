@@ -15,4 +15,6 @@ public interface ArtistDao {
 	List<Artist> getAll();
 
 	List<Artist> searchArtists(String query);
+
+	void deleteArtist(String alias);
 }
