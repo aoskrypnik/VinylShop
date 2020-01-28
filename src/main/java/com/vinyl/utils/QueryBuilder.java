@@ -1,5 +1,7 @@
 package com.vinyl.utils;
 
+import com.google.common.collect.ImmutableMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -72,6 +74,7 @@ public class QueryBuilder {
 			String[] splitParam = param.split(":");
 			String firstParam = formatUrlKey(splitParam[0]);
 			String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
+			secondParam = secondParam.substring(1,secondParam.length()-1);
 			stringBuilder.append("AND ").append(firstParam).append(" LIKE ").append("'%").append(secondParam).append("%' ");
 		}
 	}
@@ -108,15 +111,19 @@ public class QueryBuilder {
 
 	private static final Map<String, String> JOIN_TABLES_MAP = Map.of("", "");
 
-	private static final Map<String, List<String>> JAVA_NAME_TO_DATA_BASE_NAME_MAP = Map.of(
-			"artistAlias", List.of("artist_alias", STRING_TYPE_NAME),
-			"isArtistActive", List.of("activity", NOT_STRING_TYPE_NAME),
-			"countryCode", List.of("country", STRING_TYPE_NAME),
-			"artistName", List.of("artist_name", STRING_TYPE_NAME),
-			"artistBirthDate", List.of("birth_date", STRING_TYPE_NAME),
-			"artistDeathDate", List.of("death_date", STRING_TYPE_NAME),
-			"composerName", List.of("composer_name", STRING_TYPE_NAME),
-			"activityStart", List.of("activity_start", STRING_TYPE_NAME),
-			"activityEnd", List.of("activity_end", STRING_TYPE_NAME)
-	);
+	private static final Map<String, List<String>> JAVA_NAME_TO_DATA_BASE_NAME_MAP = ImmutableMap.<String, List<String>>builder()
+			.put("artistAlias", List.of("artist_alias", STRING_TYPE_NAME))
+			.put("isArtistActive", List.of("activity", NOT_STRING_TYPE_NAME))
+			.put("countryCode", List.of("country", STRING_TYPE_NAME))
+			.put("artistName", List.of("artist_name", STRING_TYPE_NAME))
+			.put("artistBirthDate", List.of("birth_date", STRING_TYPE_NAME))
+			.put("artistDeathDate", List.of("death_date", STRING_TYPE_NAME))
+			.put("bandAlias", List.of("band_alias", STRING_TYPE_NAME))
+			.put("isBandActive", List.of("activity", NOT_STRING_TYPE_NAME))
+			.put("startYear", List.of("start_year", STRING_TYPE_NAME))
+			.put("endYear", List.of("end_year", STRING_TYPE_NAME))
+			.put("composerName", List.of("composer_name", STRING_TYPE_NAME))
+			.put("activityStart", List.of("activity_start", STRING_TYPE_NAME))
+			.put("activityEnd", List.of("activity_end", STRING_TYPE_NAME))
+			.build();
 }

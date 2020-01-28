@@ -18,7 +18,7 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 @RestController
-@RequestMapping("track")
+@RequestMapping("/track")
 public class TrackController {
 
 	@Resource

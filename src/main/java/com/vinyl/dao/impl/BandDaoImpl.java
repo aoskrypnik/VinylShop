@@ -22,28 +22,38 @@ public class BandDaoImpl implements BandDao {
 	private String getBandByAliasQueryPath;
 
 	@Resource
-	private RowMapper<Band> bandRowMapper;
-	@Resource
 	private JdbcTemplate jdbcTemplate;
+	@Resource
+	private RowMapper<Band> bandRowMapper;
 
 	@Override
 	public String save(Band band) {
 		String createBandQuery = QuerySupplier.getQuery(createBandQueryPath);
-		jdbcTemplate.update(createBandQuery, band.getAlias(), band.getIsActive(), band.getCountryCode(),
+		jdbcTemplate.update(createBandQuery, band.getBandAlias(), band.getIsBandActive(), band.getCountryCode(),
 				band.getStartYear(), band.getEndYear());
-		return band.getAlias();
+		return band.getBandAlias();
 	}
 
 	@Override
 	public Band getBandByAlias(String alias) {
 		String getBandByAliasQuery = QuerySupplier.getQuery(getBandByAliasQueryPath);
-		List<Band> queryResult = jdbcTemplate.queryForList(getBandByAliasQuery, Band.class);
+		List<Band> queryResult = jdbcTemplate.query(getBandByAliasQuery, new Object[]{alias}, bandRowMapper);
 		return queryResult.size() == 0 ? null : queryResult.get(0);
+	}
+
+	@Override
+	public void update(Band band) {
+
 	}
 
 	@Override
 	public List<Band> getAll() {
 		String getAllBandsQuery = QuerySupplier.getQuery(getAllBandsQueryPath);
-		return jdbcTemplate.queryForList(getAllBandsQuery, Band.class);
+		return jdbcTemplate.query(getAllBandsQuery, bandRowMapper);
+	}
+
+	@Override
+	public List<Band> searchBands(String query) {
+		return jdbcTemplate.query(query, bandRowMapper);
 	}
 }
