@@ -1,0 +1,1 @@
+http://localhost:8087/artist/search?wheres=countryCode:UA&betweens=artistBirthDate:1990-01-01:2000-01-01&sort=artistAlias&order=asc

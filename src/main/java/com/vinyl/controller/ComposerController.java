@@ -1,11 +1,8 @@
 package com.vinyl.controller;
 
-import com.vinyl.dao.TrackDao;
 import com.vinyl.model.Composer;
-import com.vinyl.model.Track;
 import com.vinyl.service.ComposerService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +16,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.annotation.Resource;
 import java.net.URI;
-import java.util.Date;
 import java.util.List;
 
 import static java.util.Objects.isNull;
@@ -50,7 +46,7 @@ public class ComposerController {
 	public ResponseEntity<?> saveComposer(@RequestBody Composer composer) {
 		composerService.save(composer);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{composerName}")
-				.buildAndExpand(composer.getName()).toUri();
+				.buildAndExpand(composer.getComposerName()).toUri();
 
 		return ResponseEntity.created(location).build();
 	}
@@ -64,20 +60,22 @@ public class ComposerController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/search-composer")
-	public ResponseEntity<?> findComposerByCriteria
-			(@RequestParam(value = "code", required = false) String countryCode,
-			 @RequestParam(value = "start", required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") Date activityStart,
-			 @RequestParam(value = "end", required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") Date activityEnd) {
-		List<Composer> foundComposers = composerService.findComposerByCriteria(countryCode, activityStart, activityEnd);
-		if (foundComposers.isEmpty()) {
+	@GetMapping("/search")
+	public ResponseEntity<?> getArtistByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
+												 @RequestParam(value = "likes", required = false) List<String> likeParams,
+												 @RequestParam(value = "betweens", required = false) List<String> betweenParams,
+												 @RequestParam(value = "joins", required = false) List<String> joins,
+												 @RequestParam(value = "sort", required = false) String sorting,
+												 @RequestParam(value = "order", required = false) String order) {
+		List<Composer> composers = composerService.searchComposers(whereParams, likeParams, betweenParams, joins, sorting, order);
+		if (composers.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(foundComposers);
+		return ResponseEntity.ok(composers);
 	}
 
 	@GetMapping("/{composerName}/tracks")
-	public ResponseEntity<?> getTracksByComposerName(@PathVariable String composerName){
+	public ResponseEntity<?> getTracksByComposerName(@PathVariable String composerName) {
 		List<String> tracks = composerService.getTracksByName(composerName);
 		if (isNull(tracks)) {
 			return ResponseEntity.notFound().build();

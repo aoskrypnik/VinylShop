@@ -6,8 +6,6 @@ import com.vinyl.utils.QuerySupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -21,21 +19,13 @@ public class ComposerDaoImpl implements ComposerDao {
 	private String createComposerQueryPath;
 	@Value("${sql.composer.get.composer.by.name.query.path}")
 	private String getComposerByNameQueryPath;
-	@Value("${sql.composer.find.composers.by.country.query.path}")
-	private String findComposerByCountryQueryPath;
-	@Value("${sql.composer.find.composers.by.activity.period.query.path}")
-	private String findComposersByActivityPeriodQueryPath;
 	@Value("${sql.composer.update.composer.query.path}")
 	private String updateComposerQueryPath;
 	@Value("${sql.composer.get.all.composers.query.path}")
 	private String getAllComposersQueryPath;
-	@Value("${sql.composer.find.composer.by.multiply.criteria.query.path}")
-	private String findComposerByMultiplyCriteriaQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
-	@Resource
-	private NamedParameterJdbcOperations namedParameterJdbcTemplate;
 	@Resource
 	private RowMapper<Composer> composerRowMapper;
 
@@ -43,8 +33,8 @@ public class ComposerDaoImpl implements ComposerDao {
 	public void save(Composer composer) {
 		String createComposerQuery = QuerySupplier.getQuery(createComposerQueryPath);
 
-		String name = composer.getName();
-		String country = composer.getCountry();
+		String name = composer.getComposerName();
+		String country = composer.getCountryCode();
 		Date activityStart = composer.getActivityStart();
 		Date activityEnd = composer.getActivityEnd();
 
@@ -71,27 +61,7 @@ public class ComposerDaoImpl implements ComposerDao {
 	}
 
 	@Override
-	public List<Composer> findComposersByCountry(String country) {
-		String findComposerByCountryQuery = QuerySupplier.getQuery(findComposerByCountryQueryPath);
-		return jdbcTemplate.query(findComposerByCountryQuery, new Object[]{country}, composerRowMapper);
+	public List<Composer> searchComposers(String query) {
+		return jdbcTemplate.query(query, composerRowMapper);
 	}
-
-	@Override
-	public List<Composer> findComposersByActivityPeriod(Date activityStart, Date activityEnd) {
-		String findComposersByActivityPeriodQuery = QuerySupplier.getQuery(findComposersByActivityPeriodQueryPath);
-		return jdbcTemplate.query(findComposersByActivityPeriodQuery, new Object[]{activityStart, activityEnd}, composerRowMapper);
-	}
-
-	@Override
-	public List<Composer> findComposersByMultiplyCriteria(String countryCode, Date activityStart, Date activityEnd) {
-		String findComposerByMultiplyCriteriaQuery = QuerySupplier.getQuery(findComposerByMultiplyCriteriaQueryPath);
-		return namedParameterJdbcTemplate.query(findComposerByMultiplyCriteriaQuery,
-				new MapSqlParameterSource()
-						.addValue("country", countryCode)
-						.addValue("activity_start", activityStart)
-						.addValue("activity_end", activityEnd),
-				composerRowMapper);
-	}
-
-
 }

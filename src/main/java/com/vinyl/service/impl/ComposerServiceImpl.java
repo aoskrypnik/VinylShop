@@ -3,16 +3,18 @@ package com.vinyl.service.impl;
 import com.vinyl.dao.ComposerDao;
 import com.vinyl.model.Composer;
 import com.vinyl.service.ComposerService;
+import com.vinyl.utils.QueryBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 
 import static java.util.Objects.isNull;
 
 @Service
 public class ComposerServiceImpl implements ComposerService {
+
+	private final static String COMPOSER_TABLE_NAME = "composer";
 
 	@Resource
 	private ComposerDao composerDao;
@@ -38,24 +40,16 @@ public class ComposerServiceImpl implements ComposerService {
 	}
 
 	@Override
-	public List<Composer> findComposersByCountry(String country) {
-		return composerDao.findComposersByCountry(country);
-	}
-
-	@Override
-	public List<Composer> findComposersByActivityPeriod(Date activityStart, Date activityEnd) {
-		return composerDao.findComposersByActivityPeriod(activityStart, activityEnd);
-	}
-
-	@Override
-	public List<Composer> findComposerByCriteria(String countryCode, Date activityStart, Date activityEnd) {
-		return composerDao.findComposersByMultiplyCriteria(countryCode, activityStart, activityEnd);
-	}
-
-	@Override
 	public List<String> getTracksByName(String composerName) {
 		Composer foundComposer = getComposerByName(composerName);
-		return isNull(foundComposer)? null : foundComposer.getTrackIds();
+		return isNull(foundComposer) ? null : foundComposer.getTrackIds();
+	}
+
+	@Override
+	public List<Composer> searchComposers(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
+										  List<String> joins, String sorting, String order) {
+		String query = QueryBuilder.build(whereParams, likeParams, betweenParams, joins, sorting, order, COMPOSER_TABLE_NAME);
+		return composerDao.searchComposers(query);
 	}
 
 }

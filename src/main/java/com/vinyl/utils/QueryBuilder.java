@@ -31,12 +31,7 @@ public class QueryBuilder {
 		if (isFalse(isEmpty(whereParams))) {
 			whereAlreadyUsed = true;
 			stringBuilder.append("WHERE TRUE ");
-			for (String param : whereParams) {
-				String[] splitParam = param.split(":");
-				String firstParam = formatUrlKey(splitParam[0]);
-				String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
-				stringBuilder.append("AND ").append(firstParam).append("=").append(secondParam).append(" ");
-			}
+			processWhereParams(whereParams, stringBuilder);
 		}
 
 		//?likes=name:ania
@@ -45,12 +40,7 @@ public class QueryBuilder {
 				stringBuilder.append("WHERE TRUE ");
 				whereAlreadyUsed = true;
 			}
-			for (String param : likeParams) {
-				String[] splitParam = param.split(":");
-				String firstParam = formatUrlKey(splitParam[0]);
-				String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
-				stringBuilder.append("AND ").append(firstParam).append(" LIKE ").append("'%").append(secondParam).append("%' ");
-			}
+			processLikeParams(likeParams, stringBuilder);
 		}
 
 		//?betweens=age:10:20
@@ -58,19 +48,41 @@ public class QueryBuilder {
 			if (isFalse(whereAlreadyUsed)) {
 				stringBuilder.append("WHERE TRUE ");
 			}
-			for (String param : betweenParams) {
-				String[] splitParam = param.split(":");
-				String firstParam = formatUrlKey(splitParam[0]);
-				String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
-				String thirdParam = formatUrlValue(splitParam[0], splitParam[2]);
-				stringBuilder.append("AND ").append(firstParam).append(" BETWEEN ")
-						.append(secondParam).append(" AND ").append(thirdParam).append(" ");
-			}
+			processBetweenParams(betweenParams, stringBuilder);
 		}
 
 		buildOrderingPart(sorting, order, stringBuilder);
 
 		return stringBuilder.toString();
+	}
+
+	private static void processBetweenParams(List<String> betweenParams, StringBuilder stringBuilder) {
+		for (String param : betweenParams) {
+			String[] splitParam = param.split(":");
+			String firstParam = formatUrlKey(splitParam[0]);
+			String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
+			String thirdParam = formatUrlValue(splitParam[0], splitParam[2]);
+			stringBuilder.append("AND ").append(firstParam).append(" BETWEEN ")
+					.append(secondParam).append(" AND ").append(thirdParam).append(" ");
+		}
+	}
+
+	private static void processLikeParams(List<String> likeParams, StringBuilder stringBuilder) {
+		for (String param : likeParams) {
+			String[] splitParam = param.split(":");
+			String firstParam = formatUrlKey(splitParam[0]);
+			String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
+			stringBuilder.append("AND ").append(firstParam).append(" LIKE ").append("'%").append(secondParam).append("%' ");
+		}
+	}
+
+	private static void processWhereParams(List<String> whereParams, StringBuilder stringBuilder) {
+		for (String param : whereParams) {
+			String[] splitParam = param.split(":");
+			String firstParam = formatUrlKey(splitParam[0]);
+			String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
+			stringBuilder.append("AND ").append(firstParam).append("=").append(secondParam).append(" ");
+		}
 	}
 
 	private static String formatUrlKey(String key) {
@@ -102,70 +114,9 @@ public class QueryBuilder {
 			"countryCode", List.of("country", STRING_TYPE_NAME),
 			"artistName", List.of("artist_name", STRING_TYPE_NAME),
 			"artistBirthDate", List.of("birth_date", STRING_TYPE_NAME),
-			"artistDeathDate", List.of("death_date", STRING_TYPE_NAME)
+			"artistDeathDate", List.of("death_date", STRING_TYPE_NAME),
+			"composerName", List.of("composer_name", STRING_TYPE_NAME),
+			"activityStart", List.of("activity_start", STRING_TYPE_NAME),
+			"activityEnd", List.of("activity_end", STRING_TYPE_NAME)
 	);
 }
-
-
-//	private String artistAlias;
-//	private Boolean isArtistActive;
-//	private String countryCode;
-//	private String artistName;
-//	private Date artistBirthDate;
-//	private Date artistDeathDate;
-
-//GET /sellers?likes[]=“check.sellerId;tet”
-//
-//
-//		ArrayList<String> wheres = new ArrayList();
-//
-//		For (String like : likes) {
-//		String[] likeParts = like.split(‘;’);
-//		wheres.add(likeParts[0] + “ LIKE `%“ + likeParts[1] + “%`”);
-//		}
-//
-//		wheres.join(“ AND “)
-//
-//		SELECT check.*
-//		FROM check
-//		%JOIN seller ON check.sellerId = seller.id%\
-//		WHERE …
-//
-//
-//		/searchChecks
-//
-//		Wheres
-//		client.id=2
-//		Seller.id = 2
-//
-//		Betweens
-//		check.date=5,10
-//		check.sum=10,100
-//
-//		Likes
-//
-//
-//		sort=check.date
-//		order=desc,asc
-//
-//		1. [client.id, check.date, check.sum, seller.id]
-//		2. [client, check, seller]
-//		3. [client, seller] // Array of tables that have to be joined
-//
-//		JOIN %tableName% on %criteria%
-//
-//
-//		Map criteria (
-//		Client,check => ‘’client.id = check.clientId”
-//		Seller,check => “seller.id = check.sellerId”
-//		)
-//
-//		4. [“JOIN client on client.id = check.clientId”, “JOIN seller on seller.id = check.sellerId” ]
-//		5. “JOIN client on client.id = check.clientId JOIN seller on seller.id = check.sellerId”
-//
-//		SELECT check.*
-//		FROM check
-//		%joins%
-//		%if wheres is not empty, then%WHERE %wheres%
-//		%if sort is not empty, then%ORDER BY %order%
-//		%if sort is not empty, desc ? DESC : ASC%
