@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BandService {
 
-	void save(Band band);
+	String save(Band band);
 
 	List<Band> getAll();
 

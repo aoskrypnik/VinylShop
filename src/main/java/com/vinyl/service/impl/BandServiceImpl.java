@@ -17,8 +17,8 @@ public class BandServiceImpl implements BandService {
 	private BandDao bandDao;
 
 	@Override
-	public void save(Band band) {
-		bandDao.save(band);
+	public String save(Band band) {
+		return bandDao.save(band);
 	}
 
 	@Override

@@ -35,9 +35,9 @@ public class BandController {
 
 	@PostMapping
 	public ResponseEntity<?> saveBand(@RequestBody Band band) {
-		bandService.save(band);
+		String bandAlias = bandService.save(band);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{alias}")
-				.buildAndExpand(band.getBandAlias()).toUri();
+				.buildAndExpand(bandAlias).toUri();
 
 		return ResponseEntity.created(location).build();
 	}

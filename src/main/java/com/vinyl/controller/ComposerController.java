@@ -44,9 +44,9 @@ public class ComposerController {
 
 	@PostMapping
 	public ResponseEntity<?> saveComposer(@RequestBody Composer composer) {
-		composerService.save(composer);
+		String composerName = composerService.save(composer);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{composerName}")
-				.buildAndExpand(composer.getComposerName()).toUri();
+				.buildAndExpand(composerName).toUri();
 
 		return ResponseEntity.created(location).build();
 	}

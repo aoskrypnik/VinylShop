@@ -20,8 +20,8 @@ public class ComposerServiceImpl implements ComposerService {
 	private ComposerDao composerDao;
 
 	@Override
-	public void save(Composer composer) {
-		composerDao.save(composer);
+	public String save(Composer composer) {
+		return composerDao.save(composer);
 	}
 
 	@Override

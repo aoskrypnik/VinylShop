@@ -30,7 +30,7 @@ public class ComposerDaoImpl implements ComposerDao {
 	private RowMapper<Composer> composerRowMapper;
 
 	@Override
-	public void save(Composer composer) {
+	public String save(Composer composer) {
 		String createComposerQuery = QuerySupplier.getQuery(createComposerQueryPath);
 
 		String name = composer.getComposerName();
@@ -39,6 +39,7 @@ public class ComposerDaoImpl implements ComposerDao {
 		Date activityEnd = composer.getActivityEnd();
 
 		jdbcTemplate.update(createComposerQuery, name, country, activityStart, activityEnd);
+		return composer.getComposerName();
 	}
 
 	@Override

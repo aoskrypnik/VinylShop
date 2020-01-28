@@ -128,6 +128,13 @@ public class QueryBuilder {
 			.put("trackCatalogNum", List.of("catalog_num", STRING_TYPE_NAME))
 			.put("trackName", List.of("track_name", STRING_TYPE_NAME))
 			.put("duration", List.of("duration", NOT_STRING_TYPE_NAME))
+			.put("albumCatalogNum", List.of("catalog_num", STRING_TYPE_NAME))
+			.put("releaseYear", List.of("release_year", NOT_STRING_TYPE_NAME))
+			.put("albumName", List.of("album_name", STRING_TYPE_NAME))
+			.put("variousArtists", List.of("various_artists", NOT_STRING_TYPE_NAME))
+			.put("albumGenres", List.of("genre_name", STRING_TYPE_NAME))
 			.build();
+
+	//genre
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ComposerDao {
 
-	void save(Composer composer);
+	String save(Composer composer);
 
 	Composer getComposerByName(String name);
 

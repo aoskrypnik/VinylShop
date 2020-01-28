@@ -18,8 +18,8 @@ public class ArtistServiceImpl implements ArtistService {
 	private ArtistDao artistDao;
 
 	@Override
-	public void save(Artist artist) {
-		artistDao.save(artist);
+	public String save(Artist artist) {
+		return artistDao.save(artist);
 	}
 
 	@Override

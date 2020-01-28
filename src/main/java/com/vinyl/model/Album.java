@@ -14,10 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class Album {
-	private String catalogNum;
+	private String albumCatalogNum;
 	private Integer releaseYear;
-	private String genre;
-	private String name;
+	private List<String> albumGenres;
+	private String albumName;
 	private Boolean variousArtists;
 	private List<String> trackCatalogNums;
 	private List<String> releaseBarcodes;

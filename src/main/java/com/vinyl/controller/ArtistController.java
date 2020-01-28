@@ -35,9 +35,9 @@ public class ArtistController {
 
 	@PostMapping
 	public ResponseEntity<?> saveArtist(@RequestBody Artist artist) {
-		artistService.save(artist);
+		String artistAlias = artistService.save(artist);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{alias}")
-				.buildAndExpand(artist.getArtistAlias()).toUri();
+				.buildAndExpand(artistAlias).toUri();
 
 		return ResponseEntity.created(location).build();
 	}

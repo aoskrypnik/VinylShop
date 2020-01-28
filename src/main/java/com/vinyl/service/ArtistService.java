@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ArtistService {
 
-	void save(Artist artist);
+	String save(Artist artist);
 
 	List<Artist> getAll();
 
