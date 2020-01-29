@@ -25,7 +25,7 @@ public class ReleaseRowMapper implements RowMapper<Release> {
 	public Release mapRow(ResultSet resultSet, int i) throws SQLException {
 		String barcode = resultSet.getString("bar_code");
 		return Release.builder()
-				.barcode(barcode)
+				.releaseBarcode(barcode)
 				.albumCatalogNum(resultSet.getString("album_catalog_num"))
 				.copiesCount(resultSet.getInt("copies_cnt"))
 				.countryCode(resultSet.getString("country"))

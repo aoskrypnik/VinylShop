@@ -2,6 +2,7 @@ package com.vinyl.utils;
 
 import com.google.common.collect.ImmutableMap;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -138,6 +139,13 @@ public class QueryBuilder {
 			.put("variousArtists", List.of("various_artists", NOT_STRING_TYPE_NAME))
 			.put("albumGenres", List.of("genre_name", STRING_TYPE_NAME))
 			.put("languages", List.of("lang_name", STRING_TYPE_NAME))
+			.put("releaseBarcode", List.of("bar_code", STRING_TYPE_NAME))
+			.put("releaseDate", List.of("release_date", STRING_TYPE_NAME))
+			.put("recordSize", List.of("record_size", STRING_TYPE_NAME))
+			.put("recordSpeed", List.of("record_speed", STRING_TYPE_NAME))
+			.put("copiesCount", List.of("copies_cnt", STRING_TYPE_NAME))
+			.put("isRepress", List.of("repress", STRING_TYPE_NAME))
+			.put("label", List.of("label", STRING_TYPE_NAME))
 			.put("albumIds", List.of("album_catalog_num", STRING_TYPE_NAME))
 			.build();
 
