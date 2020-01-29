@@ -1,3 +1,3 @@
 SELECT band_alias
-FROM performance
+FROM band2track
 WHERE track_catalog_num = ? AND NOT featuring;
