@@ -28,6 +28,8 @@ public class TrackDaoImpl implements TrackDao {
 	private String addLanguagesToTrackQueryPath;
 	@Value("${sql.track.add.albums.to.track}")
 	private String addAlbumsToTrackQueryPath;
+	@Value("${sql.track.add.composers.to.track}")
+	private String addComposersToTrackQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -41,10 +43,12 @@ public class TrackDaoImpl implements TrackDao {
 		String createTrackQuery = QuerySupplier.getQuery(createTrackQueryPath);
 		String addLanguagesToTrackQuery = QuerySupplier.getQuery(addLanguagesToTrackQueryPath);
 		String addAlbumsToTrackQuery = QuerySupplier.getQuery(addAlbumsToTrackQueryPath);
+		String addComposersToTrackQuery = QuerySupplier.getQuery(addComposersToTrackQueryPath);
 
 		jdbcTemplate.update(createTrackQuery, trackCatalogNum, track.getTrackName(), track.getDuration());
 		saveListValuesForTrack(trackCatalogNum, track.getLanguages(), addLanguagesToTrackQuery);
 		saveListValuesForTrack(trackCatalogNum, track.getAlbumIds(), addAlbumsToTrackQuery);
+		saveListValuesForTrack(trackCatalogNum, track.getComposerIds(), addComposersToTrackQuery);
 
 		return trackCatalogNum;
 	}

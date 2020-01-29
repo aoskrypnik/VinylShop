@@ -113,7 +113,8 @@ public class QueryBuilder {
 	private static final Map<String, String> JOIN_TABLES_MAP = ImmutableMap.<String, String>builder()
 			.put("track track_language", "track.catalog_num=track_language.track_catalog_num")
 			.put("track track2album", "track.catalog_num=track2album.track_catalog_num")
-			.put("album albumgenre","album.catalog_num=albumgenre.album_catalog_num")
+			.put("track track2composer", "track.catalog_num=track2composer.track_catalog_num")
+			.put("album albumgenre", "album.catalog_num=albumgenre.album_catalog_num")
 			.build();
 
 	private static final Map<String, List<String>> JAVA_NAME_TO_DATA_BASE_NAME_MAP = ImmutableMap.<String, List<String>>builder()
@@ -147,6 +148,7 @@ public class QueryBuilder {
 			.put("isRepress", List.of("repress", STRING_TYPE_NAME))
 			.put("label", List.of("label", STRING_TYPE_NAME))
 			.put("albumIds", List.of("album_catalog_num", STRING_TYPE_NAME))
+			.put("composerIds", List.of("composer_name", STRING_TYPE_NAME))
 			.build();
 
 }
