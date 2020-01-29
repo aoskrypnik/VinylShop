@@ -111,6 +111,7 @@ public class QueryBuilder {
 
 	private static final Map<String, String> JOIN_TABLES_MAP = ImmutableMap.<String, String>builder()
 			.put("track track_language", "track.catalog_num=track_language.track_catalog_num")
+			.put("album albumgenre","album.catalog_num=albumgenre.album_catalog_num")
 			.build();
 
 	private static final Map<String, List<String>> JAVA_NAME_TO_DATA_BASE_NAME_MAP = ImmutableMap.<String, List<String>>builder()
