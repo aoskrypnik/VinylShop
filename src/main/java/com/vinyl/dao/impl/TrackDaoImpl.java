@@ -24,6 +24,8 @@ public class TrackDaoImpl implements TrackDao {
 	private String createTrackQueryPath;
 	@Value("${sql.track.delete.query.path}")
 	private String deleteTrackQueryPath;
+	@Value("${sql.track.language.add.track.language.query.path}")
+	private String addLanguagesToTrackQueryPath;
 
 
 	@Resource
@@ -34,7 +36,12 @@ public class TrackDaoImpl implements TrackDao {
 	@Override
 	public String save(Track track) {
 		String createTrackQuery = QuerySupplier.getQuery(createTrackQueryPath);
+		String addLanguagesToTrackQuery = QuerySupplier.getQuery(addLanguagesToTrackQueryPath);
 		jdbcTemplate.update(createTrackQuery, track.getTrackCatalogNum(), track.getTrackName(), track.getDuration());
+		List<String> languages = track.getLanguages();
+		for (String language: languages) {
+			jdbcTemplate.update(addLanguagesToTrackQuery, track.getTrackCatalogNum(), language);
+		}
 		return track.getTrackCatalogNum();
 	}
 

@@ -109,7 +109,9 @@ public class QueryBuilder {
 		}
 	}
 
-	private static final Map<String, String> JOIN_TABLES_MAP = Map.of("", "");
+	private static final Map<String, String> JOIN_TABLES_MAP = ImmutableMap.<String, String>builder()
+			.put("track track_language", "track.catalog_num=track_language.track_catalog_num")
+			.build();
 
 	private static final Map<String, List<String>> JAVA_NAME_TO_DATA_BASE_NAME_MAP = ImmutableMap.<String, List<String>>builder()
 			.put("artistAlias", List.of("artist_alias", STRING_TYPE_NAME))
@@ -133,8 +135,7 @@ public class QueryBuilder {
 			.put("albumName", List.of("album_name", STRING_TYPE_NAME))
 			.put("variousArtists", List.of("various_artists", NOT_STRING_TYPE_NAME))
 			.put("albumGenres", List.of("genre_name", STRING_TYPE_NAME))
+			.put("languages", List.of("lang_name", STRING_TYPE_NAME))
 			.build();
-
-	//genre
 
 }
