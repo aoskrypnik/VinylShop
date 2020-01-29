@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.ReleaseDao;
+import com.vinyl.exception.ReleaseAlreadyExistException;
 import com.vinyl.model.Release;
 import com.vinyl.service.ReleaseService;
 import com.vinyl.utils.QueryBuilder;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static java.util.Objects.nonNull;
 
 @Service
 public class ReleaseServiceImpl implements ReleaseService {
@@ -17,7 +20,12 @@ public class ReleaseServiceImpl implements ReleaseService {
 	private ReleaseDao releaseDao;
 
 	@Override
-	public String save(Release release) {
+	public String save(Release release) throws ReleaseAlreadyExistException {
+		String barcode = release.getReleaseBarcode();
+		Release alreadyExistingRelease = getReleaseByBarcode(barcode);
+		if (nonNull(alreadyExistingRelease)) {
+			throw new ReleaseAlreadyExistException("Release already exist with such barcode: " + barcode);
+		}
 		return releaseDao.save(release);
 	}
 

@@ -1,7 +1,9 @@
 package com.vinyl.controller;
 
+import com.vinyl.exception.AlbumAlreadyExistException;
 import com.vinyl.model.Album;
 import com.vinyl.service.AlbumService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
+@Slf4j
 @RestController
 @RequestMapping("/album")
 public class AlbumController {
@@ -32,10 +35,14 @@ public class AlbumController {
 
 	@PostMapping
 	public ResponseEntity<?> saveAlbum(@RequestBody Album album) {
-		String albumCatalogNum = albumService.save(album);
+		try {
+			albumService.save(album);
+		} catch (AlbumAlreadyExistException e) {
+			log.error(e.getMessage());
+			return ResponseEntity.status(406).build();
+		}
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{albumCatalogNum}")
-				.buildAndExpand(albumCatalogNum).toUri();
-
+				.buildAndExpand(album.getAlbumCatalogNum()).toUri();
 		return ResponseEntity.created(location).build();
 	}
 

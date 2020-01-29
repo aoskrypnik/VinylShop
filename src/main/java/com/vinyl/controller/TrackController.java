@@ -1,7 +1,9 @@
 package com.vinyl.controller;
 
+import com.vinyl.exception.TrackAlreadyExistException;
 import com.vinyl.model.Track;
 import com.vinyl.service.TrackService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
+@Slf4j
 @RestController
 @RequestMapping("/track")
 public class TrackController {
@@ -42,9 +45,14 @@ public class TrackController {
 
 	@PostMapping
 	public ResponseEntity<?> saveTrack(@RequestBody Track track) {
-		String trackCatalogNum = trackService.save(track);
+		try {
+			trackService.save(track);
+		} catch (TrackAlreadyExistException e) {
+			log.error(e.getMessage());
+			return ResponseEntity.status(406).build();
+		}
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{catalogNum}")
-				.buildAndExpand(trackCatalogNum).toUri();
+				.buildAndExpand(track.getTrackCatalogNum()).toUri();
 		return ResponseEntity.created(location).build();
 	}
 

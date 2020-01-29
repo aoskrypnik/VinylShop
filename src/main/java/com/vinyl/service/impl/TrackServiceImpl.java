@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.TrackDao;
+import com.vinyl.exception.TrackAlreadyExistException;
 import com.vinyl.model.Track;
 import com.vinyl.service.TrackService;
 import com.vinyl.utils.QueryBuilder;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static java.util.Objects.nonNull;
 
 @Service
 public class TrackServiceImpl implements TrackService {
@@ -18,7 +21,12 @@ public class TrackServiceImpl implements TrackService {
 	private TrackDao trackDao;
 
 	@Override
-	public String save(Track track) {
+	public String save(Track track) throws TrackAlreadyExistException {
+		String catalogNum = track.getTrackCatalogNum();
+		Track alreadyExistingTrack = getTrackByCatalogNum(catalogNum);
+		if (nonNull(alreadyExistingTrack)) {
+			throw new TrackAlreadyExistException("Track already exist with such catalogNum: " + catalogNum);
+		}
 		return trackDao.save(track);
 	}
 

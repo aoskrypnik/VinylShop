@@ -1,7 +1,9 @@
 package com.vinyl.controller;
 
+import com.vinyl.exception.ReleaseAlreadyExistException;
 import com.vinyl.model.Release;
 import com.vinyl.service.ReleaseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
+@Slf4j
 @RestController
 @RequestMapping("/release")
 public class ReleaseController {
@@ -31,10 +34,15 @@ public class ReleaseController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> saveA(@RequestBody Release release) {
-		String releaseBarCode = releaseService.save(release);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{releaseBarCode}")
-				.buildAndExpand(releaseBarCode).toUri();
+	public ResponseEntity<?> saveRelease(@RequestBody Release release) {
+		try {
+			releaseService.save(release);
+		} catch (ReleaseAlreadyExistException e) {
+			log.error(e.getMessage());
+			return ResponseEntity.status(406).build();
+		}
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{releaseBarcode}")
+				.buildAndExpand(release.getReleaseBarcode()).toUri();
 
 		return ResponseEntity.created(location).build();
 	}

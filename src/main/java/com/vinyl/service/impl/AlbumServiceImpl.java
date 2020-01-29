@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.AlbumDao;
+import com.vinyl.exception.AlbumAlreadyExistException;
 import com.vinyl.model.Album;
 import com.vinyl.service.AlbumService;
 import com.vinyl.utils.QueryBuilder;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static java.util.Objects.nonNull;
 
 @Service
 public class AlbumServiceImpl implements AlbumService {
@@ -18,7 +21,12 @@ public class AlbumServiceImpl implements AlbumService {
 	private AlbumDao albumDao;
 
 	@Override
-	public String save(Album album) {
+	public String save(Album album) throws AlbumAlreadyExistException {
+		String catalogNum = album.getAlbumCatalogNum();
+		Album alreadyExistingAlbum = getAlbumByCatalogNum(catalogNum);
+		if (nonNull(alreadyExistingAlbum)) {
+			throw new AlbumAlreadyExistException("Album already exist with such catalogNum: " + catalogNum);
+		}
 		return albumDao.save(album);
 	}
 

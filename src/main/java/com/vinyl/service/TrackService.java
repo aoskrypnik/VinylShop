@@ -1,12 +1,13 @@
 package com.vinyl.service;
 
+import com.vinyl.exception.TrackAlreadyExistException;
 import com.vinyl.model.Track;
 
 import java.util.List;
 
 public interface TrackService {
 
-	String save(Track track);
+	String save(Track track) throws TrackAlreadyExistException;
 
 	Track getTrackByCatalogNum(String catalogNum);
 
