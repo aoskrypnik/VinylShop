@@ -1,6 +1,9 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.ComposerDao;
+import com.vinyl.exception.ArtistExistException;
+import com.vinyl.exception.ComposerExistException;
+import com.vinyl.model.Band;
 import com.vinyl.model.Composer;
 import com.vinyl.service.ComposerService;
 import com.vinyl.utils.QueryBuilder;
@@ -10,17 +13,24 @@ import javax.annotation.Resource;
 import java.util.List;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Service
 public class ComposerServiceImpl implements ComposerService {
 
 	private final static String COMPOSER_TABLE_NAME = "composer";
+	private static final String COMPOSER_ALREADY_EXIST = "Composer already exists with such name: ";
 
 	@Resource
 	private ComposerDao composerDao;
 
 	@Override
-	public String save(Composer composer) {
+	public String save(Composer composer) throws ComposerExistException {
+		String composerName = composer.getComposerName();
+		Composer foundComposer = composerDao.getComposerByName(composerName);
+		if (nonNull(foundComposer)){
+			throw new ComposerExistException(COMPOSER_ALREADY_EXIST + composerName);
+		}
 		return composerDao.save(composer);
 	}
 

@@ -1,12 +1,14 @@
 package com.vinyl.service;
 
+import com.vinyl.exception.ArtistExistException;
+import com.vinyl.exception.ComposerExistException;
 import com.vinyl.model.Composer;
 
 import java.util.List;
 
 public interface ComposerService {
 
-	String save(Composer composer);
+	String save(Composer composer) throws ComposerExistException;
 
 	Composer getComposerByName(String name);
 

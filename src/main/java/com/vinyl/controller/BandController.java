@@ -1,5 +1,7 @@
 package com.vinyl.controller;
 
+import com.vinyl.exception.ArtistExistException;
+import com.vinyl.exception.BandExistException;
 import com.vinyl.model.Band;
 import com.vinyl.service.BandService;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +37,12 @@ public class BandController {
 
 	@PostMapping
 	public ResponseEntity<?> saveBand(@RequestBody Band band) {
-		String bandAlias = bandService.save(band);
+		String bandAlias;
+		try {
+			bandAlias = bandService.save(band);
+		} catch (BandExistException e) {
+			return ResponseEntity.status(406).build();
+		}
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{alias}")
 				.buildAndExpand(bandAlias).toUri();
 

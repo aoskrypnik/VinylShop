@@ -1,6 +1,9 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.BandDao;
+import com.vinyl.exception.ArtistExistException;
+import com.vinyl.exception.BandExistException;
+import com.vinyl.model.Artist;
 import com.vinyl.model.Band;
 import com.vinyl.service.BandService;
 import com.vinyl.utils.QueryBuilder;
@@ -9,15 +12,23 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @Service
 public class BandServiceImpl implements BandService {
 
 	private static final String BAND_TABLE_NAME = "band";
+	private static final String BAND_ALREADY_EXIST = "Band already exist with such alias: ";
 	@Resource
 	private BandDao bandDao;
 
 	@Override
-	public String save(Band band) {
+	public String save(Band band) throws BandExistException {
+		String bandAlias = band.getBandAlias();
+		Band foundBand = bandDao.getBandByAlias(bandAlias);
+		if (nonNull(foundBand)){
+			throw new BandExistException(BAND_ALREADY_EXIST + bandAlias);
+		}
 		return bandDao.save(band);
 	}
 

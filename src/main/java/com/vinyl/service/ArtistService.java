@@ -1,12 +1,13 @@
 package com.vinyl.service;
 
+import com.vinyl.exception.ArtistExistException;
 import com.vinyl.model.Artist;
 
 import java.util.List;
 
 public interface ArtistService {
 
-	String save(Artist artist);
+	String save(Artist artist) throws ArtistExistException;
 
 	List<Artist> getAll();
 

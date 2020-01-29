@@ -1,5 +1,6 @@
 package com.vinyl.controller;
 
+import com.vinyl.exception.ArtistExistException;
 import com.vinyl.model.Artist;
 import com.vinyl.service.ArtistService;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,12 @@ public class ArtistController {
 
 	@PostMapping
 	public ResponseEntity<?> saveArtist(@RequestBody Artist artist) {
-		String artistAlias = artistService.save(artist);
+		String artistAlias;
+		try {
+			artistAlias = artistService.save(artist);
+		} catch (ArtistExistException e) {
+			return ResponseEntity.status(406).build();
+		}
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{alias}")
 				.buildAndExpand(artistAlias).toUri();
 
@@ -68,12 +74,12 @@ public class ArtistController {
 	@DeleteMapping("/{alias}")
 	public ResponseEntity<?> deleteArtist(@PathVariable String alias) {
 		Artist foundArtist = artistService.getArtistByAlias(alias);
-		if (isNull(foundArtist)){
+		if (isNull(foundArtist)) {
 			return ResponseEntity.notFound().build();
 		}
 
 		if (isFalse(isEmpty(foundArtist.getCurrentBandAliases())) || isFalse(isEmpty(foundArtist.getPreviousBandAliases()))
-				|| isFalse(isEmpty(foundArtist.getTrackCatalogNums())) || isFalse(isEmpty(foundArtist.getFeaturingTrackCatalogNums()))){
+				|| isFalse(isEmpty(foundArtist.getTrackCatalogNums())) || isFalse(isEmpty(foundArtist.getFeaturingTrackCatalogNums()))) {
 			return ResponseEntity.status(403).build();
 		}
 		artistService.deleteArtist(alias);

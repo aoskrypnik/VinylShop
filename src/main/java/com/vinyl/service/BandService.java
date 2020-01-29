@@ -1,12 +1,14 @@
 package com.vinyl.service;
 
+import com.vinyl.exception.ArtistExistException;
+import com.vinyl.exception.BandExistException;
 import com.vinyl.model.Band;
 
 import java.util.List;
 
 public interface BandService {
 
-	String save(Band band);
+	String save(Band band) throws BandExistException;
 
 	List<Band> getAll();
 

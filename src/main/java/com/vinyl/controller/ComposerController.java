@@ -1,5 +1,7 @@
 package com.vinyl.controller;
 
+import com.vinyl.exception.ArtistExistException;
+import com.vinyl.exception.ComposerExistException;
 import com.vinyl.model.Composer;
 import com.vinyl.service.ComposerService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +46,12 @@ public class ComposerController {
 
 	@PostMapping
 	public ResponseEntity<?> saveComposer(@RequestBody Composer composer) {
-		String composerName = composerService.save(composer);
+		String composerName;
+		try {
+			composerName = composerService.save(composer);
+		} catch (ComposerExistException e) {
+			return ResponseEntity.status(406).build();
+		}
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{composerName}")
 				.buildAndExpand(composerName).toUri();
 

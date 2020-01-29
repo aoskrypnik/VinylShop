@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.ArtistDao;
+import com.vinyl.exception.ArtistExistException;
 import com.vinyl.model.Artist;
 import com.vinyl.service.ArtistService;
 import com.vinyl.utils.QueryBuilder;
@@ -9,16 +10,24 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @Service
 public class ArtistServiceImpl implements ArtistService {
 
 	private static final String ARTIST_TABLE_NAME = "artist";
+	public static final String ARTIST_ALREADY_EXIST = "Artist already exist with such alias: ";
 
 	@Resource
 	private ArtistDao artistDao;
 
 	@Override
-	public String save(Artist artist) {
+	public String save(Artist artist) throws ArtistExistException {
+		String artistAlias = artist.getArtistAlias();
+		Artist foundArtist = artistDao.getArtistByAlias(artistAlias);
+		if (nonNull(foundArtist)) {
+			throw new ArtistExistException(ARTIST_ALREADY_EXIST + artistAlias);
+		}
 		return artistDao.save(artist);
 	}
 
