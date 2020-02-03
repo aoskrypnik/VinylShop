@@ -13,4 +13,6 @@ public interface AlbumDao {
 	List<Album> getAll();
 
 	List<Album> searchAlbums(String query);
+
+	void update(Album album, String catalogNum);
 }

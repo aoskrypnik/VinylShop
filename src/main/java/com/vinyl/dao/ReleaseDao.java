@@ -13,4 +13,6 @@ public interface ReleaseDao {
 	List<Release> getAll();
 
 	List<Release> searchReleases(String query);
+
+	void update(Release release, String releaseBarCode);
 }

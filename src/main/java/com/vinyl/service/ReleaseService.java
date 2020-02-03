@@ -15,4 +15,6 @@ public interface ReleaseService {
 
 	List<Release> searchReleases(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
 								 List<String> joins, String sorting, String order);
+
+	public void update(Release release, String releaseBarCode);
 }

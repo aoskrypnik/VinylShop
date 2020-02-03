@@ -16,4 +16,6 @@ public interface AlbumService {
 	List<Album> searchAlbums(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
 							 List<String> joins, String sorting, String order);
 
+	public void update(Album album, String catalogNum);
+
 }

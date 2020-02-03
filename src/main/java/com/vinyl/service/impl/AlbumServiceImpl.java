@@ -45,4 +45,9 @@ public class AlbumServiceImpl implements AlbumService {
 		String query = QueryBuilder.build(whereParams, likeParams, betweenParams, joins, sorting, order, ALBUM_TABLE_NAME);
 		return albumDao.searchAlbums(query);
 	}
+
+	@Override
+	public void update(Album album, String catalogNum) {
+		albumDao.update(album, catalogNum);
+	}
 }

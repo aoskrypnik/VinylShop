@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -20,6 +21,8 @@ public class ReleaseDaoImpl implements ReleaseDao {
 	private String getAllReleasesQueryPath;
 	@Value("${sql.release.get.release.by.barcode.query.path}")
 	private String getReleaseByBarcodeQueryPath;
+	@Value("${sql.update.release.query.path}")
+	private String updateReleaseQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -52,5 +55,22 @@ public class ReleaseDaoImpl implements ReleaseDao {
 	@Override
 	public List<Release> searchReleases(String query) {
 		return jdbcTemplate.query(query, releaseRowMapper);
+	}
+
+	@Override
+	public void update(Release release, String releaseBarCode) {
+		String updateReleaseQuery = QuerySupplier.getQuery(updateReleaseQueryPath);
+
+		String albumCatalogNum = release.getAlbumCatalogNum();
+		String country = release.getCountryCode();
+		Date releaseDate = release.getReleaseDate();
+		int recordSize = release.getRecordSize();
+		int recordSpeed = release.getRecordSpeed();
+		int copiesCnt = release.getCopiesCount();
+		boolean repress = release.getIsRepress();
+		String label = release.getLabel();
+
+		jdbcTemplate.update(updateReleaseQuery, albumCatalogNum, country, releaseDate, recordSize,
+				recordSpeed, copiesCnt, repress, label, releaseBarCode);
 	}
 }

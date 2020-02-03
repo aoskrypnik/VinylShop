@@ -2,12 +2,14 @@ package com.vinyl.controller;
 
 import com.vinyl.exception.AlbumAlreadyExistException;
 import com.vinyl.model.Album;
+import com.vinyl.model.Composer;
 import com.vinyl.service.AlbumService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,6 +55,15 @@ public class AlbumController {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(foundAlbum);
+	}
+
+	@PutMapping("/{catalogNum}")
+	public ResponseEntity<?> updateAlbum(@RequestBody Album album, @PathVariable String catalogNum) {
+		if (isNull(albumService.getAlbumByCatalogNum(catalogNum))) {
+			return ResponseEntity.notFound().build();
+		}
+		albumService.update(album, catalogNum);
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/search")
