@@ -11,7 +11,7 @@ public interface TrackService {
 
 	Track getTrackByCatalogNum(String catalogNum);
 
-	void update(Track track);
+	void update(Track track, String catalogNum);
 
 	List<Track> getAll();
 

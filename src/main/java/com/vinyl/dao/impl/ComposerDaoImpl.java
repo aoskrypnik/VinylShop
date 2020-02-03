@@ -58,7 +58,11 @@ public class ComposerDaoImpl implements ComposerDao {
 	@Override
 	public void update(Composer composer, String composerName) {
 		String updateComposerQuery = QuerySupplier.getQuery(updateComposerQueryPath);
-		jdbcTemplate.update(updateComposerQuery, composer.getActivityEnd(), composerName);
+
+		String country = composer.getCountryCode();
+		Date activityStart = composer.getActivityStart();
+		Date activityEnd = composer.getActivityEnd();
+		jdbcTemplate.update(updateComposerQuery, country, activityStart, activityEnd, composerName);
 	}
 
 	@Override

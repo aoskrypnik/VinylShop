@@ -1,3 +1,5 @@
 UPDATE composer
-SET activity_end = ?
+SET country        = ?,
+    activity_start = ?,
+    activity_end   = ?
 WHERE composer_name = ?;

@@ -1,9 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.BandDao;
-import com.vinyl.exception.ArtistExistException;
 import com.vinyl.exception.BandExistException;
-import com.vinyl.model.Artist;
 import com.vinyl.model.Band;
 import com.vinyl.service.BandService;
 import com.vinyl.utils.QueryBuilder;
@@ -26,7 +24,7 @@ public class BandServiceImpl implements BandService {
 	public String save(Band band) throws BandExistException {
 		String bandAlias = band.getBandAlias();
 		Band foundBand = bandDao.getBandByAlias(bandAlias);
-		if (nonNull(foundBand)){
+		if (nonNull(foundBand)) {
 			throw new BandExistException(BAND_ALREADY_EXIST + bandAlias);
 		}
 		return bandDao.save(band);

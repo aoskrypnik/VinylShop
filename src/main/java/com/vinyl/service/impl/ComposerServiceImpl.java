@@ -1,9 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.ComposerDao;
-import com.vinyl.exception.ArtistExistException;
 import com.vinyl.exception.ComposerExistException;
-import com.vinyl.model.Band;
 import com.vinyl.model.Composer;
 import com.vinyl.service.ComposerService;
 import com.vinyl.utils.QueryBuilder;
@@ -28,7 +26,7 @@ public class ComposerServiceImpl implements ComposerService {
 	public String save(Composer composer) throws ComposerExistException {
 		String composerName = composer.getComposerName();
 		Composer foundComposer = composerDao.getComposerByName(composerName);
-		if (nonNull(foundComposer)){
+		if (nonNull(foundComposer)) {
 			throw new ComposerExistException(COMPOSER_ALREADY_EXIST + composerName);
 		}
 		return composerDao.save(composer);

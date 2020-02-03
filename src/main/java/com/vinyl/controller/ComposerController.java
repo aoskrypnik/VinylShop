@@ -1,6 +1,5 @@
 package com.vinyl.controller;
 
-import com.vinyl.exception.ArtistExistException;
 import com.vinyl.exception.ComposerExistException;
 import com.vinyl.model.Composer;
 import com.vinyl.service.ComposerService;
@@ -21,6 +20,7 @@ import java.net.URI;
 import java.util.List;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @RestController

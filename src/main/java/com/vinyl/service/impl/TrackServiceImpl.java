@@ -41,7 +41,8 @@ public class TrackServiceImpl implements TrackService {
 	}
 
 	@Override
-	public void update(Track track) {
+	public void update(Track track, String catalogNum) {
+		trackDao.update(track, catalogNum);
 	}
 
 	@Override

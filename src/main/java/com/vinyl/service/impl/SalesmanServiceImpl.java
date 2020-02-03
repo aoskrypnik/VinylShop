@@ -11,28 +11,28 @@ import java.util.List;
 @Service
 public class SalesmanServiceImpl implements SalesmanService {
 
-    @Resource
-    private SalesmanDao salesmanDao;
+	@Resource
+	private SalesmanDao salesmanDao;
 
-    @Override
-    public Salesman getSalesmanByTabNum(int tubNum) {
-        return salesmanDao.getSalesmanByTabNum(tubNum);
-    }
+	@Override
+	public Salesman getSalesmanByTabNum(int tubNum) {
+		return salesmanDao.getSalesmanByTabNum(tubNum);
+	}
 
-    @Override
-    public List<Salesman> getAll() {
-        return salesmanDao.getAll();
-    }
+	@Override
+	public List<Salesman> getAll() {
+		return salesmanDao.getAll();
+	}
 
-    @Override
-    public int save(Salesman salesman) {
-        return salesmanDao.save(salesman);
-    }
+	@Override
+	public int save(Salesman salesman) {
+		return salesmanDao.save(salesman);
+	}
 
-    @Override
-    public void update(Salesman salesmanNew) {
-        salesmanDao.update(salesmanNew);
-    }
+	@Override
+	public void update(Salesman salesmanNew) {
+		salesmanDao.update(salesmanNew);
+	}
 
 	@Override
 	public void updateSalesmanByTabNum(Salesman salesman, int tabNum) {

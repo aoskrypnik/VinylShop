@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,6 +56,16 @@ public class TrackController {
 				.buildAndExpand(track.getTrackCatalogNum()).toUri();
 		return ResponseEntity.created(location).build();
 	}
+
+	@PutMapping("/{catalogNum}")
+	public ResponseEntity<?> updateTrack(@RequestBody Track track, @PathVariable String catalogNum) {
+		if (isNull(trackService.getTrackByCatalogNum(catalogNum))) {
+			return ResponseEntity.notFound().build();
+		}
+		trackService.update(track, catalogNum);
+		return ResponseEntity.ok().build();
+	}
+
 
 	@DeleteMapping("/{catalogNnum}")
 	public ResponseEntity<?> deleteCustomer(@PathVariable String catalogNnum) {

@@ -26,10 +26,18 @@ public class TrackDaoImpl implements TrackDao {
 	private String deleteTrackQueryPath;
 	@Value("${sql.track.language.add.track.language.query.path}")
 	private String addLanguagesToTrackQueryPath;
+	@Value("${sql.track.delete.languages.from.track.query.path}")
+	private String deleteLanguagesFromTrackQueryPath;
 	@Value("${sql.track.add.albums.to.track}")
 	private String addAlbumsToTrackQueryPath;
+	@Value("${sql.track.delete.albums.from.track.query.path}")
+	private String deleteAlbumsFromTrackQueryPath;
 	@Value("${sql.track.add.composers.to.track}")
 	private String addComposersToTrackQueryPath;
+	@Value("${sql.track.delete.composers.from.track.query.path}")
+	private String deleteComposersFromTrackQueryPath;
+	@Value("${sql.track.update.track.query.path}")
+	private String updateTrackQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -46,18 +54,19 @@ public class TrackDaoImpl implements TrackDao {
 		String addComposersToTrackQuery = QuerySupplier.getQuery(addComposersToTrackQueryPath);
 
 		jdbcTemplate.update(createTrackQuery, trackCatalogNum, track.getTrackName(), track.getDuration());
-		saveListValuesForTrack(trackCatalogNum, track.getLanguages(), addLanguagesToTrackQuery);
-		saveListValuesForTrack(trackCatalogNum, track.getAlbumIds(), addAlbumsToTrackQuery);
-		saveListValuesForTrack(trackCatalogNum, track.getComposerIds(), addComposersToTrackQuery);
+		performQueryOnListValuesForTrack(trackCatalogNum, track.getLanguages(), addLanguagesToTrackQuery);
+		performQueryOnListValuesForTrack(trackCatalogNum, track.getAlbumIds(), addAlbumsToTrackQuery);
+		performQueryOnListValuesForTrack(trackCatalogNum, track.getComposerIds(), addComposersToTrackQuery);
 
 		return trackCatalogNum;
 	}
 
-	private void saveListValuesForTrack(String trackCatalogNum, List<String> listValues, String query) {
+	private void performQueryOnListValuesForTrack(String trackCatalogNum, List<String> listValues, String query) {
 		for (String value : listValues) {
 			jdbcTemplate.update(query, trackCatalogNum, value);
 		}
 	}
+
 
 	@Override
 	public Track getTrackByCatalogNum(String catalogNum) {
@@ -74,7 +83,26 @@ public class TrackDaoImpl implements TrackDao {
 
 
 	@Override
-	public void update(Track track) {
+	public void update(Track track, String trackCatalogNum) {
+		String updateTrackQuery = QuerySupplier.getQuery(updateTrackQueryPath);
+		String deleteLanguagesFromTrackQuery = QuerySupplier.getQuery(deleteLanguagesFromTrackQueryPath);
+		String deleteAlbumsFromTrackQuery = QuerySupplier.getQuery(deleteAlbumsFromTrackQueryPath);
+		String deleteComposersFromTrackQuery = QuerySupplier.getQuery(deleteComposersFromTrackQueryPath);
+		String addLanguagesToTrackQuery = QuerySupplier.getQuery(addLanguagesToTrackQueryPath);
+		String addAlbumsToTrackQuery = QuerySupplier.getQuery(addAlbumsToTrackQueryPath);
+		String addComposersToTrackQuery = QuerySupplier.getQuery(addComposersToTrackQueryPath);
+
+		String trackName = track.getTrackName();
+		int duration = track.getDuration();
+
+		jdbcTemplate.update(updateTrackQuery, trackName, duration, trackCatalogNum);
+		jdbcTemplate.update(deleteLanguagesFromTrackQuery, trackCatalogNum);
+		jdbcTemplate.update(deleteAlbumsFromTrackQuery, trackCatalogNum);
+		jdbcTemplate.update(deleteComposersFromTrackQuery, trackCatalogNum);
+		performQueryOnListValuesForTrack(trackCatalogNum, track.getLanguages(), addLanguagesToTrackQuery);
+		performQueryOnListValuesForTrack(trackCatalogNum, track.getAlbumIds(), addAlbumsToTrackQuery);
+		performQueryOnListValuesForTrack(trackCatalogNum, track.getComposerIds(), addComposersToTrackQuery);
+
 	}
 
 	@Override
