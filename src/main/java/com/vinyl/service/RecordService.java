@@ -8,12 +8,12 @@ public interface RecordService {
 
 	String save(Record record);
 
-	Record getRecordByBarcode(String barcode);
+	Record getByBarcode(String barcode);
 
 	void update(Record record);
 
 	List<Record> getAll();
 
-	void deleteByBarcode(String barcode);
-
+	List<Record> searchRecords(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
+							   List<String> joins, String sorting, String order);
 }

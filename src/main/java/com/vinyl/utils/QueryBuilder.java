@@ -148,6 +148,16 @@ public class QueryBuilder {
 			.put("label", List.of("label", STRING_TYPE_NAME))
 			.put("albumIds", List.of("album_catalog_num", STRING_TYPE_NAME))
 			.put("composerIds", List.of("composer_name", STRING_TYPE_NAME))
+			.put("recordBarcode", List.of("bar_code", STRING_TYPE_NAME))
+			.put("releaseBarcodeFk", List.of("release_bar_code", STRING_TYPE_NAME))
+			.put("checkNum", List.of("check_num", NOT_STRING_TYPE_NAME))
+			.put("supplierEdrpou", List.of("supplier_edrpou", STRING_TYPE_NAME))
+			.put("purchaseDate", List.of("purchase_date", STRING_TYPE_NAME))
+			.put("purchasePrice", List.of("purchase_price", NOT_STRING_TYPE_NAME))
+			.put("sellPrice", List.of("sell_price", NOT_STRING_TYPE_NAME))
+			.put("available", List.of("available", NOT_STRING_TYPE_NAME))
+			.put("recordState", List.of("state", STRING_TYPE_NAME))
+			.put("stateCheckDate", List.of("state_check_date", STRING_TYPE_NAME))
 			.build();
 
 }

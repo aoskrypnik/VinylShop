@@ -1,4 +1,4 @@
-package com.vinyl.controller.authorization;
+package com.vinyl.controller;
 
 import com.vinyl.dto.TrackPerformerDto;
 import com.vinyl.service.TrackPerformerService;
