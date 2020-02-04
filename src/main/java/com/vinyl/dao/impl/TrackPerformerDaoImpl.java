@@ -19,6 +19,10 @@ public class TrackPerformerDaoImpl implements TrackPerformerDao {
 	private String createArtistTrackPerformanceQueryPath;
 	@Value("${sql.create.band.track.performance.query.path}")
 	private String createBandTrackPerformanceQueryPath;
+	@Value("${sql.update.artist.track.performance.query.path}")
+	private String updateArtistTrackPerformanceQueryPath;
+	@Value("${sql.update.band.track.performance.query.path}")
+	private String updateBandTrackPerformanceQueryPath;
 
 	@Override
 	public void saveTrackForArtist(TrackPerformerDto trackPerformerDto) {
@@ -33,5 +37,18 @@ public class TrackPerformerDaoImpl implements TrackPerformerDao {
 		jdbcTemplate.update(query, trackPerformerDto.getTrackCatalogNum(), trackPerformerDto.getPerformerAlias(),
 				trackPerformerDto.getIsFeaturing());
 	}
+
+	@Override
+	public void updateTrackForArtist(TrackPerformerDto trackPerformerDto) {
+		String updateArtistTrackPerformanceQuery = QuerySupplier.getQuery(updateArtistTrackPerformanceQueryPath);
+		jdbcTemplate.update(updateArtistTrackPerformanceQuery, trackPerformerDto.getIsFeaturing(), trackPerformerDto.getPerformerAlias());
+	}
+
+	@Override
+	public void updateTrackForBand(TrackPerformerDto trackPerformerDto) {
+		String updateBandTrackPerformanceQuery = QuerySupplier.getQuery(updateBandTrackPerformanceQueryPath);
+		jdbcTemplate.update(updateBandTrackPerformanceQuery, trackPerformerDto.getIsFeaturing(), trackPerformerDto.getPerformerAlias());
+	}
+
 
 }

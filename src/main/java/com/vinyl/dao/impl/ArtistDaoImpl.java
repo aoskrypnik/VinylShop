@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -46,10 +47,17 @@ public class ArtistDaoImpl implements ArtistDao {
 	}
 
 	@Override
-	public void update(Artist artist) {
+	public void update(Artist artist, String alias) {
 		String updateArtistQuery = QuerySupplier.getQuery(updateArtistQueryPath);
-		jdbcTemplate.update(updateArtistQuery, artist.getIsArtistActive(), artist.getCountryCode(),
-				artist.getArtistDeathDate(), artist.getArtistAlias());
+
+		boolean activity = artist.getIsArtistActive();
+		String artistAlias = artist.getArtistAlias();
+		String country = artist.getCountryCode();
+		String name = artist.getArtistName();
+		Date birthdate = artist.getArtistBirthDate();
+		Date deathdate = artist.getArtistDeathDate();
+
+		jdbcTemplate.update(updateArtistQuery, artistAlias, activity, country, name, birthdate, deathdate, alias);
 	}
 
 	@Override

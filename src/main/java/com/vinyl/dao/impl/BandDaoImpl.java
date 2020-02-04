@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -22,6 +23,8 @@ public class BandDaoImpl implements BandDao {
 	private String getBandByAliasQueryPath;
 	@Value("${sql.band.delete.band.by.alias.query.path}")
 	private String deleteBandQueryPath;
+	@Value("${sql.band.update.band.query.path}")
+	private String updateBandQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -44,7 +47,16 @@ public class BandDaoImpl implements BandDao {
 	}
 
 	@Override
-	public void update(Band band) {
+	public void update(Band band, String alias) {
+		String updateBandQuery = QuerySupplier.getQuery(updateBandQueryPath);
+
+		boolean activity = band.getIsBandActive();
+		String bandAlias = band.getBandAlias();
+		String country = band.getCountryCode();
+		Date startYear = band.getStartYear();
+		Date endYear = band.getEndYear();
+
+		jdbcTemplate.update(updateBandQuery, bandAlias, activity, country, startYear, endYear, alias);
 
 	}
 

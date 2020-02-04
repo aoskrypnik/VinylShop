@@ -21,4 +21,13 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 			trackPerformerDao.saveTrackForBand(trackPerformerDto);
 		}
 	}
+
+	@Override
+	public void update(TrackPerformerDto trackPerformerDto) {
+		if (trackPerformerDto.getIsArtist()) {
+			trackPerformerDao.updateTrackForArtist(trackPerformerDto);
+		} else {
+			trackPerformerDao.updateTrackForBand(trackPerformerDto);
+		}
+	}
 }

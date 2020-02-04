@@ -50,4 +50,9 @@ public class BandServiceImpl implements BandService {
 	public void deleteBand(String alias) {
 		bandDao.deleteBand(alias);
 	}
+
+	@Override
+	public void update(Band band, String alias) {
+		bandDao.update(band, alias);
+	}
 }

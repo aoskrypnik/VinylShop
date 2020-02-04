@@ -10,7 +10,7 @@ public interface ArtistDao {
 
 	Artist getArtistByAlias(String alias);
 
-	void update(Artist artist);
+	void update(Artist artist, String alias);
 
 	List<Artist> getAll();
 

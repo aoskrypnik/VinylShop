@@ -6,4 +6,8 @@ public interface TrackPerformerDao {
 	void saveTrackForArtist(TrackPerformerDto trackPerformerDto);
 
 	void saveTrackForBand(TrackPerformerDto trackPerformerDto);
+
+	void updateTrackForArtist(TrackPerformerDto trackPerformerDto);
+
+	void updateTrackForBand(TrackPerformerDto trackPerformerDto);
 }

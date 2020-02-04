@@ -51,4 +51,9 @@ public class ArtistServiceImpl implements ArtistService {
 	public void deleteArtist(String alias) {
 		artistDao.deleteArtist(alias);
 	}
+
+	@Override
+	public void update(Artist artist, String alias) {
+		artistDao.update(artist, alias);
+	}
 }

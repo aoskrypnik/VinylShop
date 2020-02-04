@@ -10,7 +10,7 @@ public interface BandDao {
 
 	Band getBandByAlias(String alias);
 
-	void update(Band band);
+	void update(Band band, String alias);
 
 	List<Band> getAll();
 

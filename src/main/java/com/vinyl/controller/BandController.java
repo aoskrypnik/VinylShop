@@ -2,6 +2,7 @@ package com.vinyl.controller;
 
 import com.vinyl.exception.ArtistExistException;
 import com.vinyl.exception.BandExistException;
+import com.vinyl.model.Artist;
 import com.vinyl.model.Band;
 import com.vinyl.service.BandService;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,6 +72,15 @@ public class BandController {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(bands);
+	}
+
+	@PutMapping("/{alias}")
+	public ResponseEntity<?> updateArtist(@RequestBody Band band, @PathVariable String alias) {
+		if (isNull(bandService.getBandByAlias(alias))) {
+			return ResponseEntity.notFound().build();
+		}
+		bandService.update(band, alias);
+		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping("/{alias}")

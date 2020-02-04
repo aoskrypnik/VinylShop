@@ -18,4 +18,6 @@ public interface BandService {
 						   List<String> joins, String sorting, String order);
 
 	void deleteBand(String alias);
+
+	void update(Band band, String alias);
 }

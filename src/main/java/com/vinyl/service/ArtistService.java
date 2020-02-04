@@ -17,4 +17,6 @@ public interface ArtistService {
 							   List<String> joins, String sorting, String order);
 
 	void deleteArtist(String alias);
+
+	void update(Artist artist, String alias);
 }
