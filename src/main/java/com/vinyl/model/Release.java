@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class Release {
-	private String barcode;
+	private String releaseBarcode;
 	private String albumCatalogNum;
 	private String countryCode;
 	private Date releaseDate;

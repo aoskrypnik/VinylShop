@@ -1,4 +1,4 @@
 SELECT track_catalog_num
-FROM performance
+FROM artist2track
 WHERE artist_alias = ?
 AND NOT featuring;

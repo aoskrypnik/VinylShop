@@ -1,3 +1,8 @@
 UPDATE artist
-SET activity = ?, country = ?, death_date = ?
+SET artist_alias = ?,
+    activity     = ?,
+    country      = ?,
+    artist_name  = ?,
+    birth_date   = ?,
+    death_date   = ?
 WHERE artist_alias = ?;

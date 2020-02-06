@@ -20,28 +20,61 @@ public class AlbumDaoImpl implements AlbumDao {
 	private String createAlbumQueryPath;
 	@Value("${sql.album.get.all.albums.query.path}")
 	private String getAllAlbumsQueryPath;
+	@Value("${sql.albumgenre.create.genre.query.path}")
+	private String addAlbumGenreQueryPath;
+	@Value("${sql.album.delete.genres.from.album.query.path}")
+	private String deleteGenresFromAlbumQueryPath;
+	@Value("${sql.album.update.album.query.path}")
+	private String updateAlbumQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
 
+	@Resource
+	private RowMapper<Album> albumRowMapper;
+
 	@Override
 	public String save(Album album) {
 		String createAlbumQuery = QuerySupplier.getQuery(createAlbumQueryPath);
-		jdbcTemplate.update(createAlbumQuery, album.getCatalogNum(), album.getReleaseYear(), album.getName(),
+		String addAlbumGenreQuery = QuerySupplier.getQuery(addAlbumGenreQueryPath);
+		jdbcTemplate.update(createAlbumQuery, album.getAlbumCatalogNum(), album.getReleaseYear(), album.getAlbumName(),
 				album.getVariousArtists());
-		return album.getCatalogNum();
+		album.getAlbumGenres().forEach(genre -> jdbcTemplate.update(addAlbumGenreQuery, album.getAlbumCatalogNum(), genre));
+		return album.getAlbumCatalogNum();
 	}
 
 	@Override
 	public Album getAlbumByCatalogNum(String catalogNum) {
 		String getAlbumByCatalogNumQuery = QuerySupplier.getQuery(getAlbumByCatalogNumQueryPath);
-		List<Album> queryResult = jdbcTemplate.queryForList(getAlbumByCatalogNumQuery, Album.class);
+		List<Album> queryResult = jdbcTemplate.query(getAlbumByCatalogNumQuery, new Object[]{catalogNum}, albumRowMapper);
 		return queryResult.size() == 0 ? null : queryResult.get(0);
 	}
 
 	@Override
 	public List<Album> getAll() {
 		String getAllAlbumsQuery = QuerySupplier.getQuery(getAllAlbumsQueryPath);
-		return jdbcTemplate.queryForList(getAllAlbumsQuery, Album.class);
+		return jdbcTemplate.query(getAllAlbumsQuery, albumRowMapper);
+
+	}
+
+	@Override
+	public List<Album> searchAlbums(String query) {
+		return jdbcTemplate.query(query, albumRowMapper);
+	}
+
+	@Override
+	public void update(Album album, String catalogNum) {
+		String updateAlbumQuery = QuerySupplier.getQuery(updateAlbumQueryPath);
+		String deleteGenresFromAlbumQuery = QuerySupplier.getQuery(deleteGenresFromAlbumQueryPath);
+		String addAlbumGenreQuery = QuerySupplier.getQuery(addAlbumGenreQueryPath);
+
+		int releaseYear = album.getReleaseYear();
+		String name = album.getAlbumName();
+		boolean variousArtists = album.getVariousArtists();
+
+		jdbcTemplate.update(updateAlbumQuery, releaseYear, name, variousArtists, catalogNum);
+		jdbcTemplate.update(deleteGenresFromAlbumQuery, catalogNum);
+		album.getAlbumGenres().forEach(genre -> jdbcTemplate.update(addAlbumGenreQuery, catalogNum, genre));
+
 	}
 }

@@ -1,5 +1,7 @@
 package com.vinyl.utils;
 
+import com.google.common.collect.ImmutableMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,9 +11,13 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 
 public class QueryBuilder {
 
+	private static final String STRING_TYPE_NAME = "String";
+	private static final String NOT_STRING_TYPE_NAME = "Not String";
+
 	public static String build(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
 							   List<String> joins, String sorting, String order, String tableName) {
 		boolean whereAlreadyUsed = false;
+
 		StringBuilder stringBuilder = new StringBuilder("SELECT ");
 		stringBuilder.append(tableName).append(".* ").append("FROM ").append(tableName).append(" ");
 
@@ -19,7 +25,7 @@ public class QueryBuilder {
 		if (isFalse(isEmpty(joins))) {
 			for (String join : joins) {
 				stringBuilder.append("INNER JOIN ").append(join).append(" ON ")
-						.append(joinTablesMap.get(tableName + "," + join)).append(" ");
+						.append(JOIN_TABLES_MAP.get(tableName + " " + join)).append(" ");
 			}
 		}
 
@@ -27,10 +33,7 @@ public class QueryBuilder {
 		if (isFalse(isEmpty(whereParams))) {
 			whereAlreadyUsed = true;
 			stringBuilder.append("WHERE TRUE ");
-			for (String param : whereParams) {
-				String[] splitParam = param.split(":");
-				stringBuilder.append("AND ").append(splitParam[0]).append("=").append(splitParam[1]).append(" ");
-			}
+			processWhereParams(whereParams, stringBuilder);
 		}
 
 		//?likes=name:ania
@@ -39,11 +42,7 @@ public class QueryBuilder {
 				stringBuilder.append("WHERE TRUE ");
 				whereAlreadyUsed = true;
 			}
-			for (String param : likeParams) {
-				String[] splitParam = param.split(":");
-				stringBuilder.append("AND ").append(splitParam[0]).append(" LIKE ").append("'%")
-						.append(splitParam[1]).append("%' ");
-			}
+			processLikeParams(likeParams, stringBuilder);
 		}
 
 		//?betweens=age:10:20
@@ -51,11 +50,7 @@ public class QueryBuilder {
 			if (isFalse(whereAlreadyUsed)) {
 				stringBuilder.append("WHERE TRUE ");
 			}
-			for (String param : betweenParams) {
-				String[] splitParam = param.split(":");
-				stringBuilder.append("AND ").append(splitParam[0]).append(" BETWEEN ")
-						.append(splitParam[1]).append(" AND ").append(splitParam[2]).append(" ");
-			}
+			processBetweenParams(betweenParams, stringBuilder);
 		}
 
 		buildOrderingPart(sorting, order, stringBuilder);
@@ -63,70 +58,106 @@ public class QueryBuilder {
 		return stringBuilder.toString();
 	}
 
+	private static void processBetweenParams(List<String> betweenParams, StringBuilder stringBuilder) {
+		for (String param : betweenParams) {
+			String[] splitParam = param.split(":");
+			String firstParam = formatUrlKey(splitParam[0]);
+			String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
+			String thirdParam = formatUrlValue(splitParam[0], splitParam[2]);
+			stringBuilder.append("AND ").append(firstParam).append(" BETWEEN ")
+					.append(secondParam).append(" AND ").append(thirdParam).append(" ");
+		}
+	}
+
+	private static void processLikeParams(List<String> likeParams, StringBuilder stringBuilder) {
+		for (String param : likeParams) {
+			String[] splitParam = param.split(":");
+			String firstParam = formatUrlKey(splitParam[0]);
+			String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
+			secondParam = secondParam.substring(1, secondParam.length() - 1);
+			stringBuilder.append("AND ").append(firstParam).append(" LIKE ").append("'%").append(secondParam).append("%' ");
+		}
+	}
+
+	private static void processWhereParams(List<String> whereParams, StringBuilder stringBuilder) {
+		for (String param : whereParams) {
+			String[] splitParam = param.split(":");
+			String firstParam = formatUrlKey(splitParam[0]);
+			String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
+			stringBuilder.append("AND ").append(firstParam).append("=").append(secondParam).append(" ");
+		}
+	}
+
+	private static String formatUrlKey(String key) {
+		return JAVA_NAME_TO_DATA_BASE_NAME_MAP.get(key).get(0);
+	}
+
+	private static String formatUrlValue(String key, String value) {
+		String keyType = JAVA_NAME_TO_DATA_BASE_NAME_MAP.get(key).get(1);
+		if (keyType.equals(STRING_TYPE_NAME)) {
+			value = "'" + value + "'";
+		}
+		return value;
+	}
+
 	private static void buildOrderingPart(String sorting, String order, StringBuilder stringBuilder) {
 		if (nonNull(sorting)) {
-			stringBuilder.append("ORDER BY ").append(sorting).append(" ");
+			stringBuilder.append("ORDER BY ").append(formatUrlKey(sorting)).append(" ");
 		}
 		if (nonNull(order)) {
 			stringBuilder.append(order);
 		}
 	}
 
-	private final static Map<String, String> joinTablesMap = Map.of("", "");
-}
+	private static final Map<String, String> JOIN_TABLES_MAP = ImmutableMap.<String, String>builder()
+			.put("track track_language", "track.catalog_num=track_language.track_catalog_num")
+			.put("track track2album", "track.catalog_num=track2album.track_catalog_num")
+			.put("track track2composer", "track.catalog_num=track2composer.track_catalog_num")
+			.put("album albumgenre", "album.catalog_num=albumgenre.album_catalog_num")
+			.build();
 
-//GET /sellers?likes[]=“check.sellerId;tet”
-//
-//
-//		ArrayList<String> wheres = new ArrayList();
-//
-//		For (String like : likes) {
-//		String[] likeParts = like.split(‘;’);
-//		wheres.add(likeParts[0] + “ LIKE `%“ + likeParts[1] + “%`”);
-//		}
-//
-//		wheres.join(“ AND “)
-//
-//		SELECT check.*
-//		FROM check
-//		%JOIN seller ON check.sellerId = seller.id%\
-//		WHERE …
-//
-//
-//		/searchChecks
-//
-//		Wheres
-//		client.id=2
-//		Seller.id = 2
-//
-//		Betweens
-//		check.date=5,10
-//		check.sum=10,100
-//
-//		Likes
-//
-//
-//		sort=check.date
-//		order=desc,asc
-//
-//		1. [client.id, check.date, check.sum, seller.id]
-//		2. [client, check, seller]
-//		3. [client, seller] // Array of tables that have to be joined
-//
-//		JOIN %tableName% on %criteria%
-//
-//
-//		Map criteria (
-//		Client,check => ‘’client.id = check.clientId”
-//		Seller,check => “seller.id = check.sellerId”
-//		)
-//
-//		4. [“JOIN client on client.id = check.clientId”, “JOIN seller on seller.id = check.sellerId” ]
-//		5. “JOIN client on client.id = check.clientId JOIN seller on seller.id = check.sellerId”
-//
-//		SELECT check.*
-//		FROM check
-//		%joins%
-//		%if wheres is not empty, then%WHERE %wheres%
-//		%if sort is not empty, then%ORDER BY %order%
-//		%if sort is not empty, desc ? DESC : ASC%
+	private static final Map<String, List<String>> JAVA_NAME_TO_DATA_BASE_NAME_MAP = ImmutableMap.<String, List<String>>builder()
+			.put("artistAlias", List.of("artist_alias", STRING_TYPE_NAME))
+			.put("isArtistActive", List.of("activity", NOT_STRING_TYPE_NAME))
+			.put("countryCode", List.of("country", STRING_TYPE_NAME))
+			.put("artistName", List.of("artist_name", STRING_TYPE_NAME))
+			.put("artistBirthDate", List.of("birth_date", STRING_TYPE_NAME))
+			.put("artistDeathDate", List.of("death_date", STRING_TYPE_NAME))
+			.put("bandAlias", List.of("band_alias", STRING_TYPE_NAME))
+			.put("isBandActive", List.of("activity", NOT_STRING_TYPE_NAME))
+			.put("startYear", List.of("start_year", STRING_TYPE_NAME))
+			.put("endYear", List.of("end_year", STRING_TYPE_NAME))
+			.put("composerName", List.of("composer_name", STRING_TYPE_NAME))
+			.put("activityStart", List.of("activity_start", STRING_TYPE_NAME))
+			.put("activityEnd", List.of("activity_end", STRING_TYPE_NAME))
+			.put("trackCatalogNum", List.of("catalog_num", STRING_TYPE_NAME))
+			.put("trackName", List.of("track_name", STRING_TYPE_NAME))
+			.put("duration", List.of("duration", NOT_STRING_TYPE_NAME))
+			.put("albumCatalogNum", List.of("catalog_num", STRING_TYPE_NAME))
+			.put("releaseYear", List.of("release_year", NOT_STRING_TYPE_NAME))
+			.put("albumName", List.of("album_name", STRING_TYPE_NAME))
+			.put("variousArtists", List.of("various_artists", NOT_STRING_TYPE_NAME))
+			.put("albumGenres", List.of("genre_name", STRING_TYPE_NAME))
+			.put("languages", List.of("lang_name", STRING_TYPE_NAME))
+			.put("releaseBarcode", List.of("bar_code", STRING_TYPE_NAME))
+			.put("releaseDate", List.of("release_date", STRING_TYPE_NAME))
+			.put("recordSize", List.of("record_size", STRING_TYPE_NAME))
+			.put("recordSpeed", List.of("record_speed", STRING_TYPE_NAME))
+			.put("copiesCount", List.of("copies_cnt", STRING_TYPE_NAME))
+			.put("isRepress", List.of("repress", STRING_TYPE_NAME))
+			.put("label", List.of("label", STRING_TYPE_NAME))
+			.put("albumIds", List.of("album_catalog_num", STRING_TYPE_NAME))
+			.put("composerIds", List.of("composer_name", STRING_TYPE_NAME))
+			.put("recordBarcode", List.of("bar_code", STRING_TYPE_NAME))
+			.put("releaseBarcodeFk", List.of("release_bar_code", STRING_TYPE_NAME))
+			.put("checkNum", List.of("check_num", NOT_STRING_TYPE_NAME))
+			.put("supplierEdrpou", List.of("supplier_edrpou", STRING_TYPE_NAME))
+			.put("purchaseDate", List.of("purchase_date", STRING_TYPE_NAME))
+			.put("purchasePrice", List.of("purchase_price", NOT_STRING_TYPE_NAME))
+			.put("sellPrice", List.of("sell_price", NOT_STRING_TYPE_NAME))
+			.put("available", List.of("available", NOT_STRING_TYPE_NAME))
+			.put("recordState", List.of("state", STRING_TYPE_NAME))
+			.put("stateCheckDate", List.of("state_check_date", STRING_TYPE_NAME))
+			.build();
+
+}

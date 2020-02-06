@@ -1,12 +1,13 @@
 package com.vinyl.service;
 
+import com.vinyl.exception.ArtistExistException;
 import com.vinyl.model.Artist;
 
 import java.util.List;
 
 public interface ArtistService {
 
-	void save(Artist artist);
+	String save(Artist artist) throws ArtistExistException;
 
 	List<Artist> getAll();
 
@@ -14,4 +15,8 @@ public interface ArtistService {
 
 	List<Artist> searchArtists(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
 							   List<String> joins, String sorting, String order);
+
+	void deleteArtist(String alias);
+
+	void update(Artist artist, String alias);
 }

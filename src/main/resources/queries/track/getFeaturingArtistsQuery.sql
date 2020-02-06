@@ -1,3 +1,3 @@
 SELECT artist_alias
-FROM performance
-WHERE track_catalog_num = ? AND featuring);
+FROM artist2track
+WHERE track_catalog_num = ? AND featuring;

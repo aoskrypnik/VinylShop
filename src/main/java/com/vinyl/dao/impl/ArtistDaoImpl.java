@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -22,6 +23,8 @@ public class ArtistDaoImpl implements ArtistDao {
 	private String getAllArtistsQueryPath;
 	@Value("${sql.artist.update.artist.query.path}")
 	private String updateArtistQueryPath;
+	@Value("${sql.artist.delete.artist.by.alias.query.path}")
+	private String deleteArtistByAliasQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -31,9 +34,9 @@ public class ArtistDaoImpl implements ArtistDao {
 	@Override
 	public String save(Artist artist) {
 		String createArtistQuery = QuerySupplier.getQuery(createArtistQueryPath);
-		jdbcTemplate.update(createArtistQuery, artist.getAlias(), artist.getIsActive(), artist.getCountryCode(),
-				artist.getName(), artist.getBirthDate(), artist.getDeathDate());
-		return artist.getAlias();
+		jdbcTemplate.update(createArtistQuery, artist.getArtistAlias(), artist.getIsArtistActive(), artist.getCountryCode(),
+				artist.getArtistName(), artist.getArtistBirthDate(), artist.getArtistDeathDate());
+		return artist.getArtistAlias();
 	}
 
 	@Override
@@ -44,10 +47,17 @@ public class ArtistDaoImpl implements ArtistDao {
 	}
 
 	@Override
-	public void update(Artist artist) {
+	public void update(Artist artist, String alias) {
 		String updateArtistQuery = QuerySupplier.getQuery(updateArtistQueryPath);
-		jdbcTemplate.update(updateArtistQuery, artist.getIsActive(), artist.getCountryCode(),
-				artist.getDeathDate(), artist.getAlias());
+
+		boolean activity = artist.getIsArtistActive();
+		String artistAlias = artist.getArtistAlias();
+		String country = artist.getCountryCode();
+		String name = artist.getArtistName();
+		Date birthdate = artist.getArtistBirthDate();
+		Date deathdate = artist.getArtistDeathDate();
+
+		jdbcTemplate.update(updateArtistQuery, artistAlias, activity, country, name, birthdate, deathdate, alias);
 	}
 
 	@Override
@@ -59,6 +69,12 @@ public class ArtistDaoImpl implements ArtistDao {
 	@Override
 	public List<Artist> searchArtists(String query) {
 		return jdbcTemplate.query(query, artistRowMapper);
+	}
+
+	@Override
+	public void deleteArtist(String alias) {
+		String deleteArtistByAliasQuery = QuerySupplier.getQuery(deleteArtistByAliasQueryPath);
+		jdbcTemplate.update(deleteArtistByAliasQuery, alias);
 	}
 
 }

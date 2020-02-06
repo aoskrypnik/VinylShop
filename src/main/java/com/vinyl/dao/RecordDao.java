@@ -8,11 +8,11 @@ public interface RecordDao {
 
 	String save(Record record);
 
-	Record getRecordByBarcode(String barcode);
+	Record getByBarcode(String barcode);
 
 	void update(Record record);
 
 	List<Record> getAll();
 
-	void deleteByBarcode(String  barcode);
+	List<Record> searchReleases(String query);
 }

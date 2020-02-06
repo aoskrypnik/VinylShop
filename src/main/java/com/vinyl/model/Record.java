@@ -14,14 +14,14 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class Record {
-	private String barcode;
-	private String releaseBarcode;
+	private String recordBarcode;
+	private String releaseBarcodeFk;
 	private Integer checkNum;
 	private String supplierEdrpou;
 	private Date purchaseDate;
 	private Integer purchasePrice;
 	private Integer sellPrice;
 	private Boolean available;
-	private String state;
+	private String recordState;
 	private Date stateCheckDate;
 }

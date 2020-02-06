@@ -13,13 +13,11 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
 @Repository
-public class CustomerDaoImpl implements CustomerDao, RowMapper<Customer> {
+public class CustomerDaoImpl implements CustomerDao {
 
 	@Value("${sql.customer.create.customer.query.path}")
 	private String createCustomerQueryPath;
@@ -34,6 +32,8 @@ public class CustomerDaoImpl implements CustomerDao, RowMapper<Customer> {
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
+	@Resource
+	private RowMapper<Customer> customerRowMapper;
 
 	@Override
 	public int save(Customer customer) {
@@ -54,7 +54,7 @@ public class CustomerDaoImpl implements CustomerDao, RowMapper<Customer> {
 	@Override
 	public Customer getCustomerByNum(int num) {
 		String getGetCustomerByNumQuery = QuerySupplier.getQuery(getCustomerByNumQueryPath);
-		List<Customer> customers = jdbcTemplate.query(getGetCustomerByNumQuery, new Object[]{num}, this);
+		List<Customer> customers = jdbcTemplate.query(getGetCustomerByNumQuery, new Object[]{num}, customerRowMapper);
 		return customers.size() == 0 ? null : customers.get(0);
 	}
 
@@ -79,17 +79,7 @@ public class CustomerDaoImpl implements CustomerDao, RowMapper<Customer> {
 	@Override
 	public List<Customer> getAll() {
 		String getAllCustomersQuery = QuerySupplier.getQuery(getAllCustomersQueryPath);
-		return jdbcTemplate.query(getAllCustomersQuery, this);
-	}
-
-	@Override
-	public Customer mapRow(ResultSet resultSet, int i) throws SQLException {
-		return Customer.builder()
-				.num(resultSet.getInt("customer_num"))
-				.name(resultSet.getString("customer_name"))
-				.email(resultSet.getString("email"))
-				.discount(resultSet.getInt("discount"))
-				.build();
+		return jdbcTemplate.query(getAllCustomersQuery, customerRowMapper);
 	}
 
 }

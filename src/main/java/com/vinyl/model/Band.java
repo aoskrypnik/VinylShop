@@ -15,13 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class Band {
-	private String alias;
-	private Boolean isActive;
+	private String bandAlias;
+	private Boolean isBandActive;
 	private String countryCode;
 	private Date startYear;
 	private Date endYear;
-	private List<String> artistAliases;
-	private List<String> formerArtistAliases;
+	private List<String> currentArtistAliases;
+	private List<String> previousArtistAliases;
 	private List<String> trackCatalogNums;
 	private List<String> featuringTracksCatalogNums;
 }

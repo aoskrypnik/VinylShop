@@ -9,12 +9,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class RecordDaoImpl implements RecordDao, RowMapper<Record> {
+public class RecordDaoImpl implements RecordDao {
 
 	private static final String RC_BARCODE_PREFIX = "RC";
 
@@ -26,17 +24,21 @@ public class RecordDaoImpl implements RecordDao, RowMapper<Record> {
 	private String getRecordByBarcodeQueryPath;
 	@Value("${sql.get.barcode.sequence.next.value.query.path}")
 	private String getBarcodeSequenceNextValueQueryPath;
+	@Value("${sql.record.update.record.query.path}")
+	private String updateRecordQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
+	@Resource
+	private RowMapper<Record> recordRowMapper;
 
 	@Override
 	public String save(Record record) {
 		String fullRecordBarcode = getNewRecordBarcode();
 		String createRecordQuery = QuerySupplier.getQuery(createRecordQueryPath);
-		jdbcTemplate.update(createRecordQuery, fullRecordBarcode, record.getReleaseBarcode(), record.getCheckNum(),
+		jdbcTemplate.update(createRecordQuery, fullRecordBarcode, record.getReleaseBarcodeFk(), record.getCheckNum(),
 				record.getSupplierEdrpou(), record.getPurchaseDate(), record.getPurchasePrice(), record.getSellPrice(),
-				record.getAvailable(), record.getState(), record.getStateCheckDate());
+				record.getAvailable(), record.getRecordState(), record.getStateCheckDate());
 		return fullRecordBarcode;
 	}
 
@@ -47,41 +49,29 @@ public class RecordDaoImpl implements RecordDao, RowMapper<Record> {
 	}
 
 	@Override
-	public Record getRecordByBarcode(String barcode) {
+	public Record getByBarcode(String barcode) {
 		String getRecordByBarcodeQuery = QuerySupplier.getQuery(getRecordByBarcodeQueryPath);
-		List<Record> queryResult = jdbcTemplate.queryForList(getRecordByBarcodeQuery, Record.class);
+		List<Record> queryResult = jdbcTemplate.query(getRecordByBarcodeQuery, new Object[]{barcode}, recordRowMapper);
 		return queryResult.size() == 0 ? null : queryResult.get(0);
 	}
 
 	@Override
 	public void update(Record record) {
-
+		String updateRecordQuery = QuerySupplier.getQuery(updateRecordQueryPath);
+		jdbcTemplate.update(updateRecordQuery, record.getReleaseBarcodeFk(), record.getCheckNum(),
+				record.getSupplierEdrpou(), record.getPurchaseDate(), record.getPurchasePrice(), record.getSellPrice(),
+				record.getAvailable(), record.getRecordState(), record.getStateCheckDate(), record.getRecordBarcode());
 	}
 
 	@Override
 	public List<Record> getAll() {
 		String getAllRecordsQuery = QuerySupplier.getQuery(getAllRecordsQueryPath);
-		return jdbcTemplate.queryForList(getAllRecordsQuery, Record.class);
+		return jdbcTemplate.query(getAllRecordsQuery, recordRowMapper);
 	}
 
 	@Override
-	public void deleteByBarcode(String barcode) {
-
+	public List<Record> searchReleases(String query) {
+		return jdbcTemplate.query(query, recordRowMapper);
 	}
 
-	@Override
-	public Record mapRow(ResultSet resultSet, int i) throws SQLException {
-		return Record.builder()
-				.barcode(resultSet.getString("bar_code"))
-				.releaseBarcode(resultSet.getString("release_bar_code"))
-				.checkNum(resultSet.getInt("check_num"))
-				.supplierEdrpou(resultSet.getString("supplier_edrpou"))
-				.purchaseDate(resultSet.getDate("purchase_date"))
-				.purchasePrice(resultSet.getInt("purchase_price"))
-				.sellPrice(resultSet.getInt("sell_price"))
-				.available(resultSet.getBoolean("available"))
-				.state(resultSet.getString("state"))
-				.stateCheckDate(resultSet.getDate("state_check_date"))
-				.build();
-	}
 }

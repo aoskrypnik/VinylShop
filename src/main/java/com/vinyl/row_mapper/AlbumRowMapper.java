@@ -29,9 +29,9 @@ public class AlbumRowMapper implements RowMapper<Album> {
 	public Album mapRow(ResultSet resultSet, int i) throws SQLException {
 		String catalogNum = resultSet.getString("catalog_num");
 		return Album.builder()
-				.catalogNum(catalogNum)
-				.name(resultSet.getString("album_name"))
-				.genre(getAlbumGenreByCatalogNum(catalogNum))
+				.albumCatalogNum(catalogNum)
+				.albumName(resultSet.getString("album_name"))
+				.albumGenres(getAlbumGenreByCatalogNum(catalogNum))
 				.releaseYear(resultSet.getInt("release_year"))
 				.variousArtists(resultSet.getBoolean("various_artists"))
 				.trackCatalogNums(getTracksByAlbumCatalogNum(catalogNum))
@@ -49,9 +49,9 @@ public class AlbumRowMapper implements RowMapper<Album> {
 		return jdbcTemplate.queryForList(getTracksByAlbumCatalogNumQuery, new Object[]{catalogNum}, String.class);
 	}
 
-	private String getAlbumGenreByCatalogNum(String catalogNum) {
+	private List<String> getAlbumGenreByCatalogNum(String catalogNum) {
 		String getAlbumGenreByCatalogNumQuery = QuerySupplier.getQuery(getAlbumGenreByCatalogNumQueryPath);
-		return jdbcTemplate.queryForObject(getAlbumGenreByCatalogNumQuery, new Object[]{catalogNum}, String.class);
+		return jdbcTemplate.queryForList(getAlbumGenreByCatalogNumQuery, new Object[]{catalogNum}, String.class);
 	}
 
 }

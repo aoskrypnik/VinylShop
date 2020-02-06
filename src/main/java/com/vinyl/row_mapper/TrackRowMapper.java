@@ -45,8 +45,8 @@ public class TrackRowMapper implements RowMapper<Track> {
 		List<String> albumIds = getAlbumsByTrackCatalogNum(trackCatalogNum);
 		List<String> trackLanguages = getTrackLanguages(trackCatalogNum);
 		return Track.builder()
-				.catalogNum(trackCatalogNum)
-				.name(resultSet.getString("track_name"))
+				.trackCatalogNum(trackCatalogNum)
+				.trackName(resultSet.getString("track_name"))
 				.duration(resultSet.getInt("duration"))
 				.composerIds(composers)
 				.albumIds(albumIds)

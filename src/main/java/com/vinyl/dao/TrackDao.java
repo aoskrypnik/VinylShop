@@ -10,14 +10,11 @@ public interface TrackDao {
 
 	Track getTrackByCatalogNum(String catalogNum);
 
-	List<Track> getTrackByName(String name);
-
-	void update(Track track);
+	void update(Track track, String catalogNum);
 
 	List<Track> getAll();
 
 	void deleteByCatalogNum(String catalogNum);
 
-	List<Track> findTrackByLanguage(String language);
-
+	List<Track> searchTracks(String query);
 }

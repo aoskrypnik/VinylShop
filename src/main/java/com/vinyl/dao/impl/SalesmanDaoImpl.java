@@ -14,14 +14,12 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
 @Slf4j
 @Repository
-public class SalesmanDaoImpl implements SalesmanDao, RowMapper<Salesman> {
+public class SalesmanDaoImpl implements SalesmanDao {
 
 	@Value("${sql.salesmen.get.all.salesmen.query.path}")
 	private String getGetAllSalesmenQueryPath;
@@ -34,18 +32,20 @@ public class SalesmanDaoImpl implements SalesmanDao, RowMapper<Salesman> {
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
+	@Resource
+	private RowMapper<Salesman> salesmanRowMapper;
 
 	@Override
 	public Salesman getSalesmanByTabNum(int tabNum) {
 		String getGetSalesmanByTabNumQuery = QuerySupplier.getQuery(getGetSalesmanByTabNumQueryPath);
-		List<Salesman> salesmen = jdbcTemplate.query(getGetSalesmanByTabNumQuery, new Object[]{tabNum}, this);
+		List<Salesman> salesmen = jdbcTemplate.query(getGetSalesmanByTabNumQuery, new Object[]{tabNum}, salesmanRowMapper);
 		return salesmen.size() == 0 ? null : salesmen.get(0);
 	}
 
 	@Override
 	public List<Salesman> getAll() {
 		String getGetAllSalesmenQuery = QuerySupplier.getQuery(getGetAllSalesmenQueryPath);
-		return jdbcTemplate.query(getGetAllSalesmenQuery, this);
+		return jdbcTemplate.query(getGetAllSalesmenQuery, salesmanRowMapper);
 	}
 
 	@Override
@@ -78,24 +78,6 @@ public class SalesmanDaoImpl implements SalesmanDao, RowMapper<Salesman> {
 		jdbcTemplate.update(updateSalesmanQuery, salesmanNew.getAddressCity(), salesmanNew.getAddressStr(),
 				salesmanNew.getAddressHome(), salesmanNew.getAddressApt(), salesmanNew.getPhoneNum(),
 				salesmanNew.getWorksTo(), salesmanNew.getSalary(), salesmanNew.getTabNum());
-	}
-
-	@Override
-	public Salesman mapRow(ResultSet resultSet, int i) throws SQLException {
-		return Salesman.builder()
-				.tabNum(resultSet.getInt("tab_num"))
-				.name(resultSet.getString("salesman_name"))
-				.passportNum(resultSet.getString("passport_num"))
-				.addressCity(resultSet.getString("address_city"))
-				.addressStr(resultSet.getString("address_str"))
-				.addressHome(resultSet.getString("address_home"))
-				.addressApt(resultSet.getInt("address_apt"))
-				.phoneNum(resultSet.getString("phone_num"))
-				.worksFrom(resultSet.getDate("works_from"))
-				.worksTo(resultSet.getDate("works_to"))
-				.salary(resultSet.getInt("salary"))
-				.login(resultSet.getString("login"))
-				.build();
 	}
 
 }
