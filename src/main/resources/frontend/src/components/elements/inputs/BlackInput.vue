@@ -1,11 +1,22 @@
 <template>
-  <input :placeholder="placeholder" ref="input" :type="password ? 'password': 'text'" :value="value" @input="updateModel()" :class="{ wrong, large }" />
+  <input :placeholder="placeholder" ref="input" :type="inputType" :value="value" @input="updateModel()" :class="{ wrong, large, inline }" />
 </template>
 
 <script>
 export default {
   name: 'BlackInput',
-  props: ['placeholder', 'password', 'value', 'wrong', 'large'],
+  props: ['placeholder', 'password', 'value', 'wrong', 'large', 'inline', 'number'],
+  computed: {
+    inputType() {
+      if (this.password) {
+        return 'password'
+      }
+      if (this.number) {
+        return 'number'
+      }
+      return 'text'
+    }
+  },
   methods: {
     updateModel() {
       this.$emit('input', this.$refs.input.value)
@@ -24,6 +35,10 @@ input {
   display: block;
   margin-bottom: 2px !important;
   border-radius: 0px;
+}
+
+input.inline {
+  display: inline-block;
 }
 
 input.large {

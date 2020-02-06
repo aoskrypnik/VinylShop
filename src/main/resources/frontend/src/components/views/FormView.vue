@@ -1,7 +1,7 @@
 <template>
   <div>
     <page-header>{{schemaName}}</page-header>
-    <item-form :schema="schema" :values="values"></item-form>
+    <item-form :schema="schema" v-model="values"></item-form>
     <three-dots-spinner v-if="loading"></three-dots-spinner>
   </div>
 </template>

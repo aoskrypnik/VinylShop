@@ -1,10 +1,10 @@
 <template>
-  <button :class="{large, enabled: value}" @click="$emit('input', !value)"><slot></slot></button>
+  <button :class="{large, enabled: value, inline}" @click="$emit('input', !value)"><slot></slot></button>
 </template>
 
 <script>
 export default {
-  props: ['large', 'value']
+  props: ['large', 'value', 'inline']
 }
 </script>
 
@@ -18,6 +18,12 @@ button {
   font-size: 18px;
   transition: 200ms;
   display: block;
+  height: 100%;
+}
+
+button.inline {
+  display: inline-block;
+  margin-right: 5px;
 }
 
 button.large {

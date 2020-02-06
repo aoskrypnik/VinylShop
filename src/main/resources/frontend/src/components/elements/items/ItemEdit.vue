@@ -1,7 +1,8 @@
 <template>
   <div>
-    <string-edit v-if="isString" :value="value" @input="onInput"></string-edit>
-    <enum-edit v-if="isEnum" :value="value" :type="type" :schema="schema" @input="onInput"></enum-edit>
+    <string-edit v-if="isString && !isArray" :value="value" :type="type" @input="onInput"></string-edit>
+    <enum-edit v-else-if="isEnum" :value="value" :type="type" :schema="schema" @input="onInput"></enum-edit>
+    <array-edit v-else-if="isArray" :value="value" :type="type" :schema="schema" @input="onInput"></array-edit>
   </div>
 </template>
 
@@ -10,9 +11,12 @@ import StringEdit from './edits/StringEdit'
 import EnumEdit from './edits/EnumEdit'
 
 import * as SchemaUtils from '@/schemas/utils'
+import ArrayEdit from "./edits/ArrayEdit";
 
 export default {
+  name: 'ItemEdit',
   components: {
+    ArrayEdit,
     StringEdit,
     EnumEdit
   },

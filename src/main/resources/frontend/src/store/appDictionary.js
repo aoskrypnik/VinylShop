@@ -18,5 +18,9 @@ export default {
   showFilters: {
     en: 'Show filters',
     ua: 'Показати фільтри'
+  },
+  addArrayItem: {
+    en: 'Add item',
+    ua: 'Додати'
   }
 }

@@ -5,8 +5,14 @@ export default {
       type: 'string',
       isArray: true
     },
-    email: 'string',
-    type: '1|2'
+    email: {
+      type: 'string',
+      typeConstraint: /[\w]+@[\w]+\.[\w]+/
+    },
+    type: {
+      type: '1|2',
+      isArray: true
+    }
   },
   key: 'email'
 }

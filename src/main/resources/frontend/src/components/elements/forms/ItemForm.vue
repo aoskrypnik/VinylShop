@@ -2,7 +2,7 @@
   <div>
     <div v-for="(prop, index) in getPropsNames" :key="prop">
       <p class="mb-0">{{getHeaders[index]}}</p>
-      <item-edit class="mb-3" v-model="values[prop]" :type="getProps[prop]" :schema="schema"></item-edit>
+      <item-edit class="mb-3" :value="value[prop]" :type="getProps[prop]" :schema="schema" @input="onInput($event, prop)"></item-edit>
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@ export default {
   components: {
     ItemEdit
   },
-  props: ['schema', 'values'],
+  props: ['schema', 'value'],
   data: function() {
     return {
     }
@@ -28,6 +28,13 @@ export default {
     },
     getProps() {
       return this.$store.getters.getSchemaProps(this.schema)
+    }
+  },
+  methods: {
+    onInput(newValue, propName) {
+      const copy = { ...this.value }
+      copy[propName] = newValue
+      this.$emit('input', copy)
     }
   }
 }

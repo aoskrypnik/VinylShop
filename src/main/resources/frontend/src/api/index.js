@@ -32,6 +32,6 @@ export async function getItem() {
     phone: ['+123456', '+654321'],
     name: 'Lolkek Cheburek',
     email: 'drakosvlad@gmail.com',
-    type: '1'
+    type: ['1']
   }
 }

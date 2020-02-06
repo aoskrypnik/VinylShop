@@ -1,44 +1,51 @@
 <template>
   <div>
-    <black-switch-button v-for="(text, index) in buttons" :key="index" v-model="values[index]" @input="onInput($event, index)">{{ text }}</black-switch-button>
+    <black-switch-button v-for="(text, index) in buttons" :key="index" :value="values[index]" :inline="true" @input="onInput($event, index)">{{ text }}</black-switch-button>
   </div>
 </template>
 
 <script>
 import BlackSwitchButton from '../../buttons/BlackSwitchButton'
 
+import * as SchemaUtils from '@/schemas/utils'
+
 export default {
+  name: 'EnumEdit',
   components: {
     BlackSwitchButton
   },
   props: ['type', 'value', 'schema'],
   data: function() {
     return {
-      values: {}
     }
   },
   computed: {
     keys() {
-      return this.type.split('|')
+      return this.typeString.split('|')
     },
     buttons() {
       return this.keys.reduce((acc, k) => 
         ({ ...acc, [k]: this.$store.getters.getPropertyLocale(this.schema, k) }),
         {}
       )
-    }
-  },
-  created() {
-    if (this.type.isArray) {
-      this.values = this.value.reduce((acc, _, key) => ({ ...acc, [key]: true }), {})
+    },
+    typeString() {
+      return SchemaUtils.getTypeString(this.type)
+    },
+    values() {
+      if (!this.value) {
+        return {}
+      }
+      return this.value.reduce((acc, val) => ({ ...acc, [val]: true }), {})
     }
   },
   methods: {
-    onInput(_, e1) {
+    onInput(value, e1) {
+      const copy = { ...this.values, [e1]: value };
       if (this.type.isArray) {
-        //
+        this.$emit('input', Object.keys(copy).filter(e => copy[e]))
       } else {
-        this.values = { [e1]: true }
+        this.$emit('input', e1)
       }
     }
   }

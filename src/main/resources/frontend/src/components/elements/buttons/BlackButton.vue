@@ -1,10 +1,10 @@
 <template>
-  <button :class="{large}" @click="$emit('click')"><slot></slot></button>
+  <button :class="{large, inline}" @click="$emit('click')"><slot></slot></button>
 </template>
 
 <script>
 export default {
-  props: ['large']
+  props: ['large', 'inline']
 }
 </script>
 
@@ -18,11 +18,17 @@ button {
   font-size: 18px;
   transition: 200ms;
   display: block;
+  height: 100%;
 }
 
 button.large {
   padding: 6px 14px;
   font-size: 24px;
+}
+
+button.inline {
+  display: inline-block;
+  margin-right: 5px;
 }
 
 button:hover {

@@ -6,6 +6,7 @@
 import BlackInput from '../../inputs/BlackInput'
 
 export default {
+  name: 'StringEdit',
   components: {
     BlackInput
   },
@@ -17,20 +18,24 @@ export default {
   },
   computed: {
     isObject() {
-      return typeof type === 'object'
+      return typeof this.type === 'object'
     }
   },
   methods: {
     onEdit(newValue) {
       if (this.isObject) {
-        if (this.typeConstraint) {
-          if (this.typeConstraint.test(newValue)) {
+        if (this.type.typeConstraint) {
+          if (this.type.typeConstraint.test(newValue)) {
             this.$emit('input', newValue)
             this.isWrong = false
           } else {
             this.isWrong = true
           }
+        } else {
+          this.$emit('input', newValue)
         }
+      } else {
+        this.$emit('input', newValue)
       }
     }
   }
