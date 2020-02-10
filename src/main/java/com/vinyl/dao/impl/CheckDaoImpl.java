@@ -16,7 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 @Repository
 public class CheckDaoImpl implements CheckDao {
@@ -52,7 +55,11 @@ public class CheckDaoImpl implements CheckDao {
 		jdbcTemplate.update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(saveCheckQuery, Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, check.getSalesmanTabNum());
-			ps.setInt(2, check.getCustomerNum());
+			if (isNull(check.getCustomerNum())) {
+				ps.setNull(2, Types.INTEGER);
+			} else {
+				ps.setInt(2, check.getCustomerNum());
+			}
 			ps.setTimestamp(3, check.getDateTime());
 			ps.setInt(4, check.getOverallSum());
 			ps.setInt(5, check.getCheckDiscount());

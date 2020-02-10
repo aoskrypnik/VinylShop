@@ -27,7 +27,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer getCustomerByNum(int num) {
-		return customerDao.getCustomerByNum(num);
+		Integer sumOfAllPurchases = customerDao.getSumForAllPurchases(num);
+		Customer foundCustomer = customerDao.getCustomerByNum(num);
+		foundCustomer.setSumOfAllPurchases(sumOfAllPurchases);
+		return foundCustomer;
 	}
 
 	@Override
@@ -54,7 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Short updateDiscount(int num) {
 		short discount;
-		Double sumForAllPurchases = customerDao.getSumForAllPurchases(num);
+		Integer sumForAllPurchases = customerDao.getSumForAllPurchases(num);
 		if (sumForAllPurchases < SUM_10000) {
 			discount = DISCOUNT_0;
 		} else if (SUM_10000 < sumForAllPurchases && sumForAllPurchases < SUM_30000) {

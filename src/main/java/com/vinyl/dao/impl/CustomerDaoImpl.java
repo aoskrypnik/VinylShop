@@ -90,10 +90,10 @@ public class CustomerDaoImpl implements CustomerDao {
 	}
 
 	@Override
-	public Double getSumForAllPurchases(int num) {
+	public Integer getSumForAllPurchases(int num) {
 		String getSumForAllPurchasesQuery = QuerySupplier.getQuery(getSumForAllPurchasesQueryPath);
-		List<Double> sum = jdbcTemplate.queryForList(getSumForAllPurchasesQuery, new Object[]{num}, Double.class);
-		return isNull(sum.get(0)) ? 0d : sum.get(0);
+		List<Integer> sum = jdbcTemplate.queryForList(getSumForAllPurchasesQuery, new Object[]{num}, Integer.class);
+		return isNull(sum.get(0)) ? 0 : sum.get(0);
 	}
 
 	@Override

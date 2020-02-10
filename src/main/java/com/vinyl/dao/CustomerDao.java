@@ -18,5 +18,5 @@ public interface CustomerDao {
 
 	Short updateDiscount(int num, short discount);
 
-	Double getSumForAllPurchases(int num);
+	Integer getSumForAllPurchases(int num);
 }

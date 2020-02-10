@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -32,18 +33,28 @@ public class CheckServiceImpl implements CheckService {
 
 	@Override
 	public Integer save(Check check) {
-		int customerNum = check.getCustomerNum();
 		populateCheckWithOverallSumAndDiscount(check);
+		Integer checkNum = checkDao.save(check);
+		updateDiscountForCustomer(check);
+		return checkNum;
+	}
+
+	private void updateDiscountForCustomer(Check check) {
+		Integer customerNum = check.getCustomerNum();
 		if (nonNull(customerNum)) {
 			customerService.updateDiscount(customerNum);
 		}
-		return checkDao.save(check);
 	}
 
 	private void populateCheckWithOverallSumAndDiscount(Check check) {
-		short checkDiscount = customerService.getCustomerByNum(check.getCustomerNum()).getDiscount();
+		Integer registeredCustomerNum = check.getCustomerNum();
+		if (isNull(registeredCustomerNum)) {
+			check.setCheckDiscount((short) 0);
+		} else {
+			short checkDiscount = customerService.getCustomerByNum(registeredCustomerNum).getDiscount();
+			check.setCheckDiscount(checkDiscount);
+		}
 		int overallSum = countCheckOverallSum(check.getProductBarcodes());
-		check.setCheckDiscount(checkDiscount);
 		check.setOverallSum(overallSum);
 	}
 
