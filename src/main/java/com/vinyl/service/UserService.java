@@ -11,4 +11,7 @@ public interface UserService {
 
 	UserCredentials prepareForSaving(UserCredentials userCredsDetails);
 
+	Integer findSalesmanTabNumByLogin(String login);
+
+	String getCurrentUserLogin();
 }

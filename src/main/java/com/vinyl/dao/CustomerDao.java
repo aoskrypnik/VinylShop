@@ -15,4 +15,8 @@ public interface CustomerDao {
 	List<Customer> getAll();
 
 	void deleteByNum(int num);
+
+	Short updateDiscount(int num, short discount);
+
+	Double getSumForAllPurchases(int num);
 }

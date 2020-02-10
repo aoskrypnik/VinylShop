@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 @Slf4j
@@ -24,6 +25,8 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 	private String createUserQueryPath;
 	@Value("${sql.find.user.credentials.by.login.query.path}")
 	private String findByLoginQueryPath;
+	@Value("${sql.find.salesman.tab.num.by.user.login.query.path}")
+	private String findSalesmanTabNumByUserLoginQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -49,6 +52,13 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 			log.debug(EMPTY_RESULT_DATA_EXCEPTION_MESSAGE + login);
 		}
 		return foundCredentials;
+	}
+
+	@Override
+	public Integer findSalesmanTabNumByLogin(String login) {
+		String findSalesmanTabNumByUserLoginQuery = QuerySupplier.getQuery(findSalesmanTabNumByUserLoginQueryPath);
+		List<Integer> tabNums = jdbcTemplate.queryForList(findSalesmanTabNumByUserLoginQuery, new Object[]{login}, Integer.class);
+		return tabNums.isEmpty() ? null : tabNums.get(0);
 	}
 
 	@Override

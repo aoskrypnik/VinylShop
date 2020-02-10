@@ -11,6 +11,12 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+	private static final Integer SUM_10000 = 1000000;
+	private static final Integer SUM_30000 = 3000000;
+	private static final Short DISCOUNT_0 = 0;
+	private static final Short DISCOUNT_5 = 5;
+	private static final Short DISCOUNT_10 = 10;
+
 	@Resource
 	private CustomerDao customerDao;
 
@@ -43,6 +49,20 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<Customer> getAll() {
 		return customerDao.getAll();
+	}
+
+	@Override
+	public Short updateDiscount(int num) {
+		short discount;
+		Double sumForAllPurchases = customerDao.getSumForAllPurchases(num);
+		if (sumForAllPurchases < SUM_10000) {
+			discount = DISCOUNT_0;
+		} else if (SUM_10000 < sumForAllPurchases && sumForAllPurchases < SUM_30000) {
+			discount = DISCOUNT_5;
+		} else {
+			discount = DISCOUNT_10;
+		}
+		return customerDao.updateDiscount(num, discount);
 	}
 
 }

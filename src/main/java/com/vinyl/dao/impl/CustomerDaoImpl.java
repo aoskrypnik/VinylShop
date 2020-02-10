@@ -16,6 +16,8 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Repository
 public class CustomerDaoImpl implements CustomerDao {
 
@@ -29,6 +31,10 @@ public class CustomerDaoImpl implements CustomerDao {
 	private String deleteCustomerQueryPath;
 	@Value("${sql.customer.get.all.customers.query.path}")
 	private String getAllCustomersQueryPath;
+	@Value("${sql.customer.update.discount.query.path}")
+	private String updateDiscountQueryPath;
+	@Value("${sql.customer.get.sum.for.all.purchases.query.path}")
+	private String getSumForAllPurchasesQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -74,6 +80,20 @@ public class CustomerDaoImpl implements CustomerDao {
 		String deleteCustomerQuery = QuerySupplier.getQuery(deleteCustomerQueryPath);
 
 		jdbcTemplate.update(deleteCustomerQuery, num);
+	}
+
+	@Override
+	public Short updateDiscount(int num, short discount) {
+		String updateDiscountQuery = QuerySupplier.getQuery(updateDiscountQueryPath);
+		jdbcTemplate.update(updateDiscountQuery, discount, num);
+		return null;
+	}
+
+	@Override
+	public Double getSumForAllPurchases(int num) {
+		String getSumForAllPurchasesQuery = QuerySupplier.getQuery(getSumForAllPurchasesQueryPath);
+		List<Double> sum = jdbcTemplate.queryForList(getSumForAllPurchasesQuery, new Object[]{num}, Double.class);
+		return isNull(sum.get(0)) ? 0d : sum.get(0);
 	}
 
 	@Override

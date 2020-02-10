@@ -18,4 +18,5 @@ public interface CustomerService {
 
 	List<Customer> getAll();
 
+	Short updateDiscount(int num);
 }

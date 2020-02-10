@@ -4,8 +4,9 @@ import com.vinyl.model.UserCredentials;
 
 public interface UserDao {
 
-	void save (UserCredentials userCredsDetails);
+	void save(UserCredentials userCredsDetails);
 
-	UserCredentials findByLogin (String login);
+	UserCredentials findByLogin(String login);
 
+	Integer findSalesmanTabNumByLogin(String login);
 }

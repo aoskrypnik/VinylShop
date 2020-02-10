@@ -1,6 +1,5 @@
 package com.vinyl.controller;
 
-import com.vinyl.exception.ArtistExistException;
 import com.vinyl.exception.BandExistException;
 import com.vinyl.model.Artist;
 import com.vinyl.model.Band;

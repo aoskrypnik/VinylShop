@@ -17,8 +17,7 @@ import java.sql.Date;
 @Setter
 @ToString
 public class Salesman {
-
-    private int tabNum;
+    private Integer tabNum;
     private String name;
     private String passportNum;
     private String addressCity;

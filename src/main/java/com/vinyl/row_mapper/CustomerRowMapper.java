@@ -15,7 +15,7 @@ public class CustomerRowMapper implements RowMapper<Customer> {
 				.num(resultSet.getInt("customer_num"))
 				.name(resultSet.getString("customer_name"))
 				.email(resultSet.getString("email"))
-				.discount(resultSet.getInt("discount"))
+				.discount(resultSet.getShort("discount"))
 				.build();
 	}
 }

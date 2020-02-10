@@ -5,6 +5,7 @@ import com.vinyl.exception.LoginExistException;
 import com.vinyl.model.UserCredentials;
 import com.vinyl.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,16 @@ public class UserServiceImpl implements UserService {
 		credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
 		credentials.setDirector(false);
 		return credentials;
+	}
+
+	@Override
+	public Integer findSalesmanTabNumByLogin(String login) {
+		return userDao.findSalesmanTabNumByLogin(login);
+	}
+
+	@Override
+	public String getCurrentUserLogin() {
+		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 
 	@PostConstruct
