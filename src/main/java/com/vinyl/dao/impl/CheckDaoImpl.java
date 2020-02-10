@@ -1,7 +1,6 @@
 package com.vinyl.dao.impl;
 
 import com.vinyl.dao.CheckDao;
-import com.vinyl.dao.CustomerDao;
 import com.vinyl.model.Check;
 import com.vinyl.utils.KeyHolderUtils;
 import com.vinyl.utils.QuerySupplier;
@@ -33,8 +32,6 @@ public class CheckDaoImpl implements CheckDao {
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
-	@Resource
-	private CustomerDao customerDao;
 	@Resource
 	private RowMapper<Check> checkRowMapper;
 

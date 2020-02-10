@@ -44,7 +44,7 @@ public class CheckRowMapper implements RowMapper<Check> {
 
 	private List<String> getProductBarcodeByCheckNum(Integer checkNum) {
 		String getAllProductBarcodesByCheckNumQuery = QuerySupplier.getQuery(getAllProductBarcodesByCheckNumQueryPath);
-		return jdbcTemplate.queryForList(getAllProductBarcodesByCheckNumQuery, String.class);
+		return jdbcTemplate.queryForList(getAllProductBarcodesByCheckNumQuery, new Object[]{checkNum}, String.class);
 	}
 
 }

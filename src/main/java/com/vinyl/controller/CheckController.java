@@ -5,8 +5,11 @@ import com.vinyl.model.Check;
 import com.vinyl.service.CheckService;
 import com.vinyl.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -14,13 +17,25 @@ import javax.annotation.Resource;
 import java.net.URI;
 import java.sql.Timestamp;
 
+import static java.util.Objects.isNull;
+
 @RestController
+@RequestMapping("/check")
 public class CheckController {
 
 	@Resource
 	private CheckService checkService;
 	@Resource
 	private UserService userService;
+
+	@GetMapping("/{checkNum}")
+	public ResponseEntity<?> getCheckByCheckNum(@PathVariable Integer checkNum) {
+		Check foundCheck = checkService.getByNum(checkNum);
+		if (isNull(foundCheck)) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(foundCheck);
+	}
 
 	@PostMapping
 	public ResponseEntity<?> saveCheck(@RequestBody CheckDto checkDto) {
