@@ -42,7 +42,7 @@ public class SupplierDaoImpl implements SupplierDao {
 
 	@Override
 	public List<Supplier> searchSuppliers(String query) {
-		return null;
+		return jdbcTemplate.query(query, supplierRowMapper);
 	}
 
 	@Override

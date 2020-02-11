@@ -1,8 +1,8 @@
 package com.vinyl.controller;
 
-import com.vinyl.exception.ReleaseAlreadyExistException;
-import com.vinyl.model.Release;
-import com.vinyl.service.ReleaseService;
+import com.vinyl.exception.SupplierAlreadyExistException;
+import com.vinyl.model.Supplier;
+import com.vinyl.service.SupplierService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,46 +23,40 @@ import static java.util.Objects.isNull;
 
 @Slf4j
 @RestController
-@RequestMapping("/release")
-public class ReleaseController {
+@RequestMapping("/supplier")
+public class SupplierController {
 
 	@Resource
-	private ReleaseService releaseService;
-
-	@GetMapping
-	public List<Release> getAllReleases() {
-		return releaseService.getAll();
-	}
+	private SupplierService supplierService;
 
 	@PostMapping
-	public ResponseEntity<?> saveRelease(@RequestBody Release release) {
+	public ResponseEntity<?> saveSupplier(@RequestBody Supplier supplier) {
 		try {
-			releaseService.save(release);
-		} catch (ReleaseAlreadyExistException e) {
+			supplierService.save(supplier);
+		} catch (SupplierAlreadyExistException e) {
 			log.error(e.getMessage());
 			return ResponseEntity.status(406).build();
 		}
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{releaseBarcode}")
-				.buildAndExpand(release.getReleaseBarcode()).toUri();
-
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{edrpou}")
+				.buildAndExpand(supplier.getEdrpou()).toUri();
 		return ResponseEntity.created(location).build();
 	}
 
-	@GetMapping("/{releaseBarCode}")
-	public ResponseEntity<?> getReleaseByBarCode(@PathVariable String releaseBarCode) {
-		Release foundRelease = releaseService.getReleaseByBarcode(releaseBarCode);
-		if (isNull(foundRelease)) {
+	@GetMapping("/{edrpou}")
+	public ResponseEntity<?> getSupplierByEdrpou(@PathVariable String edrpou) {
+		Supplier foundSupplier = supplierService.getSupplierByEdrpou(edrpou);
+		if (isNull(foundSupplier)) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(foundRelease);
+		return ResponseEntity.ok(foundSupplier);
 	}
 
-	@PutMapping("/{barCode}")
-	public ResponseEntity<?> updateRelease(@RequestBody Release release, @PathVariable String barCode) {
-		if (isNull(releaseService.getReleaseByBarcode(barCode))) {
+	@PutMapping("/{edrpou}")
+	public ResponseEntity<?> updateRelease(@RequestBody Supplier supplier, @PathVariable String edrpou) {
+		if (isNull(supplierService.getSupplierByEdrpou(edrpou))) {
 			return ResponseEntity.notFound().build();
 		}
-		releaseService.update(release, barCode);
+		supplierService.update(supplier, edrpou);
 		return ResponseEntity.ok().build();
 	}
 
@@ -73,11 +67,10 @@ public class ReleaseController {
 												@RequestParam(value = "joins", required = false) List<String> joins,
 												@RequestParam(value = "sort", required = false) String sorting,
 												@RequestParam(value = "order", required = false) String order) {
-		List<Release> releases = releaseService.searchReleases(whereParams, likeParams, betweenParams, joins, sorting, order);
-		if (releases.isEmpty()) {
+		List<Supplier> suppliers = supplierService.searchSuppliers(whereParams, likeParams, betweenParams, joins, sorting, order);
+		if (suppliers.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(releases);
+		return ResponseEntity.ok(suppliers);
 	}
-
 }
