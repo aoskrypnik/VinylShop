@@ -42,12 +42,6 @@ public class AuthController {
 	@Resource
 	private JwtTokenProvider tokenProvider;
 
-	@GetMapping("/someview")
-	public String getTestPage(HttpServletResponse response) {
-		response.setHeader("Content-Type","text/html");
-		return "index.html";
-	}
-
 	@PostMapping("/sign-in")
 	@ResponseBody
 	public ResponseEntity<?> authenticateUser(@RequestBody UserCredentials credentials) {
@@ -60,8 +54,10 @@ public class AuthController {
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
+		String currentUSerAuthority = userService.getCurrentUserAuthoritity(authentication);
+
 		String jwt = tokenProvider.generateToken(authentication);
-		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, JWT_TOKEN_TYPE_BEARER));
+		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, JWT_TOKEN_TYPE_BEARER, currentUSerAuthority));
 	}
 
 	@PostMapping("/sign-up")
@@ -78,12 +74,11 @@ public class AuthController {
 		return new ResponseEntity<>(new ApiResponse(true, USER_REGISTERED_SUCCESSFULLY), HttpStatus.CREATED);
 	}
 
-	//TODO possibly we should add server-side storage for jwt tokens and revoke any corresponding token after log-out
-	@GetMapping(value="/logout")
+	@GetMapping(value = "/logout")
 	@ResponseBody
-	public ResponseEntity<?> logout (HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (nonNull(auth)){
+		if (nonNull(auth)) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
 		return new ResponseEntity<>(new ApiResponse(true, USER_LOGGED_OUT_SUCCESSFULLY), HttpStatus.NO_CONTENT);

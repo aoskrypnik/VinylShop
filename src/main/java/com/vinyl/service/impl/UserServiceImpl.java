@@ -6,6 +6,8 @@ import com.vinyl.exception.LoginExistException;
 import com.vinyl.model.UserCredentials;
 import com.vinyl.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Service
 @Slf4j
@@ -84,6 +87,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean userLoginMatchesCurrentlyLoggedInUser(UserCredentials userCredentials) {
 		return userCredentials.getLogin().equals(getCurrentlyLoggedInUserLogin());
+	}
+
+	@Override
+	public String getCurrentUserAuthoritity(Authentication authentication) {
+		return authentication.getAuthorities().stream()
+				.map(GrantedAuthority::getAuthority)
+				.findFirst()
+				.orElse(EMPTY);
 	}
 
 	@PostConstruct

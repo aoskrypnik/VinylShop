@@ -3,6 +3,7 @@ package com.vinyl.service;
 import com.vinyl.dto.UsrDto;
 import com.vinyl.exception.LoginExistException;
 import com.vinyl.model.UserCredentials;
+import org.springframework.security.core.Authentication;
 
 public interface UserService {
 
@@ -21,4 +22,6 @@ public interface UserService {
 	void changePassword(UsrDto usrDto);
 
 	boolean userLoginMatchesCurrentlyLoggedInUser(UserCredentials userCredentials);
+
+	String getCurrentUserAuthoritity(Authentication authentication);
 }

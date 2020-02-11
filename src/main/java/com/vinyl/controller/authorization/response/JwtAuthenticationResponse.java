@@ -3,10 +3,12 @@ package com.vinyl.controller.authorization.response;
 public class JwtAuthenticationResponse {
 	private String accessToken;
 	private String tokenType;
+	private String authority;
 
-	public JwtAuthenticationResponse(String accessToken, String tokenType) {
+	public JwtAuthenticationResponse(String accessToken, String tokenType, String authority) {
 		this.accessToken = accessToken;
 		this.tokenType = tokenType;
+		this.authority = authority;
 	}
 
 	public String getAccessToken() {
@@ -23,5 +25,13 @@ public class JwtAuthenticationResponse {
 
 	public void setTokenType(String tokenType) {
 		this.tokenType = tokenType;
+	}
+
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 }

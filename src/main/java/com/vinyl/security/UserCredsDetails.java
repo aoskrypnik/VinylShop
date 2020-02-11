@@ -25,9 +25,10 @@ public class UserCredsDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_SALESMAN"));
 		if (this.isDirector()) {
 			authorities.add(new SimpleGrantedAuthority("ROLE_DIRECTOR"));
+		} else {
+			authorities.add(new SimpleGrantedAuthority("ROLE_SALESMAN"));
 		}
 		return authorities;
 	}
