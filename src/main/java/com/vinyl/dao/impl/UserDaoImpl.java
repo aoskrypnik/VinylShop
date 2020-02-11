@@ -1,6 +1,7 @@
 package com.vinyl.dao.impl;
 
 import com.vinyl.dao.UserDao;
+import com.vinyl.dto.UsrDto;
 import com.vinyl.model.UserCredentials;
 import com.vinyl.utils.QuerySupplier;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,8 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 	private String findByLoginQueryPath;
 	@Value("${sql.find.salesman.tab.num.by.user.login.query.path}")
 	private String findSalesmanTabNumByUserLoginQueryPath;
+	@Value("${sql.change.password.query.path}")
+	private String changePasswordQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -59,6 +62,12 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 		String findSalesmanTabNumByUserLoginQuery = QuerySupplier.getQuery(findSalesmanTabNumByUserLoginQueryPath);
 		List<Integer> tabNums = jdbcTemplate.queryForList(findSalesmanTabNumByUserLoginQuery, new Object[]{login}, Integer.class);
 		return tabNums.isEmpty() ? null : tabNums.get(0);
+	}
+
+	@Override
+	public void changePassword(UsrDto usrDto) {
+		String changePasswordQuery = QuerySupplier.getQuery(changePasswordQueryPath);
+		jdbcTemplate.update(changePasswordQuery, usrDto.getNewPassword(), usrDto.getLogin());
 	}
 
 	@Override

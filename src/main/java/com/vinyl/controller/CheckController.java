@@ -39,7 +39,7 @@ public class CheckController {
 
 	@PostMapping
 	public ResponseEntity<?> saveCheck(@RequestBody CheckDto checkDto) {
-		Integer salesmanTabNum = userService.findSalesmanTabNumByLogin(userService.getCurrentUserLogin());
+		Integer salesmanTabNum = userService.findSalesmanTabNumByLogin(userService.getCurrentlyLoggedInUserLogin());
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		Check check = new Check(timestamp, salesmanTabNum, checkDto.getCustomerNum(), checkDto.getProductBarcodes());
 		Integer checkNum = checkService.save(check);

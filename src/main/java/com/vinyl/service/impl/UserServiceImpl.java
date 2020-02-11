@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.UserDao;
+import com.vinyl.dto.UsrDto;
 import com.vinyl.exception.LoginExistException;
 import com.vinyl.model.UserCredentials;
 import com.vinyl.service.UserService;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Service
@@ -55,8 +59,31 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String getCurrentUserLogin() {
+	public String getCurrentlyLoggedInUserLogin() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
+	}
+
+	@Override
+	public Boolean usrDtoCredsEqualUserCredFromDb(UsrDto usrDto, UserCredentials userCredentials) {
+		if (isNull(userCredentials)) {
+			return FALSE;
+		}
+		if (usrDto.getLogin().equals(userCredentials.getLogin())
+				&& passwordEncoder.matches(usrDto.getOldPassword(), userCredentials.getPassword())) {
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+	@Override
+	public void changePassword(UsrDto usrDto) {
+		usrDto.setNewPassword(passwordEncoder.encode(usrDto.getNewPassword()));
+		userDao.changePassword(usrDto);
+	}
+
+	@Override
+	public boolean userLoginMatchesCurrentlyLoggedInUser(UserCredentials userCredentials) {
+		return userCredentials.getLogin().equals(getCurrentlyLoggedInUserLogin());
 	}
 
 	@PostConstruct
