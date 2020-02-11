@@ -49,6 +49,6 @@ public class SupplierDaoImpl implements SupplierDao {
 	public void update(Supplier supplier, String edrpou) {
 		String updateSupplierQuery = QuerySupplier.getQuery(updateSupplierQueryPath);
 		jdbcTemplate.update(updateSupplierQuery, supplier.getEdrpou(),
-				supplier.getSupplierAddress(), supplier.getPhoneNumber());
+				supplier.getSupplierAddress(), supplier.getPhoneNumber(), edrpou);
 	}
 }

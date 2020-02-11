@@ -158,6 +158,9 @@ public class QueryBuilder {
 			.put("available", List.of("available", NOT_STRING_TYPE_NAME))
 			.put("recordState", List.of("state", STRING_TYPE_NAME))
 			.put("stateCheckDate", List.of("state_check_date", STRING_TYPE_NAME))
+			.put("edrpou", List.of("edrpou", STRING_TYPE_NAME))
+			.put("supplierAddress", List.of("address", STRING_TYPE_NAME))
+			.put("phoneNumber", List.of("phone_num", STRING_TYPE_NAME))
 			.build();
 
 }
