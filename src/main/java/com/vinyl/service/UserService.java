@@ -1,5 +1,6 @@
 package com.vinyl.service;
 
+import com.vinyl.dto.SalesmanUsrDto;
 import com.vinyl.dto.UsrDto;
 import com.vinyl.exception.LoginExistException;
 import com.vinyl.model.UserCredentials;
@@ -9,9 +10,9 @@ public interface UserService {
 
 	void save(UserCredentials userCredsDetails) throws LoginExistException;
 
-	UserCredentials findByLogin(String login);
+	void saveSalesmanCreds(SalesmanUsrDto salesmanUsrDto);
 
-	UserCredentials prepareForSaving(UserCredentials userCredsDetails);
+	UserCredentials findByLogin(String login);
 
 	Integer findSalesmanTabNumByLogin(String login);
 

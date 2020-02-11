@@ -1,6 +1,7 @@
 package com.vinyl.dao.impl;
 
 import com.vinyl.dao.UserDao;
+import com.vinyl.dto.SalesmanUsrDto;
 import com.vinyl.dto.UsrDto;
 import com.vinyl.model.UserCredentials;
 import com.vinyl.utils.QuerySupplier;
@@ -10,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.ResultSet;
@@ -30,6 +32,8 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 	private String findSalesmanTabNumByUserLoginQueryPath;
 	@Value("${sql.change.password.query.path}")
 	private String changePasswordQueryPath;
+	@Value("${sql.salesman.update.salesman.login.query.path}")
+	private String updateSalesmanLoginQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -68,6 +72,15 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 	public void changePassword(UsrDto usrDto) {
 		String changePasswordQuery = QuerySupplier.getQuery(changePasswordQueryPath);
 		jdbcTemplate.update(changePasswordQuery, usrDto.getNewPassword(), usrDto.getLogin());
+	}
+
+	@Transactional
+	@Override
+	public void saveSalesmanCreds(SalesmanUsrDto salesmanUsrDto) {
+		String createUserQuery = QuerySupplier.getQuery(createUserQueryPath);
+		String updateSalesmanLoginQuery = QuerySupplier.getQuery(updateSalesmanLoginQueryPath);
+		jdbcTemplate.update(createUserQuery, salesmanUsrDto.getLogin(), salesmanUsrDto.getPwd(), false);
+		jdbcTemplate.update(updateSalesmanLoginQuery, salesmanUsrDto.getLogin(), salesmanUsrDto.getTabNum());
 	}
 
 	@Override

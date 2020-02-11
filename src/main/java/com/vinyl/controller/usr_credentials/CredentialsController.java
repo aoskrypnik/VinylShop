@@ -6,7 +6,7 @@ import com.vinyl.model.UserCredentials;
 import com.vinyl.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +24,7 @@ public class CredentialsController {
 	@Resource
 	private UserService userService;
 
-	@PostMapping
+	@PutMapping
 	private ResponseEntity<?> changeUsrPassword(@RequestBody UsrDto usrDto) {
 		UserCredentials userCredentials = userService.findByLogin(usrDto.getLogin());
 		if (userService.usrDtoCredsEqualUserCredFromDb(usrDto, userCredentials) &&
@@ -32,7 +32,7 @@ public class CredentialsController {
 			String enteredPassword = usrDto.getNewPassword();
 			String enteredPassword2 = usrDto.getNewPassword2();
 			if (isFalse(enteredPassword.equals(enteredPassword2))) {
-				return new ResponseEntity<>(new ApiResponse(false, PASSWORDS_ARE_DIFFERENT_MESSAGE), HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(new ApiResponse(false, PASSWORDS_ARE_DIFFERENT_MESSAGE), HttpStatus.CONFLICT);
 			}
 			userService.changePassword(usrDto);
 			return new ResponseEntity<>(new ApiResponse(true, PASSWORD_SUCCESSFULLY_UPDATED_MESSAGE), HttpStatus.OK);

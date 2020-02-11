@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.UserDao;
+import com.vinyl.dto.SalesmanUsrDto;
 import com.vinyl.dto.UsrDto;
 import com.vinyl.exception.LoginExistException;
 import com.vinyl.model.UserCredentials;
@@ -45,15 +46,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserCredentials findByLogin(String login) {
-		return userDao.findByLogin(login);
+	public void saveSalesmanCreds(SalesmanUsrDto salesmanUsrDto) {
+		salesmanUsrDto.setPwd(passwordEncoder.encode(salesmanUsrDto.getPwd()));
+		userDao.saveSalesmanCreds(salesmanUsrDto);
 	}
 
 	@Override
-	public UserCredentials prepareForSaving(UserCredentials credentials) {
-		credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
-		credentials.setDirector(false);
-		return credentials;
+	public UserCredentials findByLogin(String login) {
+		return userDao.findByLogin(login);
 	}
 
 	@Override
