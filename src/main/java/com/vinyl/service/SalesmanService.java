@@ -16,4 +16,6 @@ public interface SalesmanService {
 
 	void updateSalesmanByTabNum(Salesman salesman, int tabNum);
 
+	List<Salesman> searchSalesman(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
+								  List<String> joins, String sorting, String order, Integer limit, Integer offset);
 }

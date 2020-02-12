@@ -10,5 +10,5 @@ public interface CheckService {
 	Integer save(Check check);
 
 	List<Check> searchChecks(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-							 List<String> joins, String sorting, String order);
+							 List<String> joins, String sorting, String order, Integer limit, Integer offset);
 }

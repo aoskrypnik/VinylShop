@@ -14,4 +14,5 @@ public interface SalesmanDao {
 
     void update(Salesman salesmanNew);
 
+	List<Salesman> searchSalesman(String query);
 }

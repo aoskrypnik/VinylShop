@@ -97,6 +97,11 @@ public class CustomerDaoImpl implements CustomerDao {
 	}
 
 	@Override
+	public List<Customer> searchCustomer(String query) {
+		return jdbcTemplate.query(query, customerRowMapper);
+	}
+
+	@Override
 	public List<Customer> getAll() {
 		String getAllCustomersQuery = QuerySupplier.getQuery(getAllCustomersQueryPath);
 		return jdbcTemplate.query(getAllCustomersQuery, customerRowMapper);

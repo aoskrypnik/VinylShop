@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -64,6 +65,23 @@ public class CustomerController {
 		}
 		customerService.deleteByNum(num);
 		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/search")
+	public ResponseEntity<?> getCustomerByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
+												   @RequestParam(value = "likes", required = false) List<String> likeParams,
+												   @RequestParam(value = "betweens", required = false) List<String> betweenParams,
+												   @RequestParam(value = "joins", required = false) List<String> joins,
+												   @RequestParam(value = "sort", required = false) String sorting,
+												   @RequestParam(value = "order", required = false) String order,
+												   @RequestParam(value = "limit", required = false) Integer limit,
+												   @RequestParam(value = "offset", required = false) Integer offset) {
+		List<Customer> customers = customerService
+				.searchCustomer(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+		if (customers.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(customers);
 	}
 
 }

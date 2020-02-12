@@ -80,4 +80,9 @@ public class SalesmanDaoImpl implements SalesmanDao {
 				salesmanNew.getWorksTo(), salesmanNew.getSalary(), salesmanNew.getTabNum());
 	}
 
+	@Override
+	public List<Salesman> searchSalesman(String query) {
+		return jdbcTemplate.query(query, salesmanRowMapper);
+	}
+
 }
