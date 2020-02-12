@@ -14,6 +14,6 @@ import lombok.Setter;
 public class SalesmanUsrDto {
 	private Integer tabNum;
 	private String login;
-	private String pwd;
-	private String pwd2;
+	private String password;
+	private String password2;
 }

@@ -29,8 +29,8 @@ public class CredentialsController {
 		UserCredentials userCredentials = userService.findByLogin(usrDto.getLogin());
 		if (userService.usrDtoCredsEqualUserCredFromDb(usrDto, userCredentials) &&
 				userService.userLoginMatchesCurrentlyLoggedInUser(userCredentials)) {
-			String enteredPassword = usrDto.getNewPassword();
-			String enteredPassword2 = usrDto.getNewPassword2();
+			String enteredPassword = usrDto.getPassword();
+			String enteredPassword2 = usrDto.getPassword2();
 			if (isFalse(enteredPassword.equals(enteredPassword2))) {
 				return new ResponseEntity<>(new ApiResponse(false, PASSWORDS_ARE_DIFFERENT_MESSAGE), HttpStatus.CONFLICT);
 			}

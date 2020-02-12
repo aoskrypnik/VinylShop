@@ -84,7 +84,7 @@ public class AuthController {
 			return new ResponseEntity<>(new ApiResponse(false,
 					USER_ALREADY_REGISTERED + salesmanTabNum), HttpStatus.CONFLICT);
 		}
-		if (isFalse(salesmanUsrDto.getPwd().equals(salesmanUsrDto.getPwd2()))) {
+		if (isFalse(salesmanUsrDto.getPassword().equals(salesmanUsrDto.getPassword2()))) {
 			return new ResponseEntity<>(new ApiResponse(false, PASSWORDS_ARE_DIFFERENT_MESSAGE), HttpStatus.CONFLICT);
 		}
 		userService.saveSalesmanCreds(salesmanUsrDto);

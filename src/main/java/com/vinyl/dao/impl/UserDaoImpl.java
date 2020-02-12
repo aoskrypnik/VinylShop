@@ -71,7 +71,7 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 	@Override
 	public void changePassword(UsrDto usrDto) {
 		String changePasswordQuery = QuerySupplier.getQuery(changePasswordQueryPath);
-		jdbcTemplate.update(changePasswordQuery, usrDto.getNewPassword(), usrDto.getLogin());
+		jdbcTemplate.update(changePasswordQuery, usrDto.getPassword(), usrDto.getLogin());
 	}
 
 	@Transactional
@@ -79,7 +79,7 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 	public void saveSalesmanCreds(SalesmanUsrDto salesmanUsrDto) {
 		String createUserQuery = QuerySupplier.getQuery(createUserQueryPath);
 		String updateSalesmanLoginQuery = QuerySupplier.getQuery(updateSalesmanLoginQueryPath);
-		jdbcTemplate.update(createUserQuery, salesmanUsrDto.getLogin(), salesmanUsrDto.getPwd(), false);
+		jdbcTemplate.update(createUserQuery, salesmanUsrDto.getLogin(), salesmanUsrDto.getPassword(), false);
 		jdbcTemplate.update(updateSalesmanLoginQuery, salesmanUsrDto.getLogin(), salesmanUsrDto.getTabNum());
 	}
 

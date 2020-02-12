@@ -14,6 +14,6 @@ import lombok.Setter;
 public class UsrDto {
 	private String login;
 	private String oldPassword;
-	private String newPassword;
-	private String newPassword2;
+	private String password;
+	private String password2;
 }

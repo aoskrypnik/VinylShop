@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void saveSalesmanCreds(SalesmanUsrDto salesmanUsrDto) {
-		salesmanUsrDto.setPwd(passwordEncoder.encode(salesmanUsrDto.getPwd()));
+		salesmanUsrDto.setPassword(passwordEncoder.encode(salesmanUsrDto.getPassword()));
 		userDao.saveSalesmanCreds(salesmanUsrDto);
 	}
 
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void changePassword(UsrDto usrDto) {
-		usrDto.setNewPassword(passwordEncoder.encode(usrDto.getNewPassword()));
+		usrDto.setPassword(passwordEncoder.encode(usrDto.getPassword()));
 		userDao.changePassword(usrDto);
 	}
 
