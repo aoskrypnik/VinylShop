@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String getCurrentUserAuthoritity(Authentication authentication) {
+	public String getCurrentUserAuthority(Authentication authentication) {
 		return authentication.getAuthorities().stream()
 				.map(GrantedAuthority::getAuthority)
 				.findFirst()

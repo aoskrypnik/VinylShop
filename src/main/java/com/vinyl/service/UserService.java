@@ -24,5 +24,5 @@ public interface UserService {
 
 	boolean userLoginMatchesCurrentlyLoggedInUser(UserCredentials userCredentials);
 
-	String getCurrentUserAuthoritity(Authentication authentication);
+	String getCurrentUserAuthority(Authentication authentication);
 }
