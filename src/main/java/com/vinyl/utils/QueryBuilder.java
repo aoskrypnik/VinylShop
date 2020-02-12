@@ -66,9 +66,22 @@ public class QueryBuilder {
 			String[] splitParam = param.split(":");
 			String firstParam = formatUrlKey(splitParam[0]);
 			String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
-			String thirdParam = formatUrlValue(splitParam[0], splitParam[2]);
-			stringBuilder.append("AND ").append(firstParam).append(" BETWEEN ")
-					.append(secondParam).append(" AND ").append(thirdParam).append(" ");
+			String thirdParam = "";
+			if (splitParam.length > 2) {
+				thirdParam = formatUrlValue(splitParam[0], splitParam[2]);
+			}
+			boolean isSecondParamPresent = false;
+			stringBuilder.append("AND ").append(firstParam);
+			if (secondParam.length() > 0 && isFalse(secondParam.equals("''"))) {
+				stringBuilder.append(">").append(secondParam).append(" ");
+				isSecondParamPresent = true;
+			}
+			if (thirdParam.length() > 0 && isFalse(thirdParam.equals("''"))) {
+				if (isSecondParamPresent) {
+					stringBuilder.append(" AND ").append(firstParam);
+				}
+				stringBuilder.append("<").append(thirdParam).append(" ");
+			}
 		}
 	}
 
@@ -162,7 +175,6 @@ public class QueryBuilder {
 			.put("composerIds", List.of("composer_name", STRING_TYPE_NAME))
 			.put("recordBarcode", List.of("bar_code", STRING_TYPE_NAME))
 			.put("releaseBarcodeFk", List.of("release_bar_code", STRING_TYPE_NAME))
-			.put("checkNum", List.of("check_num", NOT_STRING_TYPE_NAME))
 			.put("supplierEdrpou", List.of("supplier_edrpou", STRING_TYPE_NAME))
 			.put("purchaseDate", List.of("purchase_date", STRING_TYPE_NAME))
 			.put("purchasePrice", List.of("purchase_price", NOT_STRING_TYPE_NAME))
