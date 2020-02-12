@@ -76,13 +76,6 @@ public class TrackDaoImpl implements TrackDao {
 	}
 
 	@Override
-	public List<Track> getAll() {
-		String getAllTracksQuery = QuerySupplier.getQuery(getAllTracksQueryPath);
-		return jdbcTemplate.query(getAllTracksQuery, trackRowMapper);
-	}
-
-
-	@Override
 	public void update(Track track, String trackCatalogNum) {
 		String updateTrackQuery = QuerySupplier.getQuery(updateTrackQueryPath);
 		String deleteLanguagesFromTrackQuery = QuerySupplier.getQuery(deleteLanguagesFromTrackQueryPath);

@@ -12,8 +12,6 @@ public interface TrackDao {
 
 	void update(Track track, String catalogNum);
 
-	List<Track> getAll();
-
 	void deleteByCatalogNum(String catalogNum);
 
 	List<Track> searchTracks(String query);

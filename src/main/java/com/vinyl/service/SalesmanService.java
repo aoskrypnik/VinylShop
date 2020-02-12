@@ -10,8 +10,6 @@ public interface SalesmanService {
 
 	Salesman getSalesmanByTabNum(int tabNum);
 
-	List<Salesman> getAll();
-
     void update(Salesman salesmanNew);
 
 	void updateSalesmanByTabNum(Salesman salesman, int tabNum);

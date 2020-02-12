@@ -10,8 +10,6 @@ public interface AlbumDao {
 
 	Album getAlbumByCatalogNum(String catalogNum);
 
-	List<Album> getAll();
-
 	List<Album> searchAlbums(String query);
 
 	void update(Album album, String catalogNum);

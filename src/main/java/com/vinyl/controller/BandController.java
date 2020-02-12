@@ -30,11 +30,6 @@ public class BandController {
 	@Resource
 	private BandService bandService;
 
-	@GetMapping
-	public List<Band> getAllBands() {
-		return bandService.getAll();
-	}
-
 	@PostMapping
 	public ResponseEntity<?> saveBand(@RequestBody Band band) {
 		String bandAlias;

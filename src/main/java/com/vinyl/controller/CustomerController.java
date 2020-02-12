@@ -27,11 +27,6 @@ public class CustomerController {
 	@Resource
 	private CustomerService customerService;
 
-	@GetMapping
-	public List<Customer> findAllCustomers() {
-		return customerService.getAll();
-	}
-
 	@GetMapping("/{num}")
 	public ResponseEntity<?> getCustomerByNum(@PathVariable Integer num) {
 		Customer foundCustomer = customerService.getCustomerByNum(num);

@@ -43,12 +43,6 @@ public class SalesmanDaoImpl implements SalesmanDao {
 	}
 
 	@Override
-	public List<Salesman> getAll() {
-		String getGetAllSalesmenQuery = QuerySupplier.getQuery(getGetAllSalesmenQueryPath);
-		return jdbcTemplate.query(getGetAllSalesmenQuery, salesmanRowMapper);
-	}
-
-	@Override
 	public int save(Salesman salesman) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		String createSalesmanQuery = QuerySupplier.getQuery(createSalesmanQueryPath);

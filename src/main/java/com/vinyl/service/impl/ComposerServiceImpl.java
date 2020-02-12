@@ -38,11 +38,6 @@ public class ComposerServiceImpl implements ComposerService {
 	}
 
 	@Override
-	public List<Composer> getAll() {
-		return composerDao.getAll();
-	}
-
-	@Override
 	public void update(Composer composer, String composerName) {
 		composerDao.update(composer, composerName);
 	}

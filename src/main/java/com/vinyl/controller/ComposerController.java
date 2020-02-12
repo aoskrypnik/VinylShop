@@ -29,11 +29,6 @@ public class ComposerController {
 	@Resource
 	private ComposerService composerService;
 
-	@GetMapping
-	public List<Composer> getAllComposers() {
-		return composerService.getAll();
-	}
-
 	@GetMapping("/{composerName}")
 	public ResponseEntity<?> getComposerByName(@PathVariable String composerName) {
 		Composer foundComposer = composerService.getComposerByName(composerName);

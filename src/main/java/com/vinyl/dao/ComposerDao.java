@@ -12,7 +12,5 @@ public interface ComposerDao {
 
 	void update(Composer composer, String composerName);
 
-	List<Composer> getAll();
-
 	List<Composer> searchComposers(String query);
 }

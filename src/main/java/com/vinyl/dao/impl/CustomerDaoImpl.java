@@ -83,10 +83,9 @@ public class CustomerDaoImpl implements CustomerDao {
 	}
 
 	@Override
-	public Short updateDiscount(int num, short discount) {
+	public void updateDiscount(int num, short discount) {
 		String updateDiscountQuery = QuerySupplier.getQuery(updateDiscountQueryPath);
 		jdbcTemplate.update(updateDiscountQuery, discount, num);
-		return null;
 	}
 
 	@Override
@@ -99,12 +98,6 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public List<Customer> searchCustomer(String query) {
 		return jdbcTemplate.query(query, customerRowMapper);
-	}
-
-	@Override
-	public List<Customer> getAll() {
-		String getAllCustomersQuery = QuerySupplier.getQuery(getAllCustomersQueryPath);
-		return jdbcTemplate.query(getAllCustomersQuery, customerRowMapper);
 	}
 
 }

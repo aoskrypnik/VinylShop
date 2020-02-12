@@ -12,11 +12,9 @@ public interface CustomerDao {
 
 	void update(Customer customer);
 
-	List<Customer> getAll();
-
 	void deleteByNum(int num);
 
-	Short updateDiscount(int num, short discount);
+	void updateDiscount(int num, short discount);
 
 	Integer getSumForAllPurchases(int num);
 

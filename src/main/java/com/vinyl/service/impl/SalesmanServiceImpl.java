@@ -23,11 +23,6 @@ public class SalesmanServiceImpl implements SalesmanService {
 	}
 
 	@Override
-	public List<Salesman> getAll() {
-		return salesmanDao.getAll();
-	}
-
-	@Override
 	public int save(Salesman salesman) {
 		return salesmanDao.save(salesman);
 	}

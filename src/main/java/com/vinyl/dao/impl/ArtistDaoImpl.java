@@ -61,12 +61,6 @@ public class ArtistDaoImpl implements ArtistDao {
 	}
 
 	@Override
-	public List<Artist> getAll() {
-		String getAllArtistsQuery = QuerySupplier.getQuery(getAllArtistsQueryPath);
-		return jdbcTemplate.query(getAllArtistsQuery, artistRowMapper);
-	}
-
-	@Override
 	public List<Artist> searchArtists(String query) {
 		return jdbcTemplate.query(query, artistRowMapper);
 	}

@@ -29,11 +29,6 @@ public class ReleaseController {
 	@Resource
 	private ReleaseService releaseService;
 
-	@GetMapping
-	public List<Release> getAllReleases() {
-		return releaseService.getAll();
-	}
-
 	@PostMapping
 	public ResponseEntity<?> saveRelease(@RequestBody Release release) {
 		try {

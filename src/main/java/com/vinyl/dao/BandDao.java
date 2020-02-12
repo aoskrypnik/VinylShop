@@ -12,8 +12,6 @@ public interface BandDao {
 
 	void update(Band band, String alias);
 
-	List<Band> getAll();
-
 	List<Band> searchBands(String query);
 
 	void deleteBand(String alias);

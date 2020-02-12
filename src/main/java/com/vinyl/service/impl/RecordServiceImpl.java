@@ -33,11 +33,6 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	public List<Record> getAll() {
-		return recordDao.getAll();
-	}
-
-	@Override
 	public List<Record> searchRecords(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
 									  List<String> joins, String sorting, String order,
 									  Integer limit, Integer offset) {

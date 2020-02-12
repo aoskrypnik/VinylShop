@@ -64,12 +64,6 @@ public class RecordDaoImpl implements RecordDao {
 	}
 
 	@Override
-	public List<Record> getAll() {
-		String getAllRecordsQuery = QuerySupplier.getQuery(getAllRecordsQueryPath);
-		return jdbcTemplate.query(getAllRecordsQuery, recordRowMapper);
-	}
-
-	@Override
 	public List<Record> searchReleases(String query) {
 		return jdbcTemplate.query(query, recordRowMapper);
 	}

@@ -52,7 +52,7 @@ public class SupplierController {
 	}
 
 	@PutMapping("/{edrpou}")
-	public ResponseEntity<?> updateRelease(@RequestBody Supplier supplier, @PathVariable String edrpou) {
+	public ResponseEntity<?> updateSupplier(@RequestBody Supplier supplier, @PathVariable String edrpou) {
 		if (isNull(supplierService.getSupplierByEdrpou(edrpou))) {
 			return ResponseEntity.notFound().build();
 		}
@@ -61,14 +61,14 @@ public class SupplierController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> getAlbumByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
-												@RequestParam(value = "likes", required = false) List<String> likeParams,
-												@RequestParam(value = "betweens", required = false) List<String> betweenParams,
-												@RequestParam(value = "joins", required = false) List<String> joins,
-												@RequestParam(value = "sort", required = false) String sorting,
-												@RequestParam(value = "order", required = false) String order,
-												@RequestParam(value = "limit", required = false) Integer limit,
-												@RequestParam(value = "offset", required = false) Integer offset) {
+	public ResponseEntity<?> getSupplierByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
+												   @RequestParam(value = "likes", required = false) List<String> likeParams,
+												   @RequestParam(value = "betweens", required = false) List<String> betweenParams,
+												   @RequestParam(value = "joins", required = false) List<String> joins,
+												   @RequestParam(value = "sort", required = false) String sorting,
+												   @RequestParam(value = "order", required = false) String order,
+												   @RequestParam(value = "limit", required = false) Integer limit,
+												   @RequestParam(value = "offset", required = false) Integer offset) {
 		List<Supplier> suppliers = supplierService
 				.searchSuppliers(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
 		if (suppliers.isEmpty()) {

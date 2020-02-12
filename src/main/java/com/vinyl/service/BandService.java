@@ -9,8 +9,6 @@ public interface BandService {
 
 	String save(Band band) throws BandExistException;
 
-	List<Band> getAll();
-
 	Band getBandByAlias(String alias);
 
 	List<Band> searchBands(List<String> whereParams, List<String> likeParams, List<String> betweenParams,

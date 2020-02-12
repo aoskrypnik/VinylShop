@@ -12,8 +12,6 @@ public interface ArtistDao {
 
 	void update(Artist artist, String alias);
 
-	List<Artist> getAll();
-
 	List<Artist> searchArtists(String query);
 
 	void deleteArtist(String alias);

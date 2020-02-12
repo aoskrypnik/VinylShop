@@ -26,10 +26,12 @@ public class CheckRowMapper implements RowMapper<Check> {
 		Integer checkNum = resultSet.getInt("check_num");
 		Integer overallSum = resultSet.getInt("overall_sum");
 		Short checkDiscount = resultSet.getShort("check_discount");
+		int customerNum = resultSet.getInt("customer_num");
+		Integer customerNumObj = customerNum == 0 ? null : customerNum;
 		return Check.builder()
 				.checkNum(checkNum)
 				.dateTime(resultSet.getTimestamp("date_time"))
-				.customerNum(resultSet.getInt("customer_num"))
+				.customerNum(customerNumObj)
 				.salesmanTabNum(resultSet.getInt("salesman_tab_num"))
 				.overallSum(overallSum)
 				.checkDiscount(checkDiscount)

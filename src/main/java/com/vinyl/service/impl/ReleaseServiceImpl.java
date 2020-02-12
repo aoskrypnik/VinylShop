@@ -16,6 +16,7 @@ import static java.util.Objects.nonNull;
 public class ReleaseServiceImpl implements ReleaseService {
 
 	private static final String RELEASE_TABLE_NAME = "release";
+
 	@Resource
 	private ReleaseDao releaseDao;
 
@@ -32,11 +33,6 @@ public class ReleaseServiceImpl implements ReleaseService {
 	@Override
 	public Release getReleaseByBarcode(String barcode) {
 		return releaseDao.getReleaseByBarcode(barcode);
-	}
-
-	@Override
-	public List<Release> getAll() {
-		return releaseDao.getAll();
 	}
 
 	@Override

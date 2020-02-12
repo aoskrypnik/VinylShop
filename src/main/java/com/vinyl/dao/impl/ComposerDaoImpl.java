@@ -50,12 +50,6 @@ public class ComposerDaoImpl implements ComposerDao {
 	}
 
 	@Override
-	public List<Composer> getAll() {
-		String getAllComposersQuery = QuerySupplier.getQuery(getAllComposersQueryPath);
-		return jdbcTemplate.query(getAllComposersQuery, composerRowMapper);
-	}
-
-	@Override
 	public void update(Composer composer, String composerName) {
 		String updateComposerQuery = QuerySupplier.getQuery(updateComposerQueryPath);
 

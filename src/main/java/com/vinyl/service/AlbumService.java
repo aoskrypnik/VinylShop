@@ -9,8 +9,6 @@ public interface AlbumService {
 
 	String save(Album album) throws AlbumAlreadyExistException;
 
-	List<Album> getAll();
-
 	Album getAlbumByCatalogNum(String catalogNum);
 
 	List<Album> searchAlbums(List<String> whereParams, List<String> likeParams, List<String> betweenParams,

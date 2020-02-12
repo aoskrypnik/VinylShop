@@ -2,7 +2,6 @@ package com.vinyl.controller;
 
 import com.vinyl.exception.AlbumAlreadyExistException;
 import com.vinyl.model.Album;
-import com.vinyl.model.Composer;
 import com.vinyl.service.AlbumService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +28,6 @@ public class AlbumController {
 
 	@Resource
 	private AlbumService albumService;
-
-	@GetMapping
-	public List<Album> getAllAlbums() {
-		return albumService.getAll();
-	}
 
 	@PostMapping
 	public ResponseEntity<?> saveAlbum(@RequestBody Album album) {

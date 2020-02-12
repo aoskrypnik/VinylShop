@@ -31,11 +31,6 @@ public class AlbumServiceImpl implements AlbumService {
 	}
 
 	@Override
-	public List<Album> getAll() {
-		return albumDao.getAll();
-	}
-
-	@Override
 	public Album getAlbumByCatalogNum(String catalogNum) {
 		return albumDao.getAlbumByCatalogNum(catalogNum);
 	}

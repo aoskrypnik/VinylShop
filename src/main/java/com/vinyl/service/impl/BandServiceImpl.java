@@ -17,6 +17,7 @@ public class BandServiceImpl implements BandService {
 
 	private static final String BAND_TABLE_NAME = "band";
 	private static final String BAND_ALREADY_EXIST = "Band already exist with such alias: ";
+
 	@Resource
 	private BandDao bandDao;
 
@@ -28,11 +29,6 @@ public class BandServiceImpl implements BandService {
 			throw new BandExistException(BAND_ALREADY_EXIST + bandAlias);
 		}
 		return bandDao.save(band);
-	}
-
-	@Override
-	public List<Band> getAll() {
-		return bandDao.getAll();
 	}
 
 	@Override

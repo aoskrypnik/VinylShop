@@ -11,8 +11,6 @@ public interface ComposerService {
 
 	Composer getComposerByName(String name);
 
-	List<Composer> getAll();
-
 	void update(Composer composer, String composerName);
 
 	List<String> getTracksByName(String composerName);

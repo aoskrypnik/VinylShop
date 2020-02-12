@@ -10,8 +10,6 @@ public interface SalesmanDao {
 
     Salesman getSalesmanByTabNum(int tabNum);
 
-    List<Salesman> getAll();
-
     void update(Salesman salesmanNew);
 
 	List<Salesman> searchSalesman(String query);

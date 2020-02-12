@@ -61,12 +61,6 @@ public class BandDaoImpl implements BandDao {
 	}
 
 	@Override
-	public List<Band> getAll() {
-		String getAllBandsQuery = QuerySupplier.getQuery(getAllBandsQueryPath);
-		return jdbcTemplate.query(getAllBandsQuery, bandRowMapper);
-	}
-
-	@Override
 	public List<Band> searchBands(String query) {
 		return jdbcTemplate.query(query, bandRowMapper);
 	}

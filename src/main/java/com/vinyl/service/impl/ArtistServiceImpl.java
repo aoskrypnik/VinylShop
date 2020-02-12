@@ -32,11 +32,6 @@ public class ArtistServiceImpl implements ArtistService {
 	}
 
 	@Override
-	public List<Artist> getAll() {
-		return artistDao.getAll();
-	}
-
-	@Override
 	public Artist getArtistByAlias(String alias) {
 		return artistDao.getArtistByAlias(alias);
 	}

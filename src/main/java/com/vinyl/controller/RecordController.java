@@ -34,11 +34,6 @@ public class RecordController {
 		return ResponseEntity.created(location).build();
 	}
 
-	@GetMapping
-	public List<Record> getAll() {
-		return recordService.getAll();
-	}
-
 	@GetMapping("/{barcode}")
 	public ResponseEntity<?> getRecordByBarcode(@PathVariable String barcode) {
 		Record foundRecord = recordService.getByBarcode(barcode);

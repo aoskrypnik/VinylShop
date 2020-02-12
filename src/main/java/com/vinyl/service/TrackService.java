@@ -13,8 +13,6 @@ public interface TrackService {
 
 	void update(Track track, String catalogNum);
 
-	List<Track> getAll();
-
 	void deleteByCatalogNum(String catalogNum);
 
 	List<Track> searchTracks(List<String> whereParams, List<String> likeParams, List<String> betweenParams,

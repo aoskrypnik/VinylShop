@@ -26,11 +26,6 @@ public class SalesmanController {
 	@Resource
 	private SalesmanService salesmanService;
 
-	@GetMapping
-	public List<Salesman> getAllSalesmen() {
-		return salesmanService.getAll();
-	}
-
 	@GetMapping("/{tabNum}")
 	public ResponseEntity<?> getSalesmanByTabNum(@PathVariable Integer tabNum) {
 		Salesman foundSalesman = salesmanService.getSalesmanByTabNum(tabNum);

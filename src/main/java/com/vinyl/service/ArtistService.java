@@ -9,8 +9,6 @@ public interface ArtistService {
 
 	String save(Artist artist) throws ArtistExistException;
 
-	List<Artist> getAll();
-
 	Artist getArtistByAlias(String alias);
 
 	List<Artist> searchArtists(List<String> whereParams, List<String> likeParams, List<String> betweenParams,

@@ -36,11 +36,6 @@ public class TrackServiceImpl implements TrackService {
 	}
 
 	@Override
-	public List<Track> getAll() {
-		return trackDao.getAll();
-	}
-
-	@Override
 	public void update(Track track, String catalogNum) {
 		trackDao.update(track, catalogNum);
 	}

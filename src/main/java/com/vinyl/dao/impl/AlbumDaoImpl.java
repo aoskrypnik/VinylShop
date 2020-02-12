@@ -51,13 +51,6 @@ public class AlbumDaoImpl implements AlbumDao {
 	}
 
 	@Override
-	public List<Album> getAll() {
-		String getAllAlbumsQuery = QuerySupplier.getQuery(getAllAlbumsQueryPath);
-		return jdbcTemplate.query(getAllAlbumsQuery, albumRowMapper);
-
-	}
-
-	@Override
 	public List<Album> searchAlbums(String query) {
 		return jdbcTemplate.query(query, albumRowMapper);
 	}

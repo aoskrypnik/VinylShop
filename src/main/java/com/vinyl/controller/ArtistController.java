@@ -30,11 +30,6 @@ public class ArtistController {
 	@Resource
 	private ArtistService artistService;
 
-	@GetMapping
-	public List<Artist> getAllTracks() {
-		return artistService.getAll();
-	}
-
 	@PostMapping
 	public ResponseEntity<?> saveArtist(@RequestBody Artist artist) {
 		String artistAlias;

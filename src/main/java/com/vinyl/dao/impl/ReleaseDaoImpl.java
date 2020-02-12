@@ -47,12 +47,6 @@ public class ReleaseDaoImpl implements ReleaseDao {
 	}
 
 	@Override
-	public List<Release> getAll() {
-		String getAllReleasesQuery = QuerySupplier.getQuery(getAllReleasesQueryPath);
-		return jdbcTemplate.query(getAllReleasesQuery, releaseRowMapper);
-	}
-
-	@Override
 	public List<Release> searchReleases(String query) {
 		return jdbcTemplate.query(query, releaseRowMapper);
 	}

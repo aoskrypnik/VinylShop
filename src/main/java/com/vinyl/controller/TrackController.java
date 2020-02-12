@@ -30,11 +30,6 @@ public class TrackController {
 	@Resource
 	private TrackService trackService;
 
-	@GetMapping
-	public List<Track> getAllTracks() {
-		return trackService.getAll();
-	}
-
 	@GetMapping("/{catalogNum}")
 	public ResponseEntity<?> getComposerByName(@PathVariable String catalogNum) {
 		Track foundTrack = trackService.getTrackByCatalogNum(catalogNum);
