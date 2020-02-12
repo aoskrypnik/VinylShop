@@ -55,8 +55,9 @@ public class ComposerServiceImpl implements ComposerService {
 
 	@Override
 	public List<Composer> searchComposers(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-										  List<String> joins, String sorting, String order) {
-		String query = QueryBuilder.build(whereParams, likeParams, betweenParams, joins, sorting, order, COMPOSER_TABLE_NAME);
+										  List<String> joins, String sorting, String order, Integer limit, Integer offset) {
+		String query = QueryBuilder
+				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, COMPOSER_TABLE_NAME);
 		return composerDao.searchComposers(query);
 	}
 

@@ -72,8 +72,11 @@ public class AlbumController {
 												@RequestParam(value = "betweens", required = false) List<String> betweenParams,
 												@RequestParam(value = "joins", required = false) List<String> joins,
 												@RequestParam(value = "sort", required = false) String sorting,
-												@RequestParam(value = "order", required = false) String order) {
-		List<Album> albums = albumService.searchAlbums(whereParams, likeParams, betweenParams, joins, sorting, order);
+												@RequestParam(value = "order", required = false) String order,
+												@RequestParam(value = "limit", required = false) Integer limit,
+												@RequestParam(value = "offset", required = false) Integer offset) {
+		List<Album> albums = albumService
+				.searchAlbums(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
 		if (albums.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

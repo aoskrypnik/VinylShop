@@ -41,8 +41,9 @@ public class ReleaseServiceImpl implements ReleaseService {
 
 	@Override
 	public List<Release> searchReleases(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-										List<String> joins, String sorting, String order) {
-		String query = QueryBuilder.build(whereParams, likeParams, betweenParams, joins, sorting, order, RELEASE_TABLE_NAME);
+										List<String> joins, String sorting, String order, Integer limit, Integer offset) {
+		String query = QueryBuilder
+				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, RELEASE_TABLE_NAME);
 		return releaseDao.searchReleases(query);
 	}
 

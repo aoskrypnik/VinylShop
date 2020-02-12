@@ -15,5 +15,5 @@ public interface RecordService {
 	List<Record> getAll();
 
 	List<Record> searchRecords(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-							   List<String> joins, String sorting, String order);
+							   List<String> joins, String sorting, String order, Integer limit, Integer offset);
 }

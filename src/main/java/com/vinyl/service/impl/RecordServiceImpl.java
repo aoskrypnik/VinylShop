@@ -38,8 +38,11 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	public List<Record> searchRecords(List<String> whereParams, List<String> likeParams, List<String> betweenParams, List<String> joins, String sorting, String order) {
-		String query = QueryBuilder.build(whereParams, likeParams, betweenParams, joins, sorting, order, RECORD_TABLE_NAME);
+	public List<Record> searchRecords(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
+									  List<String> joins, String sorting, String order,
+									  Integer limit, Integer offset) {
+		String query = QueryBuilder
+				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, RECORD_TABLE_NAME);
 		return recordDao.searchReleases(query);
 	}
 

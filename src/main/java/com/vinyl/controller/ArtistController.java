@@ -2,7 +2,6 @@ package com.vinyl.controller;
 
 import com.vinyl.exception.ArtistExistException;
 import com.vinyl.model.Artist;
-import com.vinyl.model.Composer;
 import com.vinyl.service.ArtistService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,8 +64,11 @@ public class ArtistController {
 												 @RequestParam(value = "betweens", required = false) List<String> betweenParams,
 												 @RequestParam(value = "joins", required = false) List<String> joins,
 												 @RequestParam(value = "sort", required = false) String sorting,
-												 @RequestParam(value = "order", required = false) String order) {
-		List<Artist> artists = artistService.searchArtists(whereParams, likeParams, betweenParams, joins, sorting, order);
+												 @RequestParam(value = "order", required = false) String order,
+												 @RequestParam(value = "limit", required = false) Integer limit,
+												 @RequestParam(value = "offset", required = false) Integer offset) {
+		List<Artist> artists = artistService
+				.searchArtists(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
 		if (artists.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

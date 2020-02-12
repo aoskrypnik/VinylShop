@@ -41,8 +41,11 @@ public class AlbumServiceImpl implements AlbumService {
 	}
 
 	@Override
-	public List<Album> searchAlbums(List<String> whereParams, List<String> likeParams, List<String> betweenParams, List<String> joins, String sorting, String order) {
-		String query = QueryBuilder.build(whereParams, likeParams, betweenParams, joins, sorting, order, ALBUM_TABLE_NAME);
+	public List<Album> searchAlbums(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
+									List<String> joins, String sorting, String order,
+									Integer limit, Integer offset) {
+		String query = QueryBuilder
+				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, ALBUM_TABLE_NAME);
 		return albumDao.searchAlbums(query);
 	}
 

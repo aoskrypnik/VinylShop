@@ -42,8 +42,11 @@ public class ArtistServiceImpl implements ArtistService {
 	}
 
 	@Override
-	public List<Artist> searchArtists(List<String> whereParams, List<String> likeParams, List<String> betweenParams, List<String> joins, String sorting, String order) {
-		String query = QueryBuilder.build(whereParams, likeParams, betweenParams, joins, sorting, order, ARTIST_TABLE_NAME);
+	public List<Artist> searchArtists(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
+									  List<String> joins, String sorting, String order,
+									  Integer limit, Integer offset) {
+		String query = QueryBuilder
+				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, ARTIST_TABLE_NAME);
 		return artistDao.searchArtists(query);
 	}
 

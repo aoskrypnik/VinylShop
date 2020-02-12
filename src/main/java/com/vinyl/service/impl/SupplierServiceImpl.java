@@ -37,8 +37,9 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public List<Supplier> searchSuppliers(List<String> whereParams, List<String> likeParams,
 										  List<String> betweenParams, List<String> joins,
-										  String sorting, String order) {
-		String query = QueryBuilder.build(whereParams, likeParams, betweenParams, joins, sorting, order, SUPPLIER_TABLE_NAME);
+										  String sorting, String order, Integer limit, Integer offset) {
+		String query = QueryBuilder
+				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, SUPPLIER_TABLE_NAME);
 		return supplierDao.searchSuppliers(query);
 	}
 

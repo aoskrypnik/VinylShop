@@ -1,7 +1,6 @@
 package com.vinyl.controller;
 
 import com.vinyl.exception.BandExistException;
-import com.vinyl.model.Artist;
 import com.vinyl.model.Band;
 import com.vinyl.service.BandService;
 import org.springframework.http.ResponseEntity;
@@ -65,8 +64,11 @@ public class BandController {
 											   @RequestParam(value = "betweens", required = false) List<String> betweenParams,
 											   @RequestParam(value = "joins", required = false) List<String> joins,
 											   @RequestParam(value = "sort", required = false) String sorting,
-											   @RequestParam(value = "order", required = false) String order) {
-		List<Band> bands = bandService.searchBands(whereParams, likeParams, betweenParams, joins, sorting, order);
+											   @RequestParam(value = "order", required = false) String order,
+											   @RequestParam(value = "limit", required = false) Integer limit,
+											   @RequestParam(value = "offset", required = false) Integer offset) {
+		List<Band> bands = bandService
+				.searchBands(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
 		if (bands.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

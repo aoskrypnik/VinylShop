@@ -14,7 +14,7 @@ public interface AlbumService {
 	Album getAlbumByCatalogNum(String catalogNum);
 
 	List<Album> searchAlbums(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-							 List<String> joins, String sorting, String order);
+							 List<String> joins, String sorting, String order, Integer limit, Integer offset);
 
 	public void update(Album album, String catalogNum);
 

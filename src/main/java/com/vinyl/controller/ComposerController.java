@@ -20,7 +20,6 @@ import java.net.URI;
 import java.util.List;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 @Slf4j
 @RestController
@@ -73,8 +72,11 @@ public class ComposerController {
 												 @RequestParam(value = "betweens", required = false) List<String> betweenParams,
 												 @RequestParam(value = "joins", required = false) List<String> joins,
 												 @RequestParam(value = "sort", required = false) String sorting,
-												 @RequestParam(value = "order", required = false) String order) {
-		List<Composer> composers = composerService.searchComposers(whereParams, likeParams, betweenParams, joins, sorting, order);
+												 @RequestParam(value = "order", required = false) String order,
+												 @RequestParam(value = "limit", required = false) Integer limit,
+												 @RequestParam(value = "offset", required = false) Integer offset) {
+		List<Composer> composers = composerService
+				.searchComposers(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
 		if (composers.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

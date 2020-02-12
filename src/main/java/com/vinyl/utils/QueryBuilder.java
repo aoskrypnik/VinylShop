@@ -15,7 +15,8 @@ public class QueryBuilder {
 	private static final String NOT_STRING_TYPE_NAME = "Not String";
 
 	public static String build(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-							   List<String> joins, String sorting, String order, String tableName) {
+							   List<String> joins, String sorting, String order,
+							   Integer limit, Integer offset, String tableName) {
 		boolean whereAlreadyUsed = false;
 
 		StringBuilder stringBuilder = new StringBuilder("SELECT ");
@@ -54,6 +55,8 @@ public class QueryBuilder {
 		}
 
 		buildOrderingPart(sorting, order, stringBuilder);
+
+		buildingOffsetPart(limit, offset, stringBuilder);
 
 		return stringBuilder.toString();
 	}
@@ -105,7 +108,16 @@ public class QueryBuilder {
 			stringBuilder.append("ORDER BY ").append(formatUrlKey(sorting)).append(" ");
 		}
 		if (nonNull(order)) {
-			stringBuilder.append(order);
+			stringBuilder.append(order).append(" ");
+		}
+	}
+
+	private static void buildingOffsetPart(Integer limit, Integer offset, StringBuilder stringBuilder) {
+		if (nonNull(limit)) {
+			stringBuilder.append("LIMIT ").append(limit).append(" ");
+		}
+		if (nonNull(offset)) {
+			stringBuilder.append("OFFSET ").append(offset);
 		}
 	}
 
