@@ -16,18 +16,19 @@ import static java.util.Objects.nonNull;
 public class AlbumServiceImpl implements AlbumService {
 
 	private static final String ALBUM_TABLE_NAME = "album";
+	public static final String ALBUM_ALREADY_EXIST_WITH_SUCH_CATALOG_NUM = "Album already exist with such catalogNum: ";
 
 	@Resource
 	private AlbumDao albumDao;
 
 	@Override
-	public String save(Album album) throws AlbumAlreadyExistException {
+	public void save(Album album) throws AlbumAlreadyExistException {
 		String catalogNum = album.getAlbumCatalogNum();
 		Album alreadyExistingAlbum = getAlbumByCatalogNum(catalogNum);
 		if (nonNull(alreadyExistingAlbum)) {
-			throw new AlbumAlreadyExistException("Album already exist with such catalogNum: " + catalogNum);
+			throw new AlbumAlreadyExistException(ALBUM_ALREADY_EXIST_WITH_SUCH_CATALOG_NUM + catalogNum);
 		}
-		return albumDao.save(album);
+		albumDao.save(album);
 	}
 
 	@Override

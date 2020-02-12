@@ -34,13 +34,12 @@ public class AlbumDaoImpl implements AlbumDao {
 	private RowMapper<Album> albumRowMapper;
 
 	@Override
-	public String save(Album album) {
+	public void save(Album album) {
 		String createAlbumQuery = QuerySupplier.getQuery(createAlbumQueryPath);
 		String addAlbumGenreQuery = QuerySupplier.getQuery(addAlbumGenreQueryPath);
 		jdbcTemplate.update(createAlbumQuery, album.getAlbumCatalogNum(), album.getReleaseYear(), album.getAlbumName(),
 				album.getVariousArtists());
 		album.getAlbumGenres().forEach(genre -> jdbcTemplate.update(addAlbumGenreQuery, album.getAlbumCatalogNum(), genre));
-		return album.getAlbumCatalogNum();
 	}
 
 	@Override

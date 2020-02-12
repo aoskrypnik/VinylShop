@@ -31,12 +31,11 @@ public class ReleaseDaoImpl implements ReleaseDao {
 	private RowMapper<Release> releaseRowMapper;
 
 	@Override
-	public String save(Release release) {
+	public void save(Release release) {
 		String createReleaseQuery = QuerySupplier.getQuery(createReleaseQueryPath);
 		jdbcTemplate.update(createReleaseQuery, release.getReleaseBarcode(), release.getAlbumCatalogNum(), release.getCountryCode(),
 				release.getReleaseDate(), release.getRecordSize(), release.getRecordSpeed(), release.getCopiesCount(),
 				release.getIsRepress(), release.getLabel());
-		return release.getReleaseBarcode();
 	}
 
 	@Override

@@ -23,13 +23,13 @@ public class ComposerServiceImpl implements ComposerService {
 	private ComposerDao composerDao;
 
 	@Override
-	public String save(Composer composer) throws ComposerExistException {
+	public void save(Composer composer) throws ComposerExistException {
 		String composerName = composer.getComposerName();
 		Composer foundComposer = composerDao.getComposerByName(composerName);
 		if (nonNull(foundComposer)) {
 			throw new ComposerExistException(COMPOSER_ALREADY_EXIST + composerName);
 		}
-		return composerDao.save(composer);
+		composerDao.save(composer);
 	}
 
 	@Override

@@ -32,14 +32,13 @@ public class BandController {
 
 	@PostMapping
 	public ResponseEntity<?> saveBand(@RequestBody Band band) {
-		String bandAlias;
 		try {
-			bandAlias = bandService.save(band);
+			bandService.save(band);
 		} catch (BandExistException e) {
 			return ResponseEntity.status(406).build();
 		}
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{alias}")
-				.buildAndExpand(bandAlias).toUri();
+				.buildAndExpand(band.getBandAlias()).toUri();
 
 		return ResponseEntity.created(location).build();
 	}

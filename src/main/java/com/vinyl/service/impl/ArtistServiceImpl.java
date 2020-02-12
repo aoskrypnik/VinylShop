@@ -22,13 +22,13 @@ public class ArtistServiceImpl implements ArtistService {
 	private ArtistDao artistDao;
 
 	@Override
-	public String save(Artist artist) throws ArtistExistException {
+	public void save(Artist artist) throws ArtistExistException {
 		String artistAlias = artist.getArtistAlias();
 		Artist foundArtist = artistDao.getArtistByAlias(artistAlias);
 		if (nonNull(foundArtist)) {
 			throw new ArtistExistException(ARTIST_ALREADY_EXIST + artistAlias);
 		}
-		return artistDao.save(artist);
+		artistDao.save(artist);
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BandService {
 
-	String save(Band band) throws BandExistException;
+	void save(Band band) throws BandExistException;
 
 	Band getBandByAlias(String alias);
 

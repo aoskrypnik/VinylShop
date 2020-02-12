@@ -40,14 +40,13 @@ public class ComposerController {
 
 	@PostMapping
 	public ResponseEntity<?> saveComposer(@RequestBody Composer composer) {
-		String composerName;
 		try {
-			composerName = composerService.save(composer);
+			composerService.save(composer);
 		} catch (ComposerExistException e) {
 			return ResponseEntity.status(406).build();
 		}
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{composerName}")
-				.buildAndExpand(composerName).toUri();
+				.buildAndExpand(composer.getComposerName()).toUri();
 
 		return ResponseEntity.created(location).build();
 	}

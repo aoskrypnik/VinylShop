@@ -21,13 +21,13 @@ public class TrackServiceImpl implements TrackService {
 	private TrackDao trackDao;
 
 	@Override
-	public String save(Track track) throws TrackAlreadyExistException {
+	public void save(Track track) throws TrackAlreadyExistException {
 		String catalogNum = track.getTrackCatalogNum();
 		Track alreadyExistingTrack = getTrackByCatalogNum(catalogNum);
 		if (nonNull(alreadyExistingTrack)) {
 			throw new TrackAlreadyExistException("Track already exist with such catalogNum: " + catalogNum);
 		}
-		return trackDao.save(track);
+		trackDao.save(track);
 	}
 
 	@Override

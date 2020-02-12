@@ -32,11 +32,10 @@ public class BandDaoImpl implements BandDao {
 	private RowMapper<Band> bandRowMapper;
 
 	@Override
-	public String save(Band band) {
+	public void save(Band band) {
 		String createBandQuery = QuerySupplier.getQuery(createBandQueryPath);
 		jdbcTemplate.update(createBandQuery, band.getBandAlias(), band.getIsBandActive(), band.getCountryCode(),
 				band.getStartYear(), band.getEndYear());
-		return band.getBandAlias();
 	}
 
 	@Override

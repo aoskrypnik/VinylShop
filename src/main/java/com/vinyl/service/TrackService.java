@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TrackService {
 
-	String save(Track track) throws TrackAlreadyExistException;
+	void save(Track track) throws TrackAlreadyExistException;
 
 	Track getTrackByCatalogNum(String catalogNum);
 

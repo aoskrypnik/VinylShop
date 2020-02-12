@@ -32,14 +32,13 @@ public class ArtistController {
 
 	@PostMapping
 	public ResponseEntity<?> saveArtist(@RequestBody Artist artist) {
-		String artistAlias;
 		try {
-			artistAlias = artistService.save(artist);
+			artistService.save(artist);
 		} catch (ArtistExistException e) {
 			return ResponseEntity.status(406).build();
 		}
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{alias}")
-				.buildAndExpand(artistAlias).toUri();
+				.buildAndExpand(artist.getArtistAlias()).toUri();
 
 		return ResponseEntity.created(location).build();
 	}

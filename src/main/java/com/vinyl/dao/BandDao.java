@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BandDao {
 
-	String save(Band band);
+	void save(Band band);
 
 	Band getBandByAlias(String alias);
 

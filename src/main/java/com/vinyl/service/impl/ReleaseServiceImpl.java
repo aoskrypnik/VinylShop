@@ -21,13 +21,13 @@ public class ReleaseServiceImpl implements ReleaseService {
 	private ReleaseDao releaseDao;
 
 	@Override
-	public String save(Release release) throws ReleaseAlreadyExistException {
+	public void save(Release release) throws ReleaseAlreadyExistException {
 		String barcode = release.getReleaseBarcode();
 		Release alreadyExistingRelease = getReleaseByBarcode(barcode);
 		if (nonNull(alreadyExistingRelease)) {
 			throw new ReleaseAlreadyExistException("Release already exist with such barcode: " + barcode);
 		}
-		return releaseDao.save(release);
+		releaseDao.save(release);
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AlbumService {
 
-	String save(Album album) throws AlbumAlreadyExistException;
+	void save(Album album) throws AlbumAlreadyExistException;
 
 	Album getAlbumByCatalogNum(String catalogNum);
 

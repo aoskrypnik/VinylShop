@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ReleaseDao {
 
-	String save(Release release);
+	void save(Release release);
 
 	Release getReleaseByBarcode(String barcode);
 

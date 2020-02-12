@@ -32,11 +32,10 @@ public class ArtistDaoImpl implements ArtistDao {
 	private RowMapper<Artist> artistRowMapper;
 
 	@Override
-	public String save(Artist artist) {
+	public void save(Artist artist) {
 		String createArtistQuery = QuerySupplier.getQuery(createArtistQueryPath);
 		jdbcTemplate.update(createArtistQuery, artist.getArtistAlias(), artist.getIsArtistActive(), artist.getCountryCode(),
 				artist.getArtistName(), artist.getArtistBirthDate(), artist.getArtistDeathDate());
-		return artist.getArtistAlias();
 	}
 
 	@Override

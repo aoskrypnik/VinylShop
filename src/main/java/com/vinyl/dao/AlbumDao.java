@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AlbumDao {
 
-	String save(Album album);
+	void save(Album album);
 
 	Album getAlbumByCatalogNum(String catalogNum);
 

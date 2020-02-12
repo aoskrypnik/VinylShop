@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ReleaseService {
 
-	String save(Release release) throws ReleaseAlreadyExistException;
+	void save(Release release) throws ReleaseAlreadyExistException;
 
 	Release getReleaseByBarcode(String barcode);
 

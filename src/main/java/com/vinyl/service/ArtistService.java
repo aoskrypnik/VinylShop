@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ArtistService {
 
-	String save(Artist artist) throws ArtistExistException;
+	void save(Artist artist) throws ArtistExistException;
 
 	Artist getArtistByAlias(String alias);
 

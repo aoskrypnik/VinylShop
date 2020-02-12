@@ -22,13 +22,13 @@ public class BandServiceImpl implements BandService {
 	private BandDao bandDao;
 
 	@Override
-	public String save(Band band) throws BandExistException {
+	public void save(Band band) throws BandExistException {
 		String bandAlias = band.getBandAlias();
 		Band foundBand = bandDao.getBandByAlias(bandAlias);
 		if (nonNull(foundBand)) {
 			throw new BandExistException(BAND_ALREADY_EXIST + bandAlias);
 		}
-		return bandDao.save(band);
+		bandDao.save(band);
 	}
 
 	@Override

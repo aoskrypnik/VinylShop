@@ -45,7 +45,7 @@ public class TrackDaoImpl implements TrackDao {
 	private RowMapper<Track> trackRowMapper;
 
 	@Override
-	public String save(Track track) {
+	public void save(Track track) {
 		String trackCatalogNum = track.getTrackCatalogNum();
 
 		String createTrackQuery = QuerySupplier.getQuery(createTrackQueryPath);
@@ -57,8 +57,6 @@ public class TrackDaoImpl implements TrackDao {
 		performQueryOnListValuesForTrack(trackCatalogNum, track.getLanguages(), addLanguagesToTrackQuery);
 		performQueryOnListValuesForTrack(trackCatalogNum, track.getAlbumIds(), addAlbumsToTrackQuery);
 		performQueryOnListValuesForTrack(trackCatalogNum, track.getComposerIds(), addComposersToTrackQuery);
-
-		return trackCatalogNum;
 	}
 
 	private void performQueryOnListValuesForTrack(String trackCatalogNum, List<String> listValues, String query) {

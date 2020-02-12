@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ComposerService {
 
-	String save(Composer composer) throws ComposerExistException;
+	void save(Composer composer) throws ComposerExistException;
 
 	Composer getComposerByName(String name);
 
