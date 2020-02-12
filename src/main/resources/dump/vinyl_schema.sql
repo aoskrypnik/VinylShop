@@ -273,5 +273,10 @@ CREATE TABLE public.write_off (
     CONSTRAINT write_off_salesman_tab_num_fk FOREIGN KEY (salesman_num) REFERENCES public.salesman(tab_num),
     CONSTRAINT write_off_record_bar_code_fk FOREIGN KEY (record_bar_code) REFERENCES public.record(bar_code),
     CONSTRAINT write_off_player_bar_code_fk FOREIGN KEY (player_bar_code) REFERENCES public.player(bar_code),
-    CONSTRAINT write_off_cartridge_bar_code_fk FOREIGN KEY (cartridge_bar_code) REFERENCES public.cartridge(bar_code)
+    CONSTRAINT write_off_cartridge_bar_code_fk FOREIGN KEY (cartridge_bar_code) REFERENCES public.cartridge(bar_code),
+    CHECK (
+        (record_bar_code IS NOT NULL AND player_bar_code IS NULL AND cartridge_bar_code IS NULL) OR
+        (record_bar_code IS NULL AND player_bar_code IS NOT NULL AND cartridge_bar_code IS NULL) OR
+        (record_bar_code IS NULL AND player_bar_code IS NULL AND cartridge_bar_code IS NOT NULL)
+        )
 );

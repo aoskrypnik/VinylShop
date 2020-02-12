@@ -207,6 +207,12 @@ public class QueryBuilder {
 			.put("salesmanTabNum", List.of("salesman_tab_num", NOT_STRING_TYPE_NAME))
 			.put("overallSum", List.of("overall_sum", NOT_STRING_TYPE_NAME))
 			.put("checkDiscount", List.of("check_discount", NOT_STRING_TYPE_NAME))
+			.put("writeOffNum", List.of("write_off_num", NOT_STRING_TYPE_NAME))
+			.put("offRecordBarcode", List.of("record_bar_code", NOT_STRING_TYPE_NAME))
+			.put("salesmanNum", List.of("salesman_num", NOT_STRING_TYPE_NAME))
+			.put("writeOffDate", List.of("write_off_date", STRING_TYPE_NAME))
+			.put("fee", List.of("fee", NOT_STRING_TYPE_NAME))
+			.put("reason", List.of("reason", STRING_TYPE_NAME))
 			.build();
 
 }
