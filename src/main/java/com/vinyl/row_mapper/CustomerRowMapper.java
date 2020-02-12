@@ -12,10 +12,10 @@ public class CustomerRowMapper implements RowMapper<Customer> {
 	@Override
 	public Customer mapRow(ResultSet resultSet, int i) throws SQLException {
 		return Customer.builder()
-				.num(resultSet.getInt("customer_num"))
-				.name(resultSet.getString("customer_name"))
-				.email(resultSet.getString("email"))
-				.discount(resultSet.getShort("discount"))
+				.customerNum(resultSet.getInt("customer_num"))
+				.customerName(resultSet.getString("customer_name"))
+				.customerEmail(resultSet.getString("email"))
+				.customerDiscount(resultSet.getShort("discount"))
 				.build();
 	}
 }

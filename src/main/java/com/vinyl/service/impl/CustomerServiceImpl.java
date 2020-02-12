@@ -42,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public void updateCustomerByNum(Customer customer, int num) {
-		customer.setNum(num);
+		customer.setCustomerNum(num);
 		update(customer);
 	}
 

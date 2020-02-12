@@ -80,7 +80,7 @@ public class AuthController {
 			return new ResponseEntity<>(new ApiResponse(false,
 					SALESMAN_DOESNT_EXIST + salesmanTabNum), HttpStatus.BAD_REQUEST);
 		}
-		if (nonNull(salesmanService.getSalesmanByTabNum(salesmanTabNum).getLogin())) {
+		if (nonNull(salesmanService.getSalesmanByTabNum(salesmanTabNum).getSalesmanLogin())) {
 			return new ResponseEntity<>(new ApiResponse(false,
 					USER_ALREADY_REGISTERED + salesmanTabNum), HttpStatus.CONFLICT);
 		}

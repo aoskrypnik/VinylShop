@@ -13,17 +13,17 @@ public class SalesmanRowMapper implements RowMapper<Salesman> {
 	public Salesman mapRow(ResultSet resultSet, int i) throws SQLException {
 		return Salesman.builder()
 				.tabNum(resultSet.getInt("tab_num"))
-				.name(resultSet.getString("salesman_name"))
+				.salesmanName(resultSet.getString("salesman_name"))
 				.passportNum(resultSet.getString("passport_num"))
 				.addressCity(resultSet.getString("address_city"))
 				.addressStr(resultSet.getString("address_str"))
 				.addressHome(resultSet.getString("address_home"))
 				.addressApt(resultSet.getInt("address_apt"))
-				.phoneNum(resultSet.getString("phone_num"))
+				.salesmanPhoneNum(resultSet.getString("phone_num"))
 				.worksFrom(resultSet.getDate("works_from"))
 				.worksTo(resultSet.getDate("works_to"))
 				.salary(resultSet.getInt("salary"))
-				.login(resultSet.getString("login"))
+				.salesmanLogin(resultSet.getString("login"))
 				.build();
 	}
 }

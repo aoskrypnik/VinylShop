@@ -48,9 +48,9 @@ public class CustomerDaoImpl implements CustomerDao {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(createCustomerQuery, Statement.RETURN_GENERATED_KEYS);
-			ps.setString(1, customer.getName());
-			ps.setString(2, customer.getEmail());
-			ps.setInt(3, customer.getDiscount());
+			ps.setString(1, customer.getCustomerName());
+			ps.setString(2, customer.getCustomerEmail());
+			ps.setInt(3, customer.getCustomerDiscount());
 			return ps;
 		}, keyHolder);
 
@@ -68,9 +68,9 @@ public class CustomerDaoImpl implements CustomerDao {
 	public void update(Customer customer) {
 		String updateCustomerQuery = QuerySupplier.getQuery(updateCustomerQueryPath);
 
-		int num = customer.getNum();
-		String email = customer.getEmail();
-		int discount = customer.getDiscount();
+		int num = customer.getCustomerNum();
+		String email = customer.getCustomerEmail();
+		int discount = customer.getCustomerDiscount();
 
 		jdbcTemplate.update(updateCustomerQuery, email, discount, num);
 	}

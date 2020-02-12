@@ -56,13 +56,13 @@ public class SalesmanDaoImpl implements SalesmanDao {
 		jdbcTemplate.update(connection -> {
 			PreparedStatement ps = connection
 					.prepareStatement(createSalesmanQuery, Statement.RETURN_GENERATED_KEYS);
-			ps.setString(1, salesman.getName());
+			ps.setString(1, salesman.getSalesmanName());
 			ps.setString(2, salesman.getPassportNum());
 			ps.setString(3, salesman.getAddressCity());
 			ps.setString(4, salesman.getAddressStr());
 			ps.setString(5, salesman.getAddressHome());
 			ps.setInt(6, salesman.getAddressApt());
-			ps.setString(7, salesman.getPhoneNum());
+			ps.setString(7, salesman.getSalesmanPhoneNum());
 			ps.setDate(8, salesman.getWorksFrom());
 			ps.setDate(9, salesman.getWorksTo());
 			ps.setInt(10, salesman.getSalary());
@@ -76,7 +76,7 @@ public class SalesmanDaoImpl implements SalesmanDao {
 	public void update(Salesman salesmanNew) {
 		String updateSalesmanQuery = QuerySupplier.getQuery(updateSalesmanQueryPath);
 		jdbcTemplate.update(updateSalesmanQuery, salesmanNew.getAddressCity(), salesmanNew.getAddressStr(),
-				salesmanNew.getAddressHome(), salesmanNew.getAddressApt(), salesmanNew.getPhoneNum(),
+				salesmanNew.getAddressHome(), salesmanNew.getAddressApt(), salesmanNew.getSalesmanPhoneNum(),
 				salesmanNew.getWorksTo(), salesmanNew.getSalary(), salesmanNew.getTabNum());
 	}
 

@@ -51,7 +51,7 @@ public class CheckServiceImpl implements CheckService {
 		if (isNull(registeredCustomerNum)) {
 			check.setCheckDiscount((short) 0);
 		} else {
-			short checkDiscount = customerService.getCustomerByNum(registeredCustomerNum).getDiscount();
+			short checkDiscount = customerService.getCustomerByNum(registeredCustomerNum).getCustomerDiscount();
 			check.setCheckDiscount(checkDiscount);
 		}
 		int overallSum = countCheckOverallSum(check.getProductBarcodes());
