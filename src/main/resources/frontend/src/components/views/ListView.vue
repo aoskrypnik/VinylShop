@@ -3,7 +3,7 @@
     <page-header>{{schemaName}}</page-header>
     <black-button class="mb-3">{{ $store.getters.getAppLocale('showFilters') }}</black-button>
     <div class="tableContainer">
-      <items-list class="mb-3" :schema="schema" :items="items"></items-list>
+      <items-list class="mb-3" :schema="schema" :items="items" @itemSelection="itemSelection"></items-list>
     </div>
     <three-dots-spinner v-if="loading"></three-dots-spinner>
     <p v-if="error" class="error mx-auto">{{ $store.getters.getAppLocale( serverError ? 'serverListError' : 'otherListError') }}</p>
@@ -62,6 +62,9 @@ export default {
       }).catch(() => {
         this.error = true
       })
+    },
+    itemSelection(key) {
+      this.$emit('itemSelection', key)
     }
   }
 }

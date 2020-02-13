@@ -12,9 +12,16 @@ export default new Vuex.Store({
     language: 'ua',
     schemas: Schemas,
     schemaDictionary: SchemaDictionary,
-    appDictionary: AppDictionary
+    appDictionary: AppDictionary,
+    popups: [{ type: 'list', properties: { schema: 'client' } }]
   },
   mutations: {
+    popup (state, content) {
+      state.popups.push(content)
+    },
+    closePopup (state) {
+      state.popups.pop()
+    }
   },
   getters: {
     getSchemaLocale: (state) => (schema) => {

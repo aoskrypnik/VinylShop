@@ -3,7 +3,7 @@
     <tr>
       <th v-for="header in getHeaders" :key="header" :title="$store.getters.getAppLocale('sortTooltip')">{{header}}</th>
     </tr>
-    <tr v-for="item in items" :key="item[getKey]" class="tableRow">
+    <tr v-for="(item, index) in items" :key="itemsKeys[index]" class="tableRow" @click="itemClick(index)">
       <td v-for="prop in getPropsNames" :key="prop">
         <item :value="item[prop]" :type="getProps[prop]"></item>
       </td>
@@ -32,6 +32,17 @@ export default {
     },
     getKey() {
       return this.$store.getters.getSchemaKey(this.schema)
+    },
+    itemsKeys() {
+      if (typeof this.getKey === 'object') {
+        return this.items.map(item => this.getKey.map(k => item[k]).join(','))
+      }
+      return this.items.map(item => item[this.getKey])
+    }
+  },
+  methods: {
+    itemClick(index) {
+      this.$emit('itemSelection', this.itemsKeys[index])
     }
   }
 }

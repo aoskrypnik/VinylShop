@@ -4,13 +4,28 @@
       <span class="logo col-md-12">MyVinyl</span>
     </div>
     <router-view/>
+    <div class="popups">
+      <PopupView v-for="(content, i) in popups" :key="i" :type="content.type" :properties="content.properties" @close="closePopup"></PopupView>
+    </div>
   </div>
 </template>
 
 <script>
+import PopupView from "./components/views/PopupView";
+import {mapState} from "vuex";
+
 export default {
   name: 'app',
   components: {
+    PopupView
+  },
+  computed: {
+    ...mapState(['popups'])
+  },
+  methods: {
+    closePopup() {
+      this.$store.commit('closePopup')
+    }
   }
 }
 </script>
