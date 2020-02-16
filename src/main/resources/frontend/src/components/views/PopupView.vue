@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="popupRoot">
     <div class="veil" @click="close">
-      <div class="content">
-        <popup-content :type="type" :properties="properties"></popup-content>
-      </div>
+
+    </div>
+    <div class="content">
+      <popup-content :type="type" :properties="properties" @close="close"></popup-content>
     </div>
   </div>
 </template>
@@ -24,11 +25,19 @@
 
 <style scoped>
 
-  .veil {
+  .popupRoot {
     position: fixed;
-    background: rgba(255, 255, 255, 0.5);
+    top: 0;
+    left: 0;
     height: 100vh;
     width: 100vw;
+  }
+
+  .veil {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    height: 100%;
+    width: 100%;
     top: 0;
     left: 0;
   }
@@ -44,10 +53,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px 40px;
-  }
-
-  .content > * {
-    margin-bottom: 40px;
   }
 
 </style>

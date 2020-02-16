@@ -13,7 +13,7 @@ export default new Vuex.Store({
     schemas: Schemas,
     schemaDictionary: SchemaDictionary,
     appDictionary: AppDictionary,
-    popups: [{ type: 'list', properties: { schema: 'client' } }]
+    popups: [{ type: 'list', properties: { schema: 'client', itemSelection: () => {} } }]
   },
   mutations: {
     popup (state, content) {

@@ -5,7 +5,7 @@
     </tr>
     <tr v-for="(item, index) in items" :key="itemsKeys[index]" class="tableRow" @click="itemClick(index)">
       <td v-for="prop in getPropsNames" :key="prop">
-        <item :value="item[prop]" :type="getProps[prop]"></item>
+        <item :value="item[prop]" :type="getProps[prop]" :schema="schema"></item>
       </td>
     </tr>
   </table>

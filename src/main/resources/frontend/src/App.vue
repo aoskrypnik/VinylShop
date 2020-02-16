@@ -5,7 +5,9 @@
     </div>
     <router-view/>
     <div class="popups">
-      <PopupView v-for="(content, i) in popups" :key="i" :type="content.type" :properties="content.properties" @close="closePopup"></PopupView>
+      <transition-group name="fade" tag="span">
+        <PopupView v-for="(content, i) in popups" :key="i" :type="content.type" :properties="content.properties" @close="closePopup" transition="fade"></PopupView>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -34,6 +36,8 @@ export default {
 body {
   background: black !important;
   color: white !important;
+
+  scrollbar-color: white black;
 }
 
 #app {
@@ -45,6 +49,32 @@ body {
   font-size: 18pt;
   font-weight: 400;
   color: white;
+}
+
+.fade-enter-active {
+  animation: fade-in .5s;
+}
+
+.fade-leave-active {
+  animation: fade-out .5s;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 </style>

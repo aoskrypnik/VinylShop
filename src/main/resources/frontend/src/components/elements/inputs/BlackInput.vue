@@ -5,7 +5,7 @@
 <script>
 export default {
   name: 'BlackInput',
-  props: ['placeholder', 'password', 'value', 'wrong', 'large', 'inline', 'number'],
+  props: ['placeholder', 'password', 'value', 'wrong', 'large', 'inline', 'number', 'date'],
   computed: {
     inputType() {
       if (this.password) {
@@ -13,6 +13,9 @@ export default {
       }
       if (this.number) {
         return 'number'
+      }
+      if (this.date) {
+        return 'date'
       }
       return 'text'
     }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="viewRoot">
     <page-header>{{schemaName}}</page-header>
     <black-button class="mb-3">{{ $store.getters.getAppLocale('showFilters') }}</black-button>
     <div class="tableContainer">
@@ -52,7 +52,7 @@ export default {
       this.error = false
       this.loading = true
 
-      Api.getItems('clients').then((newItems) => {
+      Api.getItems(this.schema).then((newItems) => {
         this.loading = false
         this.items = this.items.concat(newItems)
 
@@ -66,25 +66,35 @@ export default {
     itemSelection(key) {
       this.$emit('itemSelection', key)
     }
+  },
+  watch: {
+    schema() {
+      this.items = []
+      this.loadMore()
+    }
   }
 }
 </script>
 
 <style scoped>
-.error {
-  max-width: 500px;
-  text-align: center;
-  font-size: 20px;
-  color: #d87878;
-  margin-top: 20px;
-}
+  .error {
+    max-width: 500px;
+    text-align: center;
+    font-size: 20px;
+    color: #d87878;
+    margin-top: 20px;
+  }
 
-.tableContainer {
-  overflow-x: scroll;
-}
+  .tableContainer {
+    overflow-x: scroll;
+  }
 
-.listHeading {
-  font-size: 32px;
-  font-weight: bold;
-}
+  .listHeading {
+    font-size: 32px;
+    font-weight: bold;
+  }
+
+  .viewRoot {
+    padding-bottom: 40px;
+  }
 </style>

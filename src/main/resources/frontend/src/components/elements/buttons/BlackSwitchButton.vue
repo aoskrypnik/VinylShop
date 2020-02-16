@@ -1,9 +1,11 @@
 <template>
-  <button :class="{large, enabled: value, inline}" @click="$emit('input', !value)"><slot></slot></button>
+  <black-button-view :large="large" :inline="inline" @click="$emit('input', !value)">{{slot}}</black-button-view>
 </template>
 
 <script>
+import BlackButtonView from "./BlackButtonView";
 export default {
+  components: {BlackButtonView},
   props: ['large', 'value', 'inline']
 }
 </script>

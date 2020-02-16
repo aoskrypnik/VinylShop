@@ -14,5 +14,6 @@ export default {
       isArray: true
     }
   },
-  key: 'email'
+  key: 'email',
+  display: (item) => item.name
 }
