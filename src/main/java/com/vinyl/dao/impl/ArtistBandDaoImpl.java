@@ -17,10 +17,12 @@ public class ArtistBandDaoImpl implements ArtistBandDao {
 
 	@Value("${sql.artist2band.create.artist.to.band.query.path}")
 	private String createArtistToBandQueryPath;
-	@Value("${sql.artist2band.get.all.artist.to.band.query.path}")
-	private String getAllArtistToBandQueryPath;
 	@Value("${sql.artist2band.update.artist.to.band.query.path}")
 	private String updateArtistToBandQueryPath;
+	@Value("${sql.artist2band.get.artist.to.band.query.path}")
+	private String getArtistBandByIdsQueryPath;
+	@Value("${sql.artist2band.delete.artist.to.band.query.path}")
+	private String deleteArtistBandQueryPath;
 
 	@Resource
 	private RowMapper<ArtistBandDto> artistToBandRowMapper;
@@ -35,12 +37,6 @@ public class ArtistBandDaoImpl implements ArtistBandDao {
 	}
 
 	@Override
-	public List<ArtistBandDto> getAll() {
-		String getAllArtistToBandQuery = QuerySupplier.getQuery(getAllArtistToBandQueryPath);
-		return jdbcTemplate.query(getAllArtistToBandQuery, artistToBandRowMapper);
-	}
-
-	@Override
 	public void update(ArtistBandDto artistBandDto) {
 		String updateArtistToBandQuery = QuerySupplier.getQuery(updateArtistToBandQueryPath);
 
@@ -49,6 +45,25 @@ public class ArtistBandDaoImpl implements ArtistBandDao {
 		Date joinDate = artistBandDto.getJoinDate();
 		Date exitDate = artistBandDto.getExitDate();
 		jdbcTemplate.update(updateArtistToBandQuery, exitDate, artistAlias, bandAlias, joinDate);
+	}
+
+	@Override
+	public ArtistBandDto getArtistBandByPks(String id1, String id2) {
+		String getArtistBandByIdsQuery = QuerySupplier.getQuery(getArtistBandByIdsQueryPath);
+		List<ArtistBandDto> queryResult = jdbcTemplate.query(getArtistBandByIdsQuery, new Object[]{id1, id2}, artistToBandRowMapper);
+		return queryResult.size() == 0 ? null : queryResult.get(0);
+	}
+
+	@Override
+	public List<ArtistBandDto> searchArtistBands(String query) {
+		return jdbcTemplate.query(query, artistToBandRowMapper);
+	}
+
+	@Override
+	public void deleteByIds(String id1, String id2) {
+		String deleteArtistBandQuery = QuerySupplier.getQuery(deleteArtistBandQueryPath);
+
+		jdbcTemplate.update(deleteArtistBandQuery, id1, id2);
 	}
 
 }

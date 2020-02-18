@@ -3,15 +3,20 @@ package com.vinyl.controller;
 import com.vinyl.dto.ArtistBandDto;
 import com.vinyl.service.ArtistBandService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 @RestController
 @RequestMapping("/participation")
@@ -20,9 +25,13 @@ public class ArtistBandController {
 	@Resource
 	private ArtistBandService artistBandService;
 
-	@GetMapping
-	public List<ArtistBandDto> getAllParticipants() {
-		return artistBandService.getAll();
+	@GetMapping("/{ids}")
+	public ResponseEntity<?> getArtistBandByPks(@PathVariable String ids) {
+		ArtistBandDto foundArtistBand = artistBandService.getArtistBandByPks(ids);
+		if (isNull(foundArtistBand)) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(foundArtistBand);
 	}
 
 	@PostMapping
@@ -38,4 +47,29 @@ public class ArtistBandController {
 		return ResponseEntity.status(202).build();
 	}
 
+	@GetMapping("/search")
+	public ResponseEntity<?> getParticipationByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
+														@RequestParam(value = "likes", required = false) List<String> likeParams,
+														@RequestParam(value = "betweens", required = false) List<String> betweenParams,
+														@RequestParam(value = "joins", required = false) List<String> joins,
+														@RequestParam(value = "sort", required = false) String sorting,
+														@RequestParam(value = "order", required = false) String order,
+														@RequestParam(value = "limit", required = false) Integer limit,
+														@RequestParam(value = "offset", required = false) Integer offset) {
+		List<ArtistBandDto> participates = artistBandService
+				.searchArtistBands(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+		if (participates.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(participates);
+	}
+
+	@DeleteMapping("/{ids}")
+	public ResponseEntity<?> deleteCustomer(@PathVariable String ids) {
+		if (isNull(artistBandService.getArtistBandByPks(ids))) {
+			return ResponseEntity.notFound().build();
+		}
+		artistBandService.deleteByIds(ids);
+		return ResponseEntity.noContent().build();
+	}
 }
