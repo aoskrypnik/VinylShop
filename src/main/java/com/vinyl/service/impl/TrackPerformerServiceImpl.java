@@ -30,4 +30,17 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 			trackPerformerDao.updateTrackForBand(trackPerformerDto);
 		}
 	}
+
+	@Override
+	public TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackAndPerformerName) {
+		String[] names = trackAndPerformerName.split(",");
+		String trackCatalogNum = names[0];
+		String performerAlias = names[1];
+		return trackPerformerDao.getTrackPerformerByTrackNameAndPerformerAlias(trackCatalogNum, performerAlias);
+	}
+
+	@Override
+	public void deleteTrackPerformanceInstance(TrackPerformerDto trackPerformerDtoToDelete) {
+		trackPerformerDao.deleteTrackPerformanceInstance(trackPerformerDtoToDelete);
+	}
 }

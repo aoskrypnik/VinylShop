@@ -10,4 +10,8 @@ public interface TrackPerformerDao {
 	void updateTrackForArtist(TrackPerformerDto trackPerformerDto);
 
 	void updateTrackForBand(TrackPerformerDto trackPerformerDto);
+
+	TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackName, String performerAlias);
+
+	void deleteTrackPerformanceInstance(TrackPerformerDto trackPerformerDto);
 }

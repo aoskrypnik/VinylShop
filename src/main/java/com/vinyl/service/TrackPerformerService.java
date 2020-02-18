@@ -7,4 +7,7 @@ public interface TrackPerformerService {
 
 	void update(TrackPerformerDto trackPerformerDto);
 
+	TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackAndPerformerName);
+
+	void deleteTrackPerformanceInstance(TrackPerformerDto trackPerformerDtoToDelete);
 }
