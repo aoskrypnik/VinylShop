@@ -140,6 +140,8 @@ public class QueryBuilder {
 			.put("track track2composer", "track.catalog_num=track2composer.track_catalog_num")
 			.put("album albumgenre", "album.catalog_num=albumgenre.album_catalog_num")
 			.put("cheq salesman", "cheq.salesman_tab_num=salesman.tab_num")
+			.put("cheq customer", "cheq.customer_num=customer.customer_num")
+			.put("record release", "record.release_bar_code=release.bar_code")
 			.build();
 
 	private static final Map<String, List<String>> JAVA_NAME_TO_DATA_BASE_NAME_MAP = ImmutableMap.<String, List<String>>builder()
