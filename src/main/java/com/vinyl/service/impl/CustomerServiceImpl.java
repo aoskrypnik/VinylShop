@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.CustomerDao;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.model.Customer;
 import com.vinyl.service.CustomerService;
 import com.vinyl.utils.QueryBuilder;
@@ -66,10 +67,11 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<Customer> searchCustomer(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-										 List<String> joins, String sorting, String order, Integer limit, Integer offset) {
+	public List<Customer> searchCustomer(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, CUSTOMER_TABLE_NAME);
+				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
+						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), CUSTOMER_TABLE_NAME);
 		return customerDao.searchCustomer(query);
 	}
 

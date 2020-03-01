@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.TrackPerformerDao;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.dto.TrackPerformerDto;
 import com.vinyl.service.TrackPerformerService;
 import com.vinyl.utils.QueryBuilder;
@@ -16,6 +17,7 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 
 	@Value("${sql.union.track2artist.with.track2band.query.path}")
 	private String unionTrack2ArtistWithTrack2BandQueryPath;
+
 	@Resource
 	private TrackPerformerDao trackPerformerDao;
 
@@ -51,12 +53,12 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 	}
 
 	@Override
-	public List<TrackPerformerDto> searchTrackPerformance(List<String> whereParams, List<String> likeParams,
-														  List<String> betweenParams, List<String> joins, String sorting,
-														  String order, Integer limit, Integer offset) {
+	public List<TrackPerformerDto> searchTrackPerformance(SearchDto searchDto) {
 		String unionTable = QuerySupplier.getQuery(unionTrack2ArtistWithTrack2BandQueryPath);
 		String query = QueryBuilder
-				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, unionTable);
+				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
+						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), unionTable);
 		return trackPerformerDao.searchTrackPerformance(query);
 	}
 }

@@ -1,5 +1,6 @@
 package com.vinyl.controller;
 
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.TrackAlreadyExistException;
 import com.vinyl.model.Track;
 import com.vinyl.service.TrackService;
@@ -72,16 +73,8 @@ public class TrackController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> getArtistByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
-												 @RequestParam(value = "likes", required = false) List<String> likeParams,
-												 @RequestParam(value = "betweens", required = false) List<String> betweenParams,
-												 @RequestParam(value = "joins", required = false) List<String> joins,
-												 @RequestParam(value = "sort", required = false) String sorting,
-												 @RequestParam(value = "order", required = false) String order,
-												 @RequestParam(value = "limit", required = false) Integer limit,
-												 @RequestParam(value = "offset", required = false) Integer offset) {
-		List<Track> tracks = trackService
-				.searchTracks(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+	public ResponseEntity<?> getArtistByCriteria(SearchDto searchDto) {
+		List<Track> tracks = trackService.searchTracks(searchDto);
 		if (tracks.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

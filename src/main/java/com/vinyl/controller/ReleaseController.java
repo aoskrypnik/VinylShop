@@ -1,5 +1,6 @@
 package com.vinyl.controller;
 
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.ReleaseAlreadyExistException;
 import com.vinyl.model.Release;
 import com.vinyl.service.ReleaseService;
@@ -62,16 +63,8 @@ public class ReleaseController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> getAlbumByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
-												@RequestParam(value = "likes", required = false) List<String> likeParams,
-												@RequestParam(value = "betweens", required = false) List<String> betweenParams,
-												@RequestParam(value = "joins", required = false) List<String> joins,
-												@RequestParam(value = "sort", required = false) String sorting,
-												@RequestParam(value = "order", required = false) String order,
-												@RequestParam(value = "limit", required = false) Integer limit,
-												@RequestParam(value = "offset", required = false) Integer offset) {
-		List<Release> releases = releaseService
-				.searchReleases(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+	public ResponseEntity<?> getAlbumByCriteria(SearchDto searchDto) {
+		List<Release> releases = releaseService.searchReleases(searchDto);
 		if (releases.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

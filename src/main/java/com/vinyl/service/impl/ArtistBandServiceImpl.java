@@ -2,6 +2,7 @@ package com.vinyl.service.impl;
 
 import com.vinyl.dao.ArtistBandDao;
 import com.vinyl.dto.ArtistBandDto;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.service.ArtistBandService;
 import com.vinyl.utils.QueryBuilder;
 import org.springframework.stereotype.Service;
@@ -34,11 +35,11 @@ public class ArtistBandServiceImpl implements ArtistBandService {
 	}
 
 	@Override
-	public List<ArtistBandDto> searchArtistBands(List<String> whereParams, List<String> likeParams,
-												 List<String> betweenParams, List<String> joins, String sorting,
-												 String order, Integer limit, Integer offset) {
+	public List<ArtistBandDto> searchArtistBands(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, ARTIST2BAND_TABLE_NAME);
+				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
+						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), ARTIST2BAND_TABLE_NAME);
 		return artistBandDao.searchArtistBands(query);
 	}
 

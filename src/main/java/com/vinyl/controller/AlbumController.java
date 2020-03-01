@@ -1,5 +1,6 @@
 package com.vinyl.controller;
 
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.AlbumAlreadyExistException;
 import com.vinyl.model.Album;
 import com.vinyl.service.AlbumService;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -61,16 +61,8 @@ public class AlbumController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> getAlbumByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
-												@RequestParam(value = "likes", required = false) List<String> likeParams,
-												@RequestParam(value = "betweens", required = false) List<String> betweenParams,
-												@RequestParam(value = "joins", required = false) List<String> joins,
-												@RequestParam(value = "sort", required = false) String sorting,
-												@RequestParam(value = "order", required = false) String order,
-												@RequestParam(value = "limit", required = false) Integer limit,
-												@RequestParam(value = "offset", required = false) Integer offset) {
-		List<Album> albums = albumService
-				.searchAlbums(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+	public ResponseEntity<?> getAlbumByCriteria(SearchDto searchDto) {
+		List<Album> albums = albumService.searchAlbums(searchDto);
 		if (albums.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

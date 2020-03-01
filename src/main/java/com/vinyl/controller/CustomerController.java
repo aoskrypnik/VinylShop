@@ -1,5 +1,6 @@
 package com.vinyl.controller;
 
+import com.vinyl.dto.SearchDto;
 import com.vinyl.model.Customer;
 import com.vinyl.service.CustomerService;
 import org.springframework.http.ResponseEntity;
@@ -63,16 +64,8 @@ public class CustomerController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> getCustomerByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
-												   @RequestParam(value = "likes", required = false) List<String> likeParams,
-												   @RequestParam(value = "betweens", required = false) List<String> betweenParams,
-												   @RequestParam(value = "joins", required = false) List<String> joins,
-												   @RequestParam(value = "sort", required = false) String sorting,
-												   @RequestParam(value = "order", required = false) String order,
-												   @RequestParam(value = "limit", required = false) Integer limit,
-												   @RequestParam(value = "offset", required = false) Integer offset) {
-		List<Customer> customers = customerService
-				.searchCustomer(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+	public ResponseEntity<?> getCustomerByCriteria(SearchDto searchDto) {
+		List<Customer> customers = customerService.searchCustomer(searchDto);
 		if (customers.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

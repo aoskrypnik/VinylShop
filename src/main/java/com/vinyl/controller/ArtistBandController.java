@@ -1,6 +1,7 @@
 package com.vinyl.controller;
 
 import com.vinyl.dto.ArtistBandDto;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.service.ArtistBandService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,16 +49,8 @@ public class ArtistBandController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> getParticipationByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
-														@RequestParam(value = "likes", required = false) List<String> likeParams,
-														@RequestParam(value = "betweens", required = false) List<String> betweenParams,
-														@RequestParam(value = "joins", required = false) List<String> joins,
-														@RequestParam(value = "sort", required = false) String sorting,
-														@RequestParam(value = "order", required = false) String order,
-														@RequestParam(value = "limit", required = false) Integer limit,
-														@RequestParam(value = "offset", required = false) Integer offset) {
-		List<ArtistBandDto> participates = artistBandService
-				.searchArtistBands(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+	public ResponseEntity<?> getParticipationByCriteria(SearchDto searchDto) {
+		List<ArtistBandDto> participates = artistBandService.searchArtistBands(searchDto);
 		if (participates.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

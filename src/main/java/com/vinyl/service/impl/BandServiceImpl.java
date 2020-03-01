@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.BandDao;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.BandExistException;
 import com.vinyl.model.Band;
 import com.vinyl.service.BandService;
@@ -37,11 +38,11 @@ public class BandServiceImpl implements BandService {
 	}
 
 	@Override
-	public List<Band> searchBands(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-								  List<String> joins, String sorting, String order,
-								  Integer limit, Integer offset) {
+	public List<Band> searchBands(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, BAND_TABLE_NAME);
+				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
+						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), BAND_TABLE_NAME);
 		return bandDao.searchBands(query);
 	}
 

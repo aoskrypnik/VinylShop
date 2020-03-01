@@ -1,5 +1,6 @@
 package com.vinyl.service;
 
+import com.vinyl.dto.SearchDto;
 import com.vinyl.model.Customer;
 
 import java.util.List;
@@ -18,6 +19,5 @@ public interface CustomerService {
 
 	void updateDiscount(int num);
 
-	List<Customer> searchCustomer(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-								  List<String> joins, String sorting, String order, Integer limit, Integer offset);
+	List<Customer> searchCustomer(SearchDto searchDto);
 }

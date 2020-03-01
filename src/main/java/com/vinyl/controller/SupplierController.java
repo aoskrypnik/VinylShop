@@ -1,5 +1,6 @@
 package com.vinyl.controller;
 
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.SupplierAlreadyExistException;
 import com.vinyl.model.Supplier;
 import com.vinyl.service.SupplierService;
@@ -61,16 +62,8 @@ public class SupplierController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> getSupplierByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
-												   @RequestParam(value = "likes", required = false) List<String> likeParams,
-												   @RequestParam(value = "betweens", required = false) List<String> betweenParams,
-												   @RequestParam(value = "joins", required = false) List<String> joins,
-												   @RequestParam(value = "sort", required = false) String sorting,
-												   @RequestParam(value = "order", required = false) String order,
-												   @RequestParam(value = "limit", required = false) Integer limit,
-												   @RequestParam(value = "offset", required = false) Integer offset) {
-		List<Supplier> suppliers = supplierService
-				.searchSuppliers(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+	public ResponseEntity<?> getSupplierByCriteria(SearchDto searchDto) {
+		List<Supplier> suppliers = supplierService.searchSuppliers(searchDto);
 		if (suppliers.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

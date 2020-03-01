@@ -1,5 +1,6 @@
 package com.vinyl.controller;
 
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.BandExistException;
 import com.vinyl.model.Band;
 import com.vinyl.service.BandService;
@@ -53,16 +54,8 @@ public class BandController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> getBandByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
-											   @RequestParam(value = "likes", required = false) List<String> likeParams,
-											   @RequestParam(value = "betweens", required = false) List<String> betweenParams,
-											   @RequestParam(value = "joins", required = false) List<String> joins,
-											   @RequestParam(value = "sort", required = false) String sorting,
-											   @RequestParam(value = "order", required = false) String order,
-											   @RequestParam(value = "limit", required = false) Integer limit,
-											   @RequestParam(value = "offset", required = false) Integer offset) {
-		List<Band> bands = bandService
-				.searchBands(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+	public ResponseEntity<?> getBandByCriteria(SearchDto searchDto) {
+		List<Band> bands = bandService.searchBands(searchDto);
 		if (bands.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

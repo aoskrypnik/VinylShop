@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.TrackDao;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.TrackAlreadyExistException;
 import com.vinyl.model.Track;
 import com.vinyl.service.TrackService;
@@ -46,10 +47,11 @@ public class TrackServiceImpl implements TrackService {
 	}
 
 	@Override
-	public List<Track> searchTracks(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-									List<String> joins, String sorting, String order, Integer limit, Integer offset) {
+	public List<Track> searchTracks(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, TRACK_TABLE_NAME);
+				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
+						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), TRACK_TABLE_NAME);
 		return trackDao.searchTracks(query);
 	}
 

@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.CheckDao;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.model.Check;
 import com.vinyl.service.CheckService;
 import com.vinyl.service.CustomerService;
@@ -66,10 +67,11 @@ public class CheckServiceImpl implements CheckService {
 	}
 
 	@Override
-	public List<Check> searchChecks(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-									List<String> joins, String sorting, String order, Integer limit, Integer offset) {
+	public List<Check> searchChecks(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, CHECK_TABLE_NAME);
+				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
+						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), CHECK_TABLE_NAME);
 		return checkDao.searchChecks(query);
 	}
 }

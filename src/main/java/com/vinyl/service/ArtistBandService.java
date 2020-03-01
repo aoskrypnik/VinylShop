@@ -1,6 +1,7 @@
 package com.vinyl.service;
 
 import com.vinyl.dto.ArtistBandDto;
+import com.vinyl.dto.SearchDto;
 
 import java.util.List;
 
@@ -12,8 +13,7 @@ public interface ArtistBandService {
 
 	ArtistBandDto getArtistBandByPks(String ids);
 
-	List<ArtistBandDto> searchArtistBands(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-										  List<String> joins, String sorting, String order, Integer limit, Integer offset);
+	List<ArtistBandDto> searchArtistBands(SearchDto searchDto);
 
 	void deleteByIds(String ids);
 }

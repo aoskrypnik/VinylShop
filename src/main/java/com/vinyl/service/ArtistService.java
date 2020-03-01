@@ -1,5 +1,6 @@
 package com.vinyl.service;
 
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.ArtistExistException;
 import com.vinyl.model.Artist;
 
@@ -11,8 +12,7 @@ public interface ArtistService {
 
 	Artist getArtistByAlias(String alias);
 
-	List<Artist> searchArtists(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-							   List<String> joins, String sorting, String order, Integer limit, Integer offset);
+	List<Artist> searchArtists(SearchDto searchDto);
 
 	void deleteArtist(String alias);
 

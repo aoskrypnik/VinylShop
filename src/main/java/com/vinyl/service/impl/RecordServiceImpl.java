@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.RecordDao;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.model.Record;
 import com.vinyl.service.RecordService;
 import com.vinyl.utils.QueryBuilder;
@@ -33,11 +34,11 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	public List<Record> searchRecords(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-									  List<String> joins, String sorting, String order,
-									  Integer limit, Integer offset) {
+	public List<Record> searchRecords(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, RECORD_TABLE_NAME);
+				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
+						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), RECORD_TABLE_NAME);
 		return recordDao.searchReleases(query);
 	}
 

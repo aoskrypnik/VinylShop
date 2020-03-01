@@ -1,5 +1,6 @@
 package com.vinyl.service;
 
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.AlbumAlreadyExistException;
 import com.vinyl.model.Album;
 
@@ -11,8 +12,7 @@ public interface AlbumService {
 
 	Album getAlbumByCatalogNum(String catalogNum);
 
-	List<Album> searchAlbums(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-							 List<String> joins, String sorting, String order, Integer limit, Integer offset);
+	List<Album> searchAlbums(SearchDto searchDto);
 
 	public void update(Album album, String catalogNum);
 

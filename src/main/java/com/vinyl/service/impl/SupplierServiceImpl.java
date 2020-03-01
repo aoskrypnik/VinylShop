@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.SupplierDao;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.SupplierAlreadyExistException;
 import com.vinyl.model.Supplier;
 import com.vinyl.service.SupplierService;
@@ -35,11 +36,11 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public List<Supplier> searchSuppliers(List<String> whereParams, List<String> likeParams,
-										  List<String> betweenParams, List<String> joins,
-										  String sorting, String order, Integer limit, Integer offset) {
+	public List<Supplier> searchSuppliers(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, SUPPLIER_TABLE_NAME);
+				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
+						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), SUPPLIER_TABLE_NAME);
 		return supplierDao.searchSuppliers(query);
 	}
 

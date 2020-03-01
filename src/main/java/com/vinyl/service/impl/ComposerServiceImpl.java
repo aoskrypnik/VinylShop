@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.ComposerDao;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.ComposerExistException;
 import com.vinyl.model.Composer;
 import com.vinyl.service.ComposerService;
@@ -49,10 +50,11 @@ public class ComposerServiceImpl implements ComposerService {
 	}
 
 	@Override
-	public List<Composer> searchComposers(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-										  List<String> joins, String sorting, String order, Integer limit, Integer offset) {
+	public List<Composer> searchComposers(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, COMPOSER_TABLE_NAME);
+				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
+						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), COMPOSER_TABLE_NAME);
 		return composerDao.searchComposers(query);
 	}
 

@@ -1,5 +1,6 @@
 package com.vinyl.controller;
 
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.AlbumAlreadyExistException;
 import com.vinyl.model.WriteOff;
 import com.vinyl.service.WriteOffService;
@@ -62,16 +63,8 @@ public class WriteOffController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> getWriteOffByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
-												   @RequestParam(value = "likes", required = false) List<String> likeParams,
-												   @RequestParam(value = "betweens", required = false) List<String> betweenParams,
-												   @RequestParam(value = "joins", required = false) List<String> joins,
-												   @RequestParam(value = "sort", required = false) String sorting,
-												   @RequestParam(value = "order", required = false) String order,
-												   @RequestParam(value = "limit", required = false) Integer limit,
-												   @RequestParam(value = "offset", required = false) Integer offset) {
-		List<WriteOff> writeOffList = writeOffService
-				.searchWriteOffs(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+	public ResponseEntity<?> getWriteOffByCriteria(SearchDto searchDto) {
+		List<WriteOff> writeOffList = writeOffService.searchWriteOffs(searchDto);
 		if (writeOffList.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

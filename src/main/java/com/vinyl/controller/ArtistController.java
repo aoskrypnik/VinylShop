@@ -1,5 +1,6 @@
 package com.vinyl.controller;
 
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.ArtistExistException;
 import com.vinyl.model.Artist;
 import com.vinyl.service.ArtistService;
@@ -53,16 +54,8 @@ public class ArtistController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> getArtistByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
-												 @RequestParam(value = "likes", required = false) List<String> likeParams,
-												 @RequestParam(value = "betweens", required = false) List<String> betweenParams,
-												 @RequestParam(value = "joins", required = false) List<String> joins,
-												 @RequestParam(value = "sort", required = false) String sorting,
-												 @RequestParam(value = "order", required = false) String order,
-												 @RequestParam(value = "limit", required = false) Integer limit,
-												 @RequestParam(value = "offset", required = false) Integer offset) {
-		List<Artist> artists = artistService
-				.searchArtists(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+	public ResponseEntity<?> getArtistByCriteria(SearchDto searchDto) {
+		List<Artist> artists = artistService.searchArtists(searchDto);
 		if (artists.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

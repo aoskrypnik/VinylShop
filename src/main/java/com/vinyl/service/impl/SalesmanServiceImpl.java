@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.SalesmanDao;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.model.Salesman;
 import com.vinyl.service.SalesmanService;
 import com.vinyl.utils.QueryBuilder;
@@ -39,10 +40,11 @@ public class SalesmanServiceImpl implements SalesmanService {
 	}
 
 	@Override
-	public List<Salesman> searchSalesman(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-										 List<String> joins, String sorting, String order, Integer limit, Integer offset) {
+	public List<Salesman> searchSalesman(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, SALESMAN_TABLE_NAME);
+				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
+						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), SALESMAN_TABLE_NAME);
 		return salesmanDao.searchSalesman(query);
 	}
 

@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.ArtistDao;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.ArtistExistException;
 import com.vinyl.model.Artist;
 import com.vinyl.service.ArtistService;
@@ -37,11 +38,11 @@ public class ArtistServiceImpl implements ArtistService {
 	}
 
 	@Override
-	public List<Artist> searchArtists(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-									  List<String> joins, String sorting, String order,
-									  Integer limit, Integer offset) {
+	public List<Artist> searchArtists(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, ARTIST_TABLE_NAME);
+				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
+						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), ARTIST_TABLE_NAME);
 		return artistDao.searchArtists(query);
 	}
 

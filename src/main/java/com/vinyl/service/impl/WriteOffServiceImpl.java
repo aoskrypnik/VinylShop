@@ -1,6 +1,7 @@
 package com.vinyl.service.impl;
 
 import com.vinyl.dao.WriteOffDao;
+import com.vinyl.dto.SearchDto;
 import com.vinyl.exception.AlbumAlreadyExistException;
 import com.vinyl.model.WriteOff;
 import com.vinyl.service.WriteOffService;
@@ -36,10 +37,11 @@ public class WriteOffServiceImpl implements WriteOffService {
 	}
 
 	@Override
-	public List<WriteOff> searchWriteOffs(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
-										  List<String> joins, String sorting, String order, Integer limit, Integer offset) {
+	public List<WriteOff> searchWriteOffs(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset, WRITE_OFF_TABLE_NAME);
+				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
+						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), WRITE_OFF_TABLE_NAME);
 		return writeOffDao.searchWriteOffs(query);
 	}
 

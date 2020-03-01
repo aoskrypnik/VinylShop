@@ -1,5 +1,6 @@
 package com.vinyl.controller;
 
+import com.vinyl.dto.SearchDto;
 import com.vinyl.model.Salesman;
 import com.vinyl.service.SalesmanService;
 import org.springframework.http.ResponseEntity;
@@ -53,16 +54,8 @@ public class SalesmanController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> getSalesmanByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
-												   @RequestParam(value = "likes", required = false) List<String> likeParams,
-												   @RequestParam(value = "betweens", required = false) List<String> betweenParams,
-												   @RequestParam(value = "joins", required = false) List<String> joins,
-												   @RequestParam(value = "sort", required = false) String sorting,
-												   @RequestParam(value = "order", required = false) String order,
-												   @RequestParam(value = "limit", required = false) Integer limit,
-												   @RequestParam(value = "offset", required = false) Integer offset) {
-		List<Salesman> salesmen = salesmanService
-				.searchSalesman(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+	public ResponseEntity<?> getSalesmanByCriteria(SearchDto searchDto) {
+		List<Salesman> salesmen = salesmanService.searchSalesman(searchDto);
 		if (salesmen.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
