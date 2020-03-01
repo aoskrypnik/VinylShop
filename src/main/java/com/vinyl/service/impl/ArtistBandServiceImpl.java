@@ -37,8 +37,8 @@ public class ArtistBandServiceImpl implements ArtistBandService {
 	@Override
 	public List<ArtistBandDto> searchArtistBands(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
-						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+				.build(searchDto.getWheres(), searchDto.getLikes(), searchDto.getBetweens(),
+						searchDto.getJoins(), searchDto.getSort(), searchDto.getOrder(),
 						searchDto.getLimit(), searchDto.getOffset(), ARTIST2BAND_TABLE_NAME);
 		return artistBandDao.searchArtistBands(query);
 	}

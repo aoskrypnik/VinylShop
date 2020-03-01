@@ -40,8 +40,8 @@ public class ArtistServiceImpl implements ArtistService {
 	@Override
 	public List<Artist> searchArtists(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
-						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+				.build(searchDto.getWheres(), searchDto.getLikes(), searchDto.getBetweens(),
+						searchDto.getJoins(), searchDto.getSort(), searchDto.getOrder(),
 						searchDto.getLimit(), searchDto.getOffset(), ARTIST_TABLE_NAME);
 		return artistDao.searchArtists(query);
 	}

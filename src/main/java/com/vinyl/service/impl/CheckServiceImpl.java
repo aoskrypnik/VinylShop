@@ -69,8 +69,8 @@ public class CheckServiceImpl implements CheckService {
 	@Override
 	public List<Check> searchChecks(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
-						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+				.build(searchDto.getWheres(), searchDto.getLikes(), searchDto.getBetweens(),
+						searchDto.getJoins(), searchDto.getSort(), searchDto.getOrder(),
 						searchDto.getLimit(), searchDto.getOffset(), CHECK_TABLE_NAME);
 		return checkDao.searchChecks(query);
 	}

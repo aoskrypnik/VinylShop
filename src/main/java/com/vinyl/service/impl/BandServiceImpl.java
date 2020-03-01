@@ -40,8 +40,8 @@ public class BandServiceImpl implements BandService {
 	@Override
 	public List<Band> searchBands(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
-						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+				.build(searchDto.getWheres(), searchDto.getLikes(), searchDto.getBetweens(),
+						searchDto.getJoins(), searchDto.getSort(), searchDto.getOrder(),
 						searchDto.getLimit(), searchDto.getOffset(), BAND_TABLE_NAME);
 		return bandDao.searchBands(query);
 	}

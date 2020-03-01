@@ -49,8 +49,8 @@ public class TrackServiceImpl implements TrackService {
 	@Override
 	public List<Track> searchTracks(SearchDto searchDto) {
 		String query = QueryBuilder
-				.build(searchDto.getWhereParams(), searchDto.getLikeParams(), searchDto.getBetweenParams(),
-						searchDto.getJoins(), searchDto.getSorting(), searchDto.getOrder(),
+				.build(searchDto.getWheres(), searchDto.getLikes(), searchDto.getBetweens(),
+						searchDto.getJoins(), searchDto.getSort(), searchDto.getOrder(),
 						searchDto.getLimit(), searchDto.getOffset(), TRACK_TABLE_NAME);
 		return trackDao.searchTracks(query);
 	}
