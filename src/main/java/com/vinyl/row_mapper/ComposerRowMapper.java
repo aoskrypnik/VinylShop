@@ -27,7 +27,7 @@ public class ComposerRowMapper implements RowMapper<Composer> {
 		List<String> tracks = getTracksByComposerName(composerName);
 		return Composer.builder()
 				.composerName(composerName)
-				.countryCode(resultSet.getString("country"))
+				.composerCountryCode(resultSet.getString("country"))
 				.activityStart(resultSet.getDate("activity_start"))
 				.activityEnd(resultSet.getDate("activity_end"))
 				.trackIds(tracks)

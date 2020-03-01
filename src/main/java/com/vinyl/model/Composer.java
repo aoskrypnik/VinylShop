@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class Composer {
 	private String composerName;
-	private String countryCode;
+	private String composerCountryCode;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date activityStart;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")

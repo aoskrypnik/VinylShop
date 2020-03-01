@@ -17,7 +17,7 @@ import java.util.List;
 public class Band {
 	private String bandAlias;
 	private Boolean isBandActive;
-	private String countryCode;
+	private String bandCountryCode;
 	private Date startYear;
 	private Date endYear;
 	private List<String> currentArtistAliases;

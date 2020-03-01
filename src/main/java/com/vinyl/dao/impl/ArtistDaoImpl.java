@@ -34,7 +34,7 @@ public class ArtistDaoImpl implements ArtistDao {
 	@Override
 	public void save(Artist artist) {
 		String createArtistQuery = QuerySupplier.getQuery(createArtistQueryPath);
-		jdbcTemplate.update(createArtistQuery, artist.getArtistAlias(), artist.getIsArtistActive(), artist.getCountryCode(),
+		jdbcTemplate.update(createArtistQuery, artist.getArtistAlias(), artist.getIsArtistActive(), artist.getArtistCountryCode(),
 				artist.getArtistName(), artist.getArtistBirthDate(), artist.getArtistDeathDate());
 	}
 
@@ -51,7 +51,7 @@ public class ArtistDaoImpl implements ArtistDao {
 
 		boolean activity = artist.getIsArtistActive();
 		String artistAlias = artist.getArtistAlias();
-		String country = artist.getCountryCode();
+		String country = artist.getArtistCountryCode();
 		String name = artist.getArtistName();
 		Date birthdate = artist.getArtistBirthDate();
 		Date deathdate = artist.getArtistDeathDate();

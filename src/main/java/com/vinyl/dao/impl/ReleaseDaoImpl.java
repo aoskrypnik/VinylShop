@@ -33,7 +33,7 @@ public class ReleaseDaoImpl implements ReleaseDao {
 	@Override
 	public void save(Release release) {
 		String createReleaseQuery = QuerySupplier.getQuery(createReleaseQueryPath);
-		jdbcTemplate.update(createReleaseQuery, release.getReleaseBarcode(), release.getAlbumCatalogNum(), release.getCountryCode(),
+		jdbcTemplate.update(createReleaseQuery, release.getReleaseBarcode(), release.getAlbumCatalogNum(), release.getReleaseCountryCode(),
 				release.getReleaseDate(), release.getRecordSize(), release.getRecordSpeed(), release.getCopiesCount(),
 				release.getIsRepress(), release.getLabel());
 	}
@@ -55,7 +55,7 @@ public class ReleaseDaoImpl implements ReleaseDao {
 		String updateReleaseQuery = QuerySupplier.getQuery(updateReleaseQueryPath);
 
 		String albumCatalogNum = release.getAlbumCatalogNum();
-		String country = release.getCountryCode();
+		String country = release.getReleaseCountryCode();
 		Date releaseDate = release.getReleaseDate();
 		int recordSize = release.getRecordSize();
 		int recordSpeed = release.getRecordSpeed();

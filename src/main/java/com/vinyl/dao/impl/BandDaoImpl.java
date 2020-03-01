@@ -34,7 +34,7 @@ public class BandDaoImpl implements BandDao {
 	@Override
 	public void save(Band band) {
 		String createBandQuery = QuerySupplier.getQuery(createBandQueryPath);
-		jdbcTemplate.update(createBandQuery, band.getBandAlias(), band.getIsBandActive(), band.getCountryCode(),
+		jdbcTemplate.update(createBandQuery, band.getBandAlias(), band.getIsBandActive(), band.getBandCountryCode(),
 				band.getStartYear(), band.getEndYear());
 	}
 
@@ -51,7 +51,7 @@ public class BandDaoImpl implements BandDao {
 
 		boolean activity = band.getIsBandActive();
 		String bandAlias = band.getBandAlias();
-		String country = band.getCountryCode();
+		String country = band.getBandCountryCode();
 		Date startYear = band.getStartYear();
 		Date endYear = band.getEndYear();
 

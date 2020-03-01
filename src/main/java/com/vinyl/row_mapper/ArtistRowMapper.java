@@ -33,7 +33,7 @@ public class ArtistRowMapper implements RowMapper<Artist> {
 		return Artist.builder()
 				.artistAlias(artistAlias)
 				.isArtistActive(resultSet.getBoolean("activity"))
-				.countryCode(resultSet.getString("country"))
+				.artistCountryCode(resultSet.getString("country"))
 				.artistName(resultSet.getString("artist_name"))
 				.artistBirthDate(resultSet.getDate("birth_date"))
 				.artistDeathDate(resultSet.getDate("death_date"))

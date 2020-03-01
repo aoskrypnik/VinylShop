@@ -34,7 +34,7 @@ public class ComposerDaoImpl implements ComposerDao {
 		String createComposerQuery = QuerySupplier.getQuery(createComposerQueryPath);
 
 		String name = composer.getComposerName();
-		String country = composer.getCountryCode();
+		String country = composer.getComposerCountryCode();
 		Date activityStart = composer.getActivityStart();
 		Date activityEnd = composer.getActivityEnd();
 
@@ -52,7 +52,7 @@ public class ComposerDaoImpl implements ComposerDao {
 	public void update(Composer composer, String composerName) {
 		String updateComposerQuery = QuerySupplier.getQuery(updateComposerQueryPath);
 
-		String country = composer.getCountryCode();
+		String country = composer.getComposerCountryCode();
 		Date activityStart = composer.getActivityStart();
 		Date activityEnd = composer.getActivityEnd();
 		jdbcTemplate.update(updateComposerQuery, country, activityStart, activityEnd, composerName);

@@ -28,7 +28,7 @@ public class ReleaseRowMapper implements RowMapper<Release> {
 				.releaseBarcode(barcode)
 				.albumCatalogNum(resultSet.getString("album_catalog_num"))
 				.copiesCount(resultSet.getInt("copies_cnt"))
-				.countryCode(resultSet.getString("country"))
+				.releaseCountryCode(resultSet.getString("country"))
 				.isRepress(resultSet.getBoolean("repress"))
 				.label(resultSet.getString("label"))
 				.recordBarcodes(getRecordsByReleaseBarcode(barcode))

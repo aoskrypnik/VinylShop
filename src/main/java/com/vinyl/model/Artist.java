@@ -17,7 +17,7 @@ import java.util.List;
 public class Artist {
 	private String artistAlias;
 	private Boolean isArtistActive;
-	private String countryCode;
+	private String artistCountryCode;
 	private String artistName;
 	private Date artistBirthDate;
 	private Date artistDeathDate;

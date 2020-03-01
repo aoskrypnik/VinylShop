@@ -33,7 +33,7 @@ public class BandRowMapper implements RowMapper<Band> {
 		return Band.builder()
 				.bandAlias(bandAlias)
 				.isBandActive(resultSet.getBoolean("activity"))
-				.countryCode(resultSet.getString("country"))
+				.bandCountryCode(resultSet.getString("country"))
 				.startYear(resultSet.getDate("start_year"))
 				.endYear(resultSet.getDate("end_year"))
 				.currentArtistAliases(getCurrentArtistsByBandAlias(bandAlias))

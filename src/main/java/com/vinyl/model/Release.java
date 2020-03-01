@@ -17,7 +17,7 @@ import java.util.List;
 public class Release {
 	private String releaseBarcode;
 	private String albumCatalogNum;
-	private String countryCode;
+	private String releaseCountryCode;
 	private Date releaseDate;
 	private Integer recordSize;
 	private Integer recordSpeed;
