@@ -13,7 +13,8 @@ export default new Vuex.Store({
     schemas: Schemas,
     schemaDictionary: SchemaDictionary,
     appDictionary: AppDictionary,
-    popups: [{ type: 'list', properties: { schema: 'client', itemSelection: () => {} } }]
+    popups: [{ type: 'list', properties: { schema: 'client', itemSelection: () => {} } }],
+    token: window.localStorage.getItem('authToken')
   },
   mutations: {
     popup (state, content) {
@@ -21,6 +22,10 @@ export default new Vuex.Store({
     },
     closePopup (state) {
       state.popups.pop()
+    },
+    authenticate (state, token) {
+      state.token = token;
+      window.localStorage.setItem('authToken', token)
     }
   },
   getters: {

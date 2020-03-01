@@ -3,7 +3,16 @@
     <page-header>{{schemaName}}</page-header>
     <black-button class="mb-3">{{ $store.getters.getAppLocale('showFilters') }}</black-button>
     <div class="tableContainer">
-      <items-list class="mb-3" :schema="schema" :items="items" @itemSelection="itemSelection"></items-list>
+      <items-list
+              class="mb-3"
+              :schema="schema"
+              :items="items"
+              :sort-attribute="sortAttribute"
+              :sort-direction="sortDirection"
+
+              @itemSelection="itemSelection"
+              @sortChange="sortChange"
+      ></items-list>
     </div>
     <three-dots-spinner v-if="loading"></three-dots-spinner>
     <p v-if="error" class="error mx-auto">{{ $store.getters.getAppLocale( serverError ? 'serverListError' : 'otherListError') }}</p>
@@ -40,8 +49,8 @@ export default {
       loading: true,
       error: false,
       serverError: false,
-      sortField: undefined,
-      sortDirection: 'desc'
+      sortAttribute: undefined,
+      sortDirection: 0
     }
   },
   mounted: function() {
@@ -52,7 +61,7 @@ export default {
       this.error = false
       this.loading = true
 
-      Api.getItems(this.schema).then((newItems) => {
+      Api.getItems(this.schema, Config.itemsPerPage, this.items.length, this.sortAttribute, this.sortDirection).then((newItems) => {
         this.loading = false
         this.items = this.items.concat(newItems)
 
@@ -63,14 +72,30 @@ export default {
         this.error = true
       })
     },
+    reset() {
+      this.items = []
+      this.loadMore()
+    },
     itemSelection(key) {
       this.$emit('itemSelection', key)
+    },
+    sortChange(attribute) {
+      if (attribute === this.sortAttribute) {
+        if (this.sortDirection === 0) {
+          this.sortDirection = 1
+        } else {
+          this.sortAttribute = undefined
+        }
+      } else {
+        this.sortAttribute = attribute
+        this.sortDirection = 0
+      }
+      this.reset()
     }
   },
   watch: {
     schema() {
-      this.items = []
-      this.loadMore()
+      this.reset()
     }
   }
 }

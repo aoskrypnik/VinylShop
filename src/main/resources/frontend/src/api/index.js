@@ -1,6 +1,25 @@
 import Axios from 'axios'
+import store from '@/store'
 
-const endpoint = 'http://localhost:8087'
+const endpoint = 'http://localhost:8087';
+
+function generateAuthHeader() {
+  return {
+    'Authorization': `Bearer ${store.state.token}`
+  }
+}
+
+function generateQueryString(params) {
+  const entries = Object.entries(params).filter(([, v]) => v !== undefined);
+
+  return entries.map(
+      (([k, v]) => {
+        if (Array.isArray(v)) {
+          return v.map(s => `${k}=${s}`).join('&')
+        }
+        return `${k}=${v}`
+      })).join('&')
+}
 
 const clients = [
   {
@@ -27,9 +46,30 @@ const clients = [
     email: 'drakosv@gmail.com',
     type: '1'
   }
-]
+];
 
-export async function getItems(schema/*, count, offset, sortField, sortDirection*/) {
+export async function auth(login, password) {
+  const authData = await Axios.post(
+      `${endpoint}/auth/sign-in`,
+      {
+        login,
+        password
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          ...generateAuthHeader()
+        }
+      },
+
+  );
+
+  store.commit('authenticate', authData.data.accessToken);
+  return true
+}
+
+// eslint-disable-next-line no-unused-vars
+export async function getItems(schema, count, offset, sortField, sortDirection) {
   if (schema === 'client') {
     return clients
   }
@@ -47,14 +87,23 @@ export async function getItems(schema/*, count, offset, sortField, sortDirection
     ]
   }
 
+  const query = {
+    count,
+    offset,
+    sort: sortField,
+    order: sortField ? (sortDirection === 0 ? 'ASC' : 'DESC') : undefined,
+  };
+
+  // eslint-disable-next-line no-console
+  const params = generateQueryString(query);
 
   const response = await Axios.get(
-      `${endpoint}/${schema}/search`,
+      `${endpoint}/${schema}/search?${params}`,
       {
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaXJlY3RvciIsImlhdCI6MTU4MTg3MjQzNCwiZXhwIjoxNTgyNDc3MjM0fQ.4ivEPBa-OdwvN6bKdf7pDBwX-gt6jcBbjCLrHqrdVFHDgSnVj87CcdXWwT5vIFPcJeZU9F-3gYWJc7BugPjtYg'
+          ...generateAuthHeader()
         }
-      })
+    });
 
   return response.data
 }
@@ -76,9 +125,9 @@ export async function getItem(schema, key) {
         `${endpoint}/${schema}/${key}`,
         {
           headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaXJlY3RvciIsImlhdCI6MTU4MTg3MjQzNCwiZXhwIjoxNTgyNDc3MjM0fQ.4ivEPBa-OdwvN6bKdf7pDBwX-gt6jcBbjCLrHqrdVFHDgSnVj87CcdXWwT5vIFPcJeZU9F-3gYWJc7BugPjtYg'
+            ...generateAuthHeader()
           }
-        })
+        });
 
     return response.data
   } catch(e) {
