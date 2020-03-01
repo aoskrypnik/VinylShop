@@ -2,6 +2,8 @@ package com.vinyl.dao;
 
 import com.vinyl.dto.TrackPerformerDto;
 
+import java.util.List;
+
 public interface TrackPerformerDao {
 	void saveTrackForArtist(TrackPerformerDto trackPerformerDto);
 
@@ -14,4 +16,6 @@ public interface TrackPerformerDao {
 	TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackName, String performerAlias);
 
 	void deleteTrackPerformanceInstance(TrackPerformerDto trackPerformerDto);
+
+	List<TrackPerformerDto> searchTrackPerformance(String query);
 }

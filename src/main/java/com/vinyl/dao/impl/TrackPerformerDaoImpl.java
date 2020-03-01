@@ -93,6 +93,11 @@ public class TrackPerformerDaoImpl implements TrackPerformerDao {
 		}
 	}
 
+	@Override
+	public List<TrackPerformerDto> searchTrackPerformance(String query) {
+		return jdbcTemplate.query(query, trackPerformerRowMapper);
+	}
+
 	private List<TrackPerformerDto> getTrackPerformerInstancesByName(String query, String trackName, String performerAlias) {
 		return jdbcTemplate.query(query, new Object[]{trackName, performerAlias}, trackPerformerRowMapper);
 	}

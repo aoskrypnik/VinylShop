@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -57,4 +59,22 @@ public class TrackPerformerController {
 		trackPerformerService.deleteTrackPerformanceInstance(trackPerformerDtoToDelete);
 		return ResponseEntity.noContent().build();
 	}
+
+	@GetMapping("/search")
+	public ResponseEntity<?> getSupplierByCriteria(@RequestParam(value = "wheres", required = false) List<String> whereParams,
+												   @RequestParam(value = "likes", required = false) List<String> likeParams,
+												   @RequestParam(value = "betweens", required = false) List<String> betweenParams,
+												   @RequestParam(value = "joins", required = false) List<String> joins,
+												   @RequestParam(value = "sort", required = false) String sorting,
+												   @RequestParam(value = "order", required = false) String order,
+												   @RequestParam(value = "limit", required = false) Integer limit,
+												   @RequestParam(value = "offset", required = false) Integer offset) {
+		List<TrackPerformerDto> trackPerformerDtoList = trackPerformerService
+				.searchTrackPerformance(whereParams, likeParams, betweenParams, joins, sorting, order, limit, offset);
+		if (trackPerformerDtoList.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(trackPerformerDtoList);
+	}
+
 }

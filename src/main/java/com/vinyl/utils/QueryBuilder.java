@@ -20,7 +20,11 @@ public class QueryBuilder {
 		boolean whereAlreadyUsed = false;
 
 		StringBuilder stringBuilder = new StringBuilder("SELECT ");
-		stringBuilder.append(tableName).append(".* ").append("FROM ").append(tableName).append(" ");
+		if (isNotUnionTable(tableName)) {
+			stringBuilder.append(tableName).append(".* ").append("FROM ").append(tableName).append(" ");
+		} else {
+			stringBuilder.append("* FROM ").append(tableName).append(" AS t ");
+		}
 
 		//?joins=artist
 		if (isFalse(isEmpty(joins))) {
@@ -59,6 +63,10 @@ public class QueryBuilder {
 		buildingOffsetPart(limit, offset, stringBuilder);
 
 		return stringBuilder.toString();
+	}
+
+	private static boolean isNotUnionTable(String tableName) {
+		return tableName.split(" ").length == 1;
 	}
 
 	private static void processBetweenParams(List<String> betweenParams, StringBuilder stringBuilder) {
