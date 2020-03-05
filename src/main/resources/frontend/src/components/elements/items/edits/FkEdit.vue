@@ -1,5 +1,5 @@
 <template>
-  <black-button @click="selectPopup">{{ fkActualValue }}</black-button>
+  <black-button :disabled="disabled" @click="selectPopup">{{ fkActualValue }}</black-button>
 </template>
 
 <script>
@@ -11,7 +11,7 @@
   export default {
     name: "FkEdit",
     components: {BlackButton},
-    props: ['type', 'value', 'schema'],
+    props: ['type', 'value', 'disabled'],
     data: function () {
       return {
         fkActualValue: ''

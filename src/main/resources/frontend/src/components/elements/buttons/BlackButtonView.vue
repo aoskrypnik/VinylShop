@@ -1,11 +1,11 @@
 <template>
-  <button :class="{large, inline}" @click="$emit('click')"><slot></slot></button>
+  <button :class="{large, inline}" :disabled="disabled" @click="$emit('click')"><slot></slot></button>
 </template>
 
 <script>
   export default {
     name: 'BlackButtonView',
-    props: ['large', 'inline']
+    props: ['large', 'inline', 'disabled']
   }
 </script>
 
@@ -38,6 +38,16 @@
 
   button:focus {
     border-color: aliceblue;
+  }
+
+  button[disabled] {
+    border-color: lightgrey;
+    color: lightgrey;
+  }
+
+  button[disabled]:hover {
+    background: black;
+    color: lightgrey;
   }
 
 </style>

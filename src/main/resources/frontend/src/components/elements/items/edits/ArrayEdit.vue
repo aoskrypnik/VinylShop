@@ -2,9 +2,9 @@
     <div>
       <div v-for="(item, key) in items" :key="key" class="itemContainer">
         <item-edit :value="item" :type="{...type, isArray: false}" @input="onInput($event, key)" :schema="schema" class="itemInput"></item-edit>
-        <black-button :inline="true" @click="removeItem(key)">x</black-button>
+        <black-button :inline="true" :disabled="value.length == 1 && !type.isNullable" @click="removeItem(key)">x</black-button>
       </div>
-      <BlackButton @click="addItem">{{$store.getters.getAppLocale('addArrayItem')}}</BlackButton>
+      <BlackButton  @click="addItem">{{$store.getters.getAppLocale('addArrayItem')}}</BlackButton>
     </div>
 </template>
 

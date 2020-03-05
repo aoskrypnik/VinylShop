@@ -22,5 +22,9 @@ export default {
   addArrayItem: {
     en: 'Add item',
     ua: 'Додати'
+  },
+  applyFilters: {
+    en: 'Apply',
+    ua: 'Застосувати'
   }
 }

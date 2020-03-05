@@ -1,5 +1,5 @@
 <template>
-  <black-input :value="value" :date="true" @input="onEdit"></black-input>
+  <black-input :value="value" :date="true" :disabled="disabled" @input="onEdit"></black-input>
 </template>
 
 <script>
@@ -10,7 +10,7 @@
     components: {
       BlackInput
     },
-    props: ['value', 'type'],
+    props: ['value', 'type', 'disabled'],
     methods: {
       onEdit(newValue) {
         // TODO constraints

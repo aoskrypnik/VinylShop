@@ -1,5 +1,5 @@
 <template>
-  <black-input :value="value" @input="onEdit" :wrong="isWrong"></black-input>
+  <black-input :value="value" :wrong="isWrong" :disabled="disabled" @input="onEdit"></black-input>
 </template>
 
 <script>
@@ -10,7 +10,7 @@ export default {
   components: {
     BlackInput
   },
-  props: ['value', 'type'],
+  props: ['value', 'type', 'disabled'],
   data: function() {
     return {
       isWrong: false

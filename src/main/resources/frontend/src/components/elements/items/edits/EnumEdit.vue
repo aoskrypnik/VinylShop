@@ -41,11 +41,16 @@ export default {
   },
   methods: {
     onInput(value, e1) {
+      // TODO add nullable support for array enums
       const copy = { ...this.values, [e1]: value };
       if (this.type.isArray) {
         this.$emit('input', Object.keys(copy).filter(e => copy[e]))
       } else {
-        this.$emit('input', e1)
+        if (!value && this.type.isNullable) {
+          this.$emit('input', null)
+        } else {
+          this.$emit('input', e1)
+        }
       }
     }
   }

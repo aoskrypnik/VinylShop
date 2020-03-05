@@ -3,7 +3,10 @@ export default {
     composerName: 'string',
     composerCountryCode: 'country',
     activityStart: 'date',
-    activityEnd: 'date',
+    activityEnd: {
+      type: 'date',
+      isNullable: true
+    },
     trackIds: {
       type: 'track',
       isSchema: true,

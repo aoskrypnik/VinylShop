@@ -15,7 +15,7 @@ export default new Vuex.Store({
     schemas: Schemas,
     schemaDictionary: SchemaDictionary,
     appDictionary: AppDictionary,
-    popups: [{ type: 'list', properties: { schema: 'client', itemSelection: () => {} } }],
+    popups: [/*{ type: 'list', properties: { schema: 'client', itemSelection: () => {} } }*/],
     token: window.localStorage.getItem('authToken'),
     countries: new Map(lookup.countries.map(({ iso2, country }) => [iso2, country]))
   },

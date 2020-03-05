@@ -2,31 +2,22 @@
   <div>
     <enum-edit v-if="isEnum" :value="value" :type="type" :schema="schema" @input="onInput"></enum-edit>
     <array-edit v-else-if="isArray" :value="value" :type="type" :schema="schema" @input="onInput"></array-edit>
-    <string-edit v-else-if="isString" :value="value" :type="type" @input="onInput"></string-edit>
-    <date-edit v-else-if="isDate" :value="value" :type="type" @input="onInput"></date-edit>
-    <country-edit v-else-if="typeString === 'country'" :value="value" @input="onInput"></country-edit>
-    <fk-edit v-else-if="type.isSchema" :value="value" :type="type" @input="onInput"></fk-edit>
+    <nullable-wrapper v-else :input-type="inputType" :value="value" :type="type" @input="onInput"></nullable-wrapper>
   </div>
 </template>
 
 <script>
-import StringEdit from './edits/StringEdit'
 import EnumEdit from './edits/EnumEdit'
 
 import * as SchemaUtils from '@/schemas/utils'
 import ArrayEdit from "./edits/ArrayEdit";
-import FkEdit from "./edits/FkEdit";
-import DateEdit from "./edits/DateEdit";
-import CountryEdit from "./edits/CountryEdit";
+import NullableWrapper from "./edits/NullableWrapper";
 
 export default {
   name: 'ItemEdit',
   components: {
-    CountryEdit,
-    DateEdit,
-    FkEdit,
+    NullableWrapper,
     ArrayEdit,
-    StringEdit,
     EnumEdit
   },
   props: ['type', 'value', 'schema'],
@@ -45,6 +36,18 @@ export default {
     },
     isDate: function() {
       return SchemaUtils.isDate(this.type)
+    },
+    inputType: function() {
+      if (this.isString) {
+        return 'string-edit'
+      }
+      if (this.isDate) {
+        return 'date-edit'
+      }
+      if (this.typeString === 'country') {
+        return 'country-edit'
+      }
+      return 'fk-edit'
     }
   },
   methods: {
