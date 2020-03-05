@@ -1,7 +1,7 @@
 export default {
   props: {
     composerName: 'string',
-    countryCode: 'string',
+    composerCountryCode: 'country',
     activityStart: 'date',
     activityEnd: 'date',
     trackIds: {

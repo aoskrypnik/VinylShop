@@ -46,7 +46,7 @@ export default {
           ua: "Ім'я",
           en: "Name"
         },
-        countryCode: {
+        composerCountryCode: {
           ua: 'Країна',
           en: 'Country'
         },

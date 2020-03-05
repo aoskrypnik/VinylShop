@@ -18,7 +18,7 @@ export default {
     //"featuringArtistIds": [],
     //"featuringBandIds": [],
     languages: {
-      type: 'string',
+      type: 'country',
       isArray: true
     }
   },

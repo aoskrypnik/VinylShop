@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div v-for="(item, key) in value" :key="key" class="itemContainer">
+      <div v-for="(item, key) in items" :key="key" class="itemContainer">
         <item-edit :value="item" :type="{...type, isArray: false}" @input="onInput($event, key)" :schema="schema" class="itemInput"></item-edit>
         <black-button :inline="true" @click="removeItem(key)">x</black-button>
       </div>
@@ -21,24 +21,28 @@
     props: ['type', 'value', 'schema'],
     data: function() {
       return {
-
+        items: []
       }
+    },
+    watch: {
+      value(newValue) {
+        this.items = [...newValue]
+      }
+    },
+    mounted() {
+      this.items = [...this.value]
     },
     methods: {
       onInput(newValue, index) {
-        const copy = [...(this.value)];
-        copy[index] = newValue;
-        this.$emit('input', copy)
+        this.items[index] = newValue;
+        this.$emit('input', this.items.filter(i => i !== null))
       },
       removeItem(index) {
-        const copy = [...(this.value)];
-        copy.splice(index, 1);
-        this.$emit('input', copy)
+        this.items.splice(index, 1);
+        this.$emit('input', this.items.filter(i => i !== null))
       },
       addItem() {
-        const copy = [...(this.value)];
-        copy.push(null)
-        this.$emit('input', copy)
+        this.items.push(null)
       }
     }
   }

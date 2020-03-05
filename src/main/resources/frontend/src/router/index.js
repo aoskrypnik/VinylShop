@@ -16,7 +16,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ './pages/List.vue')
   },
   {
-    path: '/form/:schema/:key',
+    path: '/form/:schema/:item',
     name: 'form',
     component: () => import(/* webpackChunkName: "about" */ './pages/Form.vue')
   }

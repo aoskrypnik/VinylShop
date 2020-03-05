@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import lookup from 'country-code-lookup'
+
 import Schemas from '../schemas'
 import SchemaDictionary from '../schemas/dictionary'
 import AppDictionary from './appDictionary'
@@ -14,7 +16,8 @@ export default new Vuex.Store({
     schemaDictionary: SchemaDictionary,
     appDictionary: AppDictionary,
     popups: [{ type: 'list', properties: { schema: 'client', itemSelection: () => {} } }],
-    token: window.localStorage.getItem('authToken')
+    token: window.localStorage.getItem('authToken'),
+    countries: new Map(lookup.countries.map(({ iso2, country }) => [iso2, country]))
   },
   mutations: {
     popup (state, content) {

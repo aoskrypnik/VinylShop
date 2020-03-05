@@ -7,6 +7,7 @@
   import * as SchemaUtils from '@/schemas/utils'
 
   import BlackButton from "../../buttons/BlackButton";
+
   export default {
     name: "FkEdit",
     components: {BlackButton},
@@ -15,6 +16,9 @@
       return {
         fkActualValue: ''
       }
+    },
+    mounted() {
+      this.updateFkValue()
     },
     methods: {
       updateFkValue() {

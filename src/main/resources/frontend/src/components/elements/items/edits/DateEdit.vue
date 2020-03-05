@@ -1,5 +1,5 @@
 <template>
-  <black-input :value="value" :date="true" @input="onEdit" :wrong="isWrong"></black-input>
+  <black-input :value="value" :date="true" @input="onEdit"></black-input>
 </template>
 
 <script>
