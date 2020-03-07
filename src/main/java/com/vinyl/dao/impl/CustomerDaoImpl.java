@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
@@ -95,6 +96,7 @@ public class CustomerDaoImpl implements CustomerDao {
 		return isNull(sum.get(0)) ? 0 : sum.get(0);
 	}
 
+	@Transactional
 	@Override
 	public List<Customer> searchCustomer(String query) {
 		return jdbcTemplate.query(query, customerRowMapper);

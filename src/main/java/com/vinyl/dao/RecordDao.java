@@ -12,5 +12,5 @@ public interface RecordDao {
 
 	void update(Record record);
 
-	List<Record> searchReleases(String query);
+	List<Record> searchRecords(String query);
 }

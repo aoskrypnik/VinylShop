@@ -70,6 +70,7 @@ public class CheckDaoImpl implements CheckDao {
 		return checkNum;
 	}
 
+	@Transactional
 	@Override
 	public List<Check> searchChecks(String query) {
 		return jdbcTemplate.query(query, checkRowMapper);

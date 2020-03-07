@@ -103,6 +103,7 @@ public class TrackDaoImpl implements TrackDao {
 		jdbcTemplate.update(deleteCustomerQuery, catalogNum);
 	}
 
+	@Transactional
 	@Override
 	public List<Track> searchTracks(String query) {
 		return jdbcTemplate.query(query, trackRowMapper);

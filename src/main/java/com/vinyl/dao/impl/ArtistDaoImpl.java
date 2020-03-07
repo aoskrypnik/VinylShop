@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -59,6 +60,7 @@ public class ArtistDaoImpl implements ArtistDao {
 		jdbcTemplate.update(updateArtistQuery, artistAlias, activity, country, name, birthdate, deathdate, alias);
 	}
 
+	@Transactional
 	@Override
 	public List<Artist> searchArtists(String query) {
 		return jdbcTemplate.query(query, artistRowMapper);

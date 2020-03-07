@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -93,6 +94,7 @@ public class TrackPerformerDaoImpl implements TrackPerformerDao {
 		}
 	}
 
+	@Transactional
 	@Override
 	public List<TrackPerformerDto> searchTrackPerformance(String query) {
 		return jdbcTemplate.query(query, trackPerformerRowMapper);

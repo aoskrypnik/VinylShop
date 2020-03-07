@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -63,8 +64,9 @@ public class RecordDaoImpl implements RecordDao {
 				record.getAvailable(), record.getRecordState(), record.getStateCheckDate(), record.getRecordBarcode());
 	}
 
+	@Transactional
 	@Override
-	public List<Record> searchReleases(String query) {
+	public List<Record> searchRecords(String query) {
 		return jdbcTemplate.query(query, recordRowMapper);
 	}
 

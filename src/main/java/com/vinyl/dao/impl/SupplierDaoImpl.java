@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -40,6 +41,7 @@ public class SupplierDaoImpl implements SupplierDao {
 		return queryResult.size() == 0 ? null : queryResult.get(0);
 	}
 
+	@Transactional
 	@Override
 	public List<Supplier> searchSuppliers(String query) {
 		return jdbcTemplate.query(query, supplierRowMapper);

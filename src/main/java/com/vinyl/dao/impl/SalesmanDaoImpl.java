@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
@@ -74,6 +75,7 @@ public class SalesmanDaoImpl implements SalesmanDao {
 				salesmanNew.getWorksTo(), salesmanNew.getSalary(), salesmanNew.getTabNum());
 	}
 
+	@Transactional
 	@Override
 	public List<Salesman> searchSalesman(String query) {
 		return jdbcTemplate.query(query, salesmanRowMapper);

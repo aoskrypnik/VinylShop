@@ -39,7 +39,7 @@ public class RecordServiceImpl implements RecordService {
 				.build(searchDto.getWheres(), searchDto.getLikes(), searchDto.getBetweens(),
 						searchDto.getJoins(), searchDto.getSort(), searchDto.getOrder(),
 						searchDto.getLimit(), searchDto.getOffset(), RECORD_TABLE_NAME);
-		return recordDao.searchReleases(query);
+		return recordDao.searchRecords(query);
 	}
 
 }

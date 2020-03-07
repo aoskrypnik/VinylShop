@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -58,6 +59,7 @@ public class ComposerDaoImpl implements ComposerDao {
 		jdbcTemplate.update(updateComposerQuery, country, activityStart, activityEnd, composerName);
 	}
 
+	@Transactional
 	@Override
 	public List<Composer> searchComposers(String query) {
 		return jdbcTemplate.query(query, composerRowMapper);

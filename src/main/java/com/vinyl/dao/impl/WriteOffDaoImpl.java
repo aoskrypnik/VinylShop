@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
@@ -66,6 +67,7 @@ public class WriteOffDaoImpl implements WriteOffDao {
 		return writeOffNum;
 	}
 
+	@Transactional
 	@Override
 	public List<WriteOff> searchWriteOffs(String query) {
 		return jdbcTemplate.query(query, writeOffRowMapper);

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -45,6 +46,7 @@ public class ReleaseDaoImpl implements ReleaseDao {
 		return queryResult.size() == 0 ? null : queryResult.get(0);
 	}
 
+	@Transactional
 	@Override
 	public List<Release> searchReleases(String query) {
 		return jdbcTemplate.query(query, releaseRowMapper);
