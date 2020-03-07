@@ -55,4 +55,9 @@ public class ArtistServiceImpl implements ArtistService {
 	public void update(Artist artist, String alias) {
 		artistDao.update(artist, alias);
 	}
+
+	@Override
+	public List<Artist> getArtistWhoseAlbumsWereSoldOut() {
+		return artistDao.getArtistWhoseAlbumsWereSoldOut();
+	}
 }

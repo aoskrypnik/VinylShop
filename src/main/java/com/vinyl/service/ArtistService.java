@@ -17,4 +17,7 @@ public interface ArtistService {
 	void deleteArtist(String alias);
 
 	void update(Artist artist, String alias);
+
+	List<Artist> getArtistWhoseAlbumsWereSoldOut();
+
 }

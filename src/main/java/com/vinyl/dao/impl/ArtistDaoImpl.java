@@ -26,6 +26,8 @@ public class ArtistDaoImpl implements ArtistDao {
 	private String updateArtistQueryPath;
 	@Value("${sql.artist.delete.artist.by.alias.query.path}")
 	private String deleteArtistByAliasQueryPath;
+	@Value("${sql.artist.all.albums.sold.out.query.path}")
+	private String getArtistWhoseAlbumsWhereSoldOutQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -54,10 +56,10 @@ public class ArtistDaoImpl implements ArtistDao {
 		String artistAlias = artist.getArtistAlias();
 		String country = artist.getArtistCountryCode();
 		String name = artist.getArtistName();
-		Date birthdate = artist.getArtistBirthDate();
-		Date deathdate = artist.getArtistDeathDate();
+		Date birthDate = artist.getArtistBirthDate();
+		Date deathDate = artist.getArtistDeathDate();
 
-		jdbcTemplate.update(updateArtistQuery, artistAlias, activity, country, name, birthdate, deathdate, alias);
+		jdbcTemplate.update(updateArtistQuery, artistAlias, activity, country, name, birthDate, deathDate, alias);
 	}
 
 	@Transactional
@@ -70,6 +72,12 @@ public class ArtistDaoImpl implements ArtistDao {
 	public void deleteArtist(String alias) {
 		String deleteArtistByAliasQuery = QuerySupplier.getQuery(deleteArtistByAliasQueryPath);
 		jdbcTemplate.update(deleteArtistByAliasQuery, alias);
+	}
+
+	@Override
+	public List<Artist> getArtistWhoseAlbumsWereSoldOut() {
+		String getArtistWhoseAlbumsWhereSoldOutQuery = QuerySupplier.getQuery(getArtistWhoseAlbumsWhereSoldOutQueryPath);
+		return jdbcTemplate.query(getArtistWhoseAlbumsWhereSoldOutQuery, artistRowMapper);
 	}
 
 }
