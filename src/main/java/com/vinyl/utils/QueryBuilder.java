@@ -4,8 +4,12 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.IntStream;
 
 import static java.util.Objects.nonNull;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
@@ -17,16 +21,12 @@ public class QueryBuilder {
 	public static String build(List<String> whereParams, List<String> likeParams, List<String> betweenParams,
 							   List<String> joins, String sorting, String order,
 							   Integer limit, Integer offset, String tableName) {
+
 		boolean whereAlreadyUsed = false;
+		StringBuilder stringBuilder = new StringBuilder();
 
-		StringBuilder stringBuilder = new StringBuilder("SELECT ");
-		if (isNotUnionTable(tableName)) {
-			stringBuilder.append(tableName).append(".* ").append("FROM ").append(tableName).append(" ");
-		} else {
-			stringBuilder.append("* FROM ").append(tableName).append(" AS t ");
-		}
+		buildSelectPart(tableName, stringBuilder);
 
-		//?joins=artist
 		if (isFalse(isEmpty(joins))) {
 			for (String join : joins) {
 				stringBuilder.append("INNER JOIN ").append(join).append(" ON ")
@@ -34,14 +34,12 @@ public class QueryBuilder {
 			}
 		}
 
-		//?wheres=age:10
 		if (isFalse(isEmpty(whereParams))) {
 			whereAlreadyUsed = true;
 			stringBuilder.append("WHERE TRUE ");
 			processWhereParams(whereParams, stringBuilder);
 		}
 
-		//?likes=name:ania
 		if (isFalse(isEmpty(likeParams))) {
 			if (isFalse(whereAlreadyUsed)) {
 				stringBuilder.append("WHERE TRUE ");
@@ -50,7 +48,6 @@ public class QueryBuilder {
 			processLikeParams(likeParams, stringBuilder);
 		}
 
-		//?betweens=age:10:20
 		if (isFalse(isEmpty(betweenParams))) {
 			if (isFalse(whereAlreadyUsed)) {
 				stringBuilder.append("WHERE TRUE ");
@@ -63,6 +60,15 @@ public class QueryBuilder {
 		buildingOffsetPart(limit, offset, stringBuilder);
 
 		return stringBuilder.toString();
+	}
+
+	private static void buildSelectPart(String tableName, StringBuilder stringBuilder) {
+		stringBuilder.append("SELECT ");
+		if (isNotUnionTable(tableName)) {
+			stringBuilder.append(tableName).append(".* ").append("FROM ").append(tableName).append(" ");
+		} else {
+			stringBuilder.append("* FROM ").append(tableName).append(" AS t ");
+		}
 	}
 
 	private static boolean isNotUnionTable(String tableName) {
@@ -99,17 +105,55 @@ public class QueryBuilder {
 			String firstParam = formatUrlKey(splitParam[0]);
 			String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
 			secondParam = secondParam.substring(1, secondParam.length() - 1);
-			stringBuilder.append("AND ").append(firstParam).append(" LIKE ").append("'%").append(secondParam).append("%' ");
+			stringBuilder.append("AND ")
+					.append(firstParam)
+					.append(" LIKE ")
+					.append("'%")
+					.append(secondParam)
+					.append("%' ");
 		}
 	}
 
 	private static void processWhereParams(List<String> whereParams, StringBuilder stringBuilder) {
+		Map<String, List<Integer>> repeatedWhereParamsMap = retrieveRepeatedWhereParamsMap(whereParams);
+
 		for (String param : whereParams) {
 			String[] splitParam = param.split(":");
 			String firstParam = formatUrlKey(splitParam[0]);
-			String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
-			stringBuilder.append("AND ").append(firstParam).append("=").append(secondParam).append(" ");
+			if (isFalse(repeatedWhereParamsMap.containsKey(firstParam))) {
+				String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
+				stringBuilder.append("AND ").append(firstParam).append("=").append(secondParam).append(" ");
+			}
 		}
+
+		for (Map.Entry<String, List<Integer>> entry : repeatedWhereParamsMap.entrySet()) {
+			stringBuilder.append("And (");
+			for (Integer i : entry.getValue()) {
+				String[] splitParam = whereParams.get(i).split(":");
+				String value = formatUrlValue(splitParam[0], splitParam[1]);
+				stringBuilder.append(entry.getKey()).append("=").append(value).append(" OR ");
+			}
+			stringBuilder.delete(stringBuilder.length() - 4, stringBuilder.length()).append(") ");
+		}
+	}
+
+	private static Map<String, List<Integer>> retrieveRepeatedWhereParamsMap(List<String> whereParams) {
+		Map<String, List<Integer>> repeatedWhereParamsMap = whereParams.stream()
+				.map(e -> formatUrlKey(e.split(":")[0]))
+				.distinct()
+				.collect(toMap(Function.identity(),
+						e -> IntStream.range(0, whereParams.size())
+								.filter(i -> formatUrlKey(whereParams.get(i).split(":")[0]).equals(e))
+								.boxed()
+								.collect(toList())));
+
+		for (String key : repeatedWhereParamsMap.keySet()) {
+			if (repeatedWhereParamsMap.get(key).size() < 2) {
+				repeatedWhereParamsMap.remove(key);
+			}
+		}
+
+		return repeatedWhereParamsMap;
 	}
 
 	private static String formatUrlKey(String key) {
