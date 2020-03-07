@@ -22,8 +22,6 @@ import java.util.List;
 @Repository
 public class SalesmanDaoImpl implements SalesmanDao {
 
-	@Value("${sql.salesmen.get.all.salesmen.query.path}")
-	private String getGetAllSalesmenQueryPath;
 	@Value("${sql.salesmen.get.salesman.by.tab.num.query.path}")
 	private String getGetSalesmanByTabNumQueryPath;
 	@Value("${sql.salesmen.create.salesman.query.path}")

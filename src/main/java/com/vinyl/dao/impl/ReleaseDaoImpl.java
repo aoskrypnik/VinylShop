@@ -18,8 +18,6 @@ public class ReleaseDaoImpl implements ReleaseDao {
 
 	@Value("${sql.release.create.release.query.path}")
 	private String createReleaseQueryPath;
-	@Value("${sql.release.get.all.releases.query.path}")
-	private String getAllReleasesQueryPath;
 	@Value("${sql.release.get.release.by.barcode.query.path}")
 	private String getReleaseByBarcodeQueryPath;
 	@Value("${sql.update.release.query.path}")

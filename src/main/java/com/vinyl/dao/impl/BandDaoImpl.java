@@ -18,8 +18,6 @@ public class BandDaoImpl implements BandDao {
 
 	@Value("${sql.band.create.band.query.path}")
 	private String createBandQueryPath;
-	@Value("${sql.band.get.all.bands.query.path}")
-	private String getAllBandsQueryPath;
 	@Value("${sql.band.get.band.by.alias.name.query.path}")
 	private String getBandByAliasQueryPath;
 	@Value("${sql.band.delete.band.by.alias.query.path}")

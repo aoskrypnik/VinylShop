@@ -19,8 +19,6 @@ public class AlbumDaoImpl implements AlbumDao {
 	private String getAlbumByCatalogNumQueryPath;
 	@Value("${sql.album.create.album.query.path}")
 	private String createAlbumQueryPath;
-	@Value("${sql.album.get.all.albums.query.path}")
-	private String getAllAlbumsQueryPath;
 	@Value("${sql.albumgenre.create.genre.query.path}")
 	private String addAlbumGenreQueryPath;
 	@Value("${sql.album.delete.genres.from.album.query.path}")

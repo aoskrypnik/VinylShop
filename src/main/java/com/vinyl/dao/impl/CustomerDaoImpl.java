@@ -30,8 +30,6 @@ public class CustomerDaoImpl implements CustomerDao {
 	private String updateCustomerQueryPath;
 	@Value("${sql.customer.delete.customer.query.path}")
 	private String deleteCustomerQueryPath;
-	@Value("${sql.customer.get.all.customers.query.path}")
-	private String getAllCustomersQueryPath;
 	@Value("${sql.customer.update.discount.query.path}")
 	private String updateDiscountQueryPath;
 	@Value("${sql.customer.get.sum.for.all.purchases.query.path}")

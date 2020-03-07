@@ -15,12 +15,8 @@ import java.util.List;
 @Repository
 public class TrackDaoImpl implements TrackDao {
 
-	@Value("${sql.track.find.tracks.by.language.query.path}")
-	private String findTracksByLanguageQueryPath;
 	@Value("${sql.track.get.track.by.catalog.num.query.path}")
 	private String getTrackByCatalogNumQueryPath;
-	@Value("${sql.track.get.all.tracks.query.path}")
-	private String getAllTracksQueryPath;
 	@Value("${sql.track.create.track.query.path}")
 	private String createTrackQueryPath;
 	@Value("${sql.track.delete.query.path}")

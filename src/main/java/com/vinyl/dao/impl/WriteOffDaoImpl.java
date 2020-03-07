@@ -63,8 +63,7 @@ public class WriteOffDaoImpl implements WriteOffDao {
 			return ps;
 		}, keyHolder);
 
-		Integer writeOffNum = KeyHolderUtils.extractInt(keyHolder, "write_off_num");
-		return writeOffNum;
+		return KeyHolderUtils.extractInt(keyHolder, "write_off_num");
 	}
 
 	@Transactional

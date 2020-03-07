@@ -20,8 +20,6 @@ public class ArtistDaoImpl implements ArtistDao {
 	private String createArtistQueryPath;
 	@Value("${sql.artist.get.artist.by.alias.query.path}")
 	private String getArtistByAliasQueryPath;
-	@Value("${sql.artist.get.all.artists.query.path}")
-	private String getAllArtistsQueryPath;
 	@Value("${sql.artist.update.artist.query.path}")
 	private String updateArtistQueryPath;
 	@Value("${sql.artist.delete.artist.by.alias.query.path}")

@@ -22,8 +22,6 @@ public class ComposerDaoImpl implements ComposerDao {
 	private String getComposerByNameQueryPath;
 	@Value("${sql.composer.update.composer.query.path}")
 	private String updateComposerQueryPath;
-	@Value("${sql.composer.get.all.composers.query.path}")
-	private String getAllComposersQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
