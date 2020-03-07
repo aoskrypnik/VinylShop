@@ -42,4 +42,9 @@ public class RecordServiceImpl implements RecordService {
 		return recordDao.searchRecords(query);
 	}
 
+	@Override
+	public boolean recordIsSold(String barcode) {
+		return recordDao.recordIsSold(barcode);
+	}
+
 }

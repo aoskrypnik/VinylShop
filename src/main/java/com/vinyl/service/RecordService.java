@@ -14,4 +14,6 @@ public interface RecordService {
 	void update(Record record);
 
 	List<Record> searchRecords(SearchDto searchDto);
+
+	boolean recordIsSold(String barcode);
 }

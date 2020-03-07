@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
+
 @Repository
 public class RecordDaoImpl implements RecordDao {
 
@@ -19,14 +21,14 @@ public class RecordDaoImpl implements RecordDao {
 
 	@Value("${sql.record.create.record.query.path}")
 	private String createRecordQueryPath;
-	@Value("${sql.record.get.all.records.query.path}")
-	private String getAllRecordsQueryPath;
 	@Value("${sql.record.get.record.by.barcode.query.path}")
 	private String getRecordByBarcodeQueryPath;
 	@Value("${sql.get.barcode.sequence.next.value.query.path}")
 	private String getBarcodeSequenceNextValueQueryPath;
 	@Value("${sql.record.update.record.query.path}")
 	private String updateRecordQueryPath;
+	@Value("${sql.record.check.if.record.is.available.query.path}")
+	private String checkIfRecordIsAvailableQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
@@ -68,6 +70,14 @@ public class RecordDaoImpl implements RecordDao {
 	@Override
 	public List<Record> searchRecords(String query) {
 		return jdbcTemplate.query(query, recordRowMapper);
+	}
+
+	@Override
+	public boolean recordIsSold(String barcode) {
+		String checkIfRecordIsAvailableQuery = QuerySupplier.getQuery(checkIfRecordIsAvailableQueryPath);
+		List<Boolean> isRecordAvailableResult = jdbcTemplate
+				.queryForList(checkIfRecordIsAvailableQuery, new Object[]{barcode}, Boolean.class);
+		return isFalse(isRecordAvailableResult.get(0));
 	}
 
 }

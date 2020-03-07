@@ -18,6 +18,7 @@ import java.net.URI;
 import java.util.List;
 
 import static java.util.Objects.isNull;
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 @RestController
 @RequestMapping("/record")
@@ -43,10 +44,17 @@ public class RecordController {
 		return ResponseEntity.ok(foundRecord);
 	}
 
+	//TODO remove string "replaceAll" method, modify sql sequence for barcode to start from 1000000000000
 	@PutMapping("/{barcode}")
 	public ResponseEntity<?> updateRecord(@RequestBody Record record, @PathVariable String barcode) {
+		if (isFalse(barcode.equals(record.getRecordBarcode().replaceAll("\\s+", "")))) {
+			return ResponseEntity.badRequest().build();
+		}
 		if (isNull(recordService.getByBarcode(barcode))) {
 			return ResponseEntity.notFound().build();
+		}
+		if (recordService.recordIsSold(barcode)) {
+			return ResponseEntity.status(403).build();
 		}
 		recordService.update(record);
 		return ResponseEntity.ok().build();

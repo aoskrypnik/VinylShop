@@ -13,4 +13,6 @@ public interface RecordDao {
 	void update(Record record);
 
 	List<Record> searchRecords(String query);
+
+	boolean recordIsSold(String barcode);
 }
