@@ -1,14 +1,7 @@
 package com.vinyl.dao.impl;
 
 import com.vinyl.dao.StatisticsDao;
-import com.vinyl.dto.StatisticsAvgIncomeDto;
-import com.vinyl.dto.StatisticsChecksDto;
-import com.vinyl.dto.StatisticsIncomeDto;
-import com.vinyl.dto.StatisticsProceedsDto;
-import com.vinyl.dto.StatisticsSalesmanAvgIncomeDto;
-import com.vinyl.dto.StatisticsSalesmanChecksDto;
-import com.vinyl.dto.StatisticsSalesmanIncomeDto;
-import com.vinyl.dto.StatisticsSalesmanProceedsDto;
+import com.vinyl.dto.StatisticsDto;
 import com.vinyl.utils.QuerySupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -42,71 +35,58 @@ public class StatisticsDaoImpl implements StatisticsDao {
 	@Resource
 	private JdbcTemplate jdbcTemplate;
 	@Resource
-	private RowMapper<StatisticsSalesmanIncomeDto> statisticsSalesmanIncomeDtoRowMapper;
-	@Resource
-	private RowMapper<StatisticsSalesmanAvgIncomeDto> statisticsSalesmanAvgIncomeDtoRowMapper;
-	@Resource
-	private RowMapper<StatisticsSalesmanChecksDto> statisticsSalesmanChecksDtoRowMapper;
-	@Resource
-	private RowMapper<StatisticsSalesmanProceedsDto> statisticsSalesmanProceedsDtoRowMapper;
+	private RowMapper<StatisticsDto> statisticsRowMapper;
 
 	@Override
-	public StatisticsIncomeDto getIncomeByPeriod(Timestamp from, Timestamp to) {
-		String incomeByPeriodQuery = QuerySupplier.getQuery(incomeByPeriodQueryPath);
-		StatisticsIncomeDto statisticsIncomeDto = new StatisticsIncomeDto();
-		List<Integer> income = jdbcTemplate.queryForList(incomeByPeriodQuery, new Object[]{from, to}, Integer.class);
-		statisticsIncomeDto.setIncome(income.size() == 0 ? null : income.get(0));
-		return statisticsIncomeDto;
+	public StatisticsDto getIncomeByPeriod(Timestamp from, Timestamp to) {
+		return getStatisticsDto(from, to, incomeByPeriodQueryPath);
 	}
 
+
 	@Override
-	public List<StatisticsSalesmanIncomeDto> getSalesmanIncomeByPeriod(Timestamp from, Timestamp to) {
+	public List<StatisticsDto> getSalesmanIncomeByPeriod(Timestamp from, Timestamp to) {
 		String salesmanIncomeByPeriodQuery = QuerySupplier.getQuery(salesmanIncomeByPeriodQueryPath);
-		return jdbcTemplate.query(salesmanIncomeByPeriodQuery, new Object[]{from, to}, statisticsSalesmanIncomeDtoRowMapper);
+		return jdbcTemplate.query(salesmanIncomeByPeriodQuery, new Object[]{from, to}, statisticsRowMapper);
 	}
 
 	@Override
-	public StatisticsAvgIncomeDto getAvgIncomeByPeriod(Timestamp from, Timestamp to) {
-		String averageIncomeByPeriodQuery = QuerySupplier.getQuery(averageIncomeByPeriodQueryPath);
-		StatisticsAvgIncomeDto statisticsAvgIncomeDto = new StatisticsAvgIncomeDto();
-		List<Double> income = jdbcTemplate.queryForList(averageIncomeByPeriodQuery, new Object[]{from, to}, Double.class);
-		statisticsAvgIncomeDto.setAverageIncome(income.size() == 0 ? null : income.get(0));
-		return statisticsAvgIncomeDto;
+	public StatisticsDto getAvgIncomeByPeriod(Timestamp from, Timestamp to) {
+		return getStatisticsDto(from, to, averageIncomeByPeriodQueryPath);
 	}
 
 	@Override
-	public List<StatisticsSalesmanAvgIncomeDto> getSalesmanAvgIncomeByPeriod(Timestamp from, Timestamp to) {
+	public List<StatisticsDto> getSalesmanAvgIncomeByPeriod(Timestamp from, Timestamp to) {
 		String salesmanAverageIncomeByPeriodQuery = QuerySupplier.getQuery(salesmanAverageIncomeByPeriodQueryPath);
-		return jdbcTemplate.query(salesmanAverageIncomeByPeriodQuery, new Object[]{from, to}, statisticsSalesmanAvgIncomeDtoRowMapper);
+		return jdbcTemplate.query(salesmanAverageIncomeByPeriodQuery, new Object[]{from, to}, statisticsRowMapper);
 	}
 
 	@Override
-	public StatisticsChecksDto getChecksNumByPeriod(Timestamp from, Timestamp to) {
-		String numberOfChecksByPeriodQuery = QuerySupplier.getQuery(numberOfChecksByPeriodQueryPath);
-		StatisticsChecksDto statisticsChecksDto = new StatisticsChecksDto();
-		List<Integer> checksNum = jdbcTemplate.queryForList(numberOfChecksByPeriodQuery, new Object[]{from, to}, Integer.class);
-		statisticsChecksDto.setNumberOfChecks(checksNum.size() == 0 ? null : checksNum.get(0));
-		return statisticsChecksDto;
+	public StatisticsDto getChecksNumByPeriod(Timestamp from, Timestamp to) {
+		return getStatisticsDto(from, to, numberOfChecksByPeriodQueryPath);
 	}
 
 	@Override
-	public List<StatisticsSalesmanChecksDto> getSalesmanChecksNumByPeriod(Timestamp from, Timestamp to) {
+	public List<StatisticsDto> getSalesmanChecksNumByPeriod(Timestamp from, Timestamp to) {
 		String numberOfSalesmanChecksQuery = QuerySupplier.getQuery(numberOfSalesmanChecksQueryPath);
-		return jdbcTemplate.query(numberOfSalesmanChecksQuery, new Object[]{from, to}, statisticsSalesmanChecksDtoRowMapper);
+		return jdbcTemplate.query(numberOfSalesmanChecksQuery, new Object[]{from, to}, statisticsRowMapper);
 	}
 
 	@Override
-	public StatisticsProceedsDto getProceedsPeriod(Timestamp from, Timestamp to) {
-		String proceedsByPeriodQuery = QuerySupplier.getQuery(proceedsByPeriodQueryPath);
-		StatisticsProceedsDto statisticsProceedsDto = new StatisticsProceedsDto();
-		List<Integer> checksNum = jdbcTemplate.queryForList(proceedsByPeriodQuery, new Object[]{from, to}, Integer.class);
-		statisticsProceedsDto.setProceeds(checksNum.size() == 0 ? null : checksNum.get(0));
-		return statisticsProceedsDto;
+	public StatisticsDto getProceedsPeriod(Timestamp from, Timestamp to) {
+		return getStatisticsDto(from, to, proceedsByPeriodQueryPath);
 	}
 
 	@Override
-	public List<StatisticsSalesmanProceedsDto> getSalesmanProceedsByPeriod(Timestamp from, Timestamp to) {
+	public List<StatisticsDto> getSalesmanProceedsByPeriod(Timestamp from, Timestamp to) {
 		String salesmanProceedsByPeriodQuery = QuerySupplier.getQuery(salesmanProceedsByPeriodQueryPath);
-		return jdbcTemplate.query(salesmanProceedsByPeriodQuery, new Object[]{from, to}, statisticsSalesmanProceedsDtoRowMapper);
+		return jdbcTemplate.query(salesmanProceedsByPeriodQuery, new Object[]{from, to}, statisticsRowMapper);
+	}
+
+	private StatisticsDto getStatisticsDto(Timestamp from, Timestamp to, String queryPath) {
+		String query = QuerySupplier.getQuery(queryPath);
+		StatisticsDto statisticsDto = new StatisticsDto();
+		List<Integer> res = jdbcTemplate.queryForList(query, new Object[]{from, to}, Integer.class);
+		statisticsDto.setStatisticsResult(res.size() == 0 ? null : res.get(0));
+		return statisticsDto;
 	}
 }

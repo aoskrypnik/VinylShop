@@ -1,3 +1,3 @@
-SELECT count(*) AS number_of_checks
+SELECT count(*) AS statistics_res
 FROM cheq
 WHERE date_time BETWEEN ? AND ?;

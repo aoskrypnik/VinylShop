@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class StatisticsAvgIncomeDto {
-	private Double averageIncome;
+public class StatisticsDto {
+	private Integer salesmanTabNum;
+	private Integer statisticsResult;
 }
