@@ -64,44 +64,49 @@ public class TrackPerformerDaoImpl implements TrackPerformerDao {
 	}
 
 	@Override
-	public TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackName, String performerAlias) {
+	public TrackPerformerDto getTrackPerformerByTrackNameAndArtistAlias(String trackName, String artistAlias) {
 		String getArtistTrackPerformanceQuery = QuerySupplier.getQuery(getArtistTrackPerformanceQueryPath);
-		String getBandTrackPerformanceQuery = QuerySupplier.getQuery(getBandTrackPerformanceQueryPath);
 
-		List<TrackPerformerDto> trackPerformanceInstances =
-				getTrackPerformerInstancesByName(getArtistTrackPerformanceQuery, trackName, performerAlias);
+		List<TrackPerformerDto> trackPerformerList = jdbcTemplate
+				.query(getArtistTrackPerformanceQuery, new Object[]{trackName, artistAlias}, trackPerformerRowMapper);
 
-		if (trackPerformanceInstances.size() == 0) {
-			trackPerformanceInstances = getTrackPerformerInstancesByName(getBandTrackPerformanceQuery, trackName, performerAlias);
-			return trackPerformanceInstances.size() == 0 ? null : trackPerformanceInstances.get(0);
-		} else {
-			return trackPerformanceInstances.get(0);
-		}
+		return trackPerformerList.size() == 0 ? null : trackPerformerList.get(0);
 	}
 
 	@Override
-	public void deleteTrackPerformanceInstance(TrackPerformerDto trackPerformerDto) {
+	public TrackPerformerDto getTrackPerformerByTrackNameAndBandAlias(String trackName, String bandAlias) {
+		String getBandTrackPerformanceQuery = QuerySupplier.getQuery(getBandTrackPerformanceQueryPath);
+
+		List<TrackPerformerDto> trackPerformerList = jdbcTemplate
+				.query(getBandTrackPerformanceQuery, new Object[]{trackName, bandAlias}, trackPerformerRowMapper);
+
+		return trackPerformerList.size() == 0 ? null : trackPerformerList.get(0);
+	}
+
+	@Override
+	public void deleteTrackArtistInstance(TrackPerformerDto trackPerformerDto) {
 		String deleteArtistTrackPerformerQuery = QuerySupplier.getQuery(deleteArtistTrackPerformerQueryPath);
+
+		performDeletion(trackPerformerDto, deleteArtistTrackPerformerQuery);
+	}
+
+	@Override
+	public void deleteTrackBandInstance(TrackPerformerDto trackPerformerDto) {
 		String deleteBandTrackPerformerQuery = QuerySupplier.getQuery(deleteBandTrackPerformerQueryPath);
 
+		performDeletion(trackPerformerDto, deleteBandTrackPerformerQuery);
+	}
+
+	private void performDeletion(TrackPerformerDto trackPerformerDto, String query) {
 		String trackCatalogNum = trackPerformerDto.getTrackCatalogNum();
 		String performerAlias = trackPerformerDto.getPerformerAlias();
-
-		if (trackPerformerDto.getIsArtist()) {
-			jdbcTemplate.update(deleteArtistTrackPerformerQuery, trackCatalogNum, performerAlias);
-		} else {
-			jdbcTemplate.update(deleteBandTrackPerformerQuery, trackCatalogNum, performerAlias);
-		}
+		jdbcTemplate.update(query, trackCatalogNum, performerAlias);
 	}
 
 	@Transactional
 	@Override
 	public List<TrackPerformerDto> searchTrackPerformance(String query) {
 		return jdbcTemplate.query(query, trackPerformerRowMapper);
-	}
-
-	private List<TrackPerformerDto> getTrackPerformerInstancesByName(String query, String trackName, String performerAlias) {
-		return jdbcTemplate.query(query, new Object[]{trackName, performerAlias}, trackPerformerRowMapper);
 	}
 
 }

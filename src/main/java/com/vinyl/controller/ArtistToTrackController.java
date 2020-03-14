@@ -19,40 +19,42 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 @RestController
-@RequestMapping("/track/performer")
-public class TrackPerformerController {
+@RequestMapping("/artist2track")
+public class ArtistToTrackController {
+
+	private static final Boolean IS_ARTIST = true;
 
 	@Resource
 	private TrackPerformerService trackPerformerService;
 
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody TrackPerformerDto trackPerformerDto) {
+		trackPerformerDto.setIsArtist(IS_ARTIST);
 		trackPerformerService.save(trackPerformerDto);
 		return ResponseEntity.ok().build();
 	}
 
 	@PutMapping
 	public ResponseEntity<?> update(@RequestBody TrackPerformerDto trackPerformerDto) {
+		trackPerformerDto.setIsArtist(IS_ARTIST);
 		trackPerformerService.update(trackPerformerDto);
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/{trackAndPerformerName}")
-	public ResponseEntity<?> getByTrackAndPerformerName(@PathVariable String trackAndPerformerName) {
+	@GetMapping("/{trackAndArtistAlias}")
+	public ResponseEntity<?> getByTrackAndPerformerName(@PathVariable String trackAndArtistAlias) {
 		TrackPerformerDto foundTrackPerformer = trackPerformerService
-				.getTrackPerformerByTrackNameAndPerformerAlias(trackAndPerformerName);
-
+				.getTrackPerformerByTrackNameAndPerformerAlias(trackAndArtistAlias, IS_ARTIST);
 		if (isNull(foundTrackPerformer)) {
 			return ResponseEntity.notFound().build();
 		}
-
 		return ResponseEntity.ok(foundTrackPerformer);
 	}
 
-	@DeleteMapping("/{trackAndPerformerName}")
-	public ResponseEntity<?> delete(@PathVariable String trackAndPerformerName) {
+	@DeleteMapping("/{trackAndArtistAlias}")
+	public ResponseEntity<?> delete(@PathVariable String trackAndArtistAlias) {
 		TrackPerformerDto trackPerformerDtoToDelete = trackPerformerService
-				.getTrackPerformerByTrackNameAndPerformerAlias(trackAndPerformerName);
+				.getTrackPerformerByTrackNameAndPerformerAlias(trackAndArtistAlias, IS_ARTIST);
 		if (isNull(trackPerformerDtoToDelete)) {
 			return ResponseEntity.notFound().build();
 		}
@@ -62,12 +64,10 @@ public class TrackPerformerController {
 
 	@GetMapping("/search")
 	public ResponseEntity<?> getSupplierByCriteria(SearchDto searchDto) {
-		List<TrackPerformerDto> trackPerformerDtoList = trackPerformerService
-				.searchTrackPerformance(searchDto);
+		List<TrackPerformerDto> trackPerformerDtoList = trackPerformerService.searchArtistTrackPerformance(searchDto);
 		if (trackPerformerDtoList.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(trackPerformerDtoList);
 	}
-
 }

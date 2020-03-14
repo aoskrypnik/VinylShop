@@ -13,9 +13,13 @@ public interface TrackPerformerDao {
 
 	void updateTrackForBand(TrackPerformerDto trackPerformerDto);
 
-	TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackName, String performerAlias);
+	TrackPerformerDto getTrackPerformerByTrackNameAndArtistAlias(String trackName, String artistAlias);
 
-	void deleteTrackPerformanceInstance(TrackPerformerDto trackPerformerDto);
+	TrackPerformerDto getTrackPerformerByTrackNameAndBandAlias(String trackName, String bandAlias);
+
+	void deleteTrackArtistInstance(TrackPerformerDto trackPerformerDto);
+
+	void deleteTrackBandInstance(TrackPerformerDto trackPerformerDto);
 
 	List<TrackPerformerDto> searchTrackPerformance(String query);
 }

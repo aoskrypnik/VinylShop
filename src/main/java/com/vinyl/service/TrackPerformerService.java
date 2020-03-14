@@ -10,9 +10,11 @@ public interface TrackPerformerService {
 
 	void update(TrackPerformerDto trackPerformerDto);
 
-	TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackAndPerformerName);
+	TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackAndPerformerName, boolean isArtist);
 
 	void deleteTrackPerformanceInstance(TrackPerformerDto trackPerformerDtoToDelete);
 
-	List<TrackPerformerDto> searchTrackPerformance(SearchDto searchDto);
+	List<TrackPerformerDto> searchArtistTrackPerformance(SearchDto searchDto);
+
+	List<TrackPerformerDto> searchBandTrackPerformance(SearchDto searchDto);
 }

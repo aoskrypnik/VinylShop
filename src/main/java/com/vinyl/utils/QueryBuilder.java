@@ -64,15 +64,7 @@ public class QueryBuilder {
 
 	private static void buildSelectPart(String tableName, StringBuilder stringBuilder) {
 		stringBuilder.append("SELECT ");
-		if (isNotUnionTable(tableName)) {
-			stringBuilder.append(tableName).append(".* ").append("FROM ").append(tableName).append(" ");
-		} else {
-			stringBuilder.append("* FROM ").append(tableName).append(" AS t ");
-		}
-	}
-
-	private static boolean isNotUnionTable(String tableName) {
-		return tableName.split(" ").length == 1;
+		stringBuilder.append(tableName).append(".* ").append("FROM ").append(tableName).append(" ");
 	}
 
 	private static void processBetweenParams(List<String> betweenParams, StringBuilder stringBuilder) {

@@ -5,8 +5,6 @@ import com.vinyl.dto.SearchDto;
 import com.vinyl.dto.TrackPerformerDto;
 import com.vinyl.service.TrackPerformerService;
 import com.vinyl.utils.QueryBuilder;
-import com.vinyl.utils.QuerySupplier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,8 +13,8 @@ import java.util.List;
 @Service
 public class TrackPerformerServiceImpl implements TrackPerformerService {
 
-	@Value("${sql.union.track2artist.with.track2band.query.path}")
-	private String unionTrack2ArtistWithTrack2BandQueryPath;
+	private static final String ARTIST_TO_TRACK_TABLE_NAME = "artist2track";
+	private static final String BAND_TO_TRACK_TABLE_NAME = "band2track";
 
 	@Resource
 	private TrackPerformerDao trackPerformerDao;
@@ -40,25 +38,41 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 	}
 
 	@Override
-	public TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackAndPerformerName) {
-		String[] names = trackAndPerformerName.split(",");
+	public TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackAndArtistName, boolean isArtist) {
+		String[] names = trackAndArtistName.split(",");
 		String trackCatalogNum = names[0];
 		String performerAlias = names[1];
-		return trackPerformerDao.getTrackPerformerByTrackNameAndPerformerAlias(trackCatalogNum, performerAlias);
+		if (isArtist) {
+			return trackPerformerDao.getTrackPerformerByTrackNameAndArtistAlias(trackCatalogNum, performerAlias);
+		} else {
+			return trackPerformerDao.getTrackPerformerByTrackNameAndBandAlias(trackCatalogNum, performerAlias);
+		}
 	}
 
 	@Override
 	public void deleteTrackPerformanceInstance(TrackPerformerDto trackPerformerDtoToDelete) {
-		trackPerformerDao.deleteTrackPerformanceInstance(trackPerformerDtoToDelete);
+		if (trackPerformerDtoToDelete.getIsArtist()) {
+			trackPerformerDao.deleteTrackArtistInstance(trackPerformerDtoToDelete);
+		} else {
+			trackPerformerDao.deleteTrackBandInstance(trackPerformerDtoToDelete);
+		}
 	}
 
 	@Override
-	public List<TrackPerformerDto> searchTrackPerformance(SearchDto searchDto) {
-		String unionTable = QuerySupplier.getQuery(unionTrack2ArtistWithTrack2BandQueryPath);
+	public List<TrackPerformerDto> searchArtistTrackPerformance(SearchDto searchDto) {
 		String query = QueryBuilder
 				.build(searchDto.getWheres(), searchDto.getLikes(), searchDto.getBetweens(),
 						searchDto.getJoins(), searchDto.getSort(), searchDto.getOrder(),
-						searchDto.getLimit(), searchDto.getOffset(), unionTable);
+						searchDto.getLimit(), searchDto.getOffset(), ARTIST_TO_TRACK_TABLE_NAME);
+		return trackPerformerDao.searchTrackPerformance(query);
+	}
+
+	@Override
+	public List<TrackPerformerDto> searchBandTrackPerformance(SearchDto searchDto) {
+		String query = QueryBuilder
+				.build(searchDto.getWheres(), searchDto.getLikes(), searchDto.getBetweens(),
+						searchDto.getJoins(), searchDto.getSort(), searchDto.getOrder(),
+						searchDto.getLimit(), searchDto.getOffset(), BAND_TO_TRACK_TABLE_NAME);
 		return trackPerformerDao.searchTrackPerformance(query);
 	}
 }
