@@ -11,9 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TrackPerformerDto {
+public class TrackBandDto {
 	private String trackCatalogNum;
-	private String performerAlias;
+	private String bandAlias;
 	private Boolean isFeaturing;
-	private Boolean isArtist;
 }

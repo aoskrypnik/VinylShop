@@ -1,7 +1,8 @@
 package com.vinyl.dao.impl;
 
 import com.vinyl.dao.TrackPerformerDao;
-import com.vinyl.dto.TrackPerformerDto;
+import com.vinyl.dto.TrackArtistDto;
+import com.vinyl.dto.TrackBandDto;
 import com.vinyl.utils.QuerySupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,7 +19,9 @@ public class TrackPerformerDaoImpl implements TrackPerformerDao {
 	@Resource
 	private JdbcTemplate jdbcTemplate;
 	@Resource
-	private RowMapper<TrackPerformerDto> trackPerformerRowMapper;
+	private RowMapper<TrackArtistDto> trackArtistDtoRowMapper;
+	@Resource
+	private RowMapper<TrackBandDto> trackBandDtoRowMapper;
 
 	@Value("${sql.create.artist.track.performance.query.path}")
 	private String createArtistTrackPerformanceQueryPath;
@@ -37,76 +40,79 @@ public class TrackPerformerDaoImpl implements TrackPerformerDao {
 	@Value("${sql.delete.band.track.performance.query.path}")
 	private String deleteBandTrackPerformerQueryPath;
 
+
 	@Override
-	public void saveTrackForArtist(TrackPerformerDto trackPerformerDto) {
+	public void save(TrackArtistDto trackArtistDto) {
 		String query = QuerySupplier.getQuery(createArtistTrackPerformanceQueryPath);
-		jdbcTemplate.update(query, trackPerformerDto.getTrackCatalogNum(), trackPerformerDto.getPerformerAlias(),
-				trackPerformerDto.getIsFeaturing());
+		jdbcTemplate.update(query, trackArtistDto.getTrackCatalogNum(), trackArtistDto.getArtistAlias(),
+				trackArtistDto.getIsFeaturing());
 	}
 
 	@Override
-	public void saveTrackForBand(TrackPerformerDto trackPerformerDto) {
+	public void save(TrackBandDto trackBandDto) {
 		String query = QuerySupplier.getQuery(createBandTrackPerformanceQueryPath);
-		jdbcTemplate.update(query, trackPerformerDto.getTrackCatalogNum(), trackPerformerDto.getPerformerAlias(),
-				trackPerformerDto.getIsFeaturing());
+		jdbcTemplate.update(query, trackBandDto.getTrackCatalogNum(), trackBandDto.getBandAlias(),
+				trackBandDto.getIsFeaturing());
 	}
 
 	@Override
-	public void updateTrackForArtist(TrackPerformerDto trackPerformerDto) {
+	public void update(TrackArtistDto trackArtistDto) {
 		String updateArtistTrackPerformanceQuery = QuerySupplier.getQuery(updateArtistTrackPerformanceQueryPath);
-		jdbcTemplate.update(updateArtistTrackPerformanceQuery, trackPerformerDto.getIsFeaturing(), trackPerformerDto.getPerformerAlias());
+		jdbcTemplate.update(updateArtistTrackPerformanceQuery, trackArtistDto.getIsFeaturing(), trackArtistDto.getArtistAlias());
 	}
 
 	@Override
-	public void updateTrackForBand(TrackPerformerDto trackPerformerDto) {
+	public void update(TrackBandDto trackBandDto) {
 		String updateBandTrackPerformanceQuery = QuerySupplier.getQuery(updateBandTrackPerformanceQueryPath);
-		jdbcTemplate.update(updateBandTrackPerformanceQuery, trackPerformerDto.getIsFeaturing(), trackPerformerDto.getPerformerAlias());
+		jdbcTemplate.update(updateBandTrackPerformanceQuery, trackBandDto.getIsFeaturing(), trackBandDto.getBandAlias());
 	}
 
 	@Override
-	public TrackPerformerDto getTrackPerformerByTrackNameAndArtistAlias(String trackName, String artistAlias) {
+	public TrackArtistDto getTrackArtistByTrackNameAndArtistAlias(String trackName, String artistAlias) {
 		String getArtistTrackPerformanceQuery = QuerySupplier.getQuery(getArtistTrackPerformanceQueryPath);
 
-		List<TrackPerformerDto> trackPerformerList = jdbcTemplate
-				.query(getArtistTrackPerformanceQuery, new Object[]{trackName, artistAlias}, trackPerformerRowMapper);
+		List<TrackArtistDto> trackArtistList = jdbcTemplate
+				.query(getArtistTrackPerformanceQuery, new Object[]{trackName, artistAlias}, trackArtistDtoRowMapper);
 
-		return trackPerformerList.size() == 0 ? null : trackPerformerList.get(0);
+		return trackArtistList.size() == 0 ? null : trackArtistList.get(0);
 	}
 
 	@Override
-	public TrackPerformerDto getTrackPerformerByTrackNameAndBandAlias(String trackName, String bandAlias) {
+	public TrackBandDto getTrackBandByTrackNameAndBandAlias(String trackName, String bandAlias) {
 		String getBandTrackPerformanceQuery = QuerySupplier.getQuery(getBandTrackPerformanceQueryPath);
 
-		List<TrackPerformerDto> trackPerformerList = jdbcTemplate
-				.query(getBandTrackPerformanceQuery, new Object[]{trackName, bandAlias}, trackPerformerRowMapper);
+		List<TrackBandDto> trackBandList = jdbcTemplate
+				.query(getBandTrackPerformanceQuery, new Object[]{trackName, bandAlias}, trackBandDtoRowMapper);
 
-		return trackPerformerList.size() == 0 ? null : trackPerformerList.get(0);
+		return trackBandList.size() == 0 ? null : trackBandList.get(0);
 	}
 
 	@Override
-	public void deleteTrackArtistInstance(TrackPerformerDto trackPerformerDto) {
+	public void deleteTrackArtistInstance(TrackArtistDto trackArtistDto) {
 		String deleteArtistTrackPerformerQuery = QuerySupplier.getQuery(deleteArtistTrackPerformerQueryPath);
-
-		performDeletion(trackPerformerDto, deleteArtistTrackPerformerQuery);
+		String trackCatalogNum = trackArtistDto.getTrackCatalogNum();
+		String performerAlias = trackArtistDto.getArtistAlias();
+		jdbcTemplate.update(deleteArtistTrackPerformerQuery, trackCatalogNum, performerAlias);
 	}
 
 	@Override
-	public void deleteTrackBandInstance(TrackPerformerDto trackPerformerDto) {
+	public void deleteTrackBandInstance(TrackBandDto trackBandDto) {
 		String deleteBandTrackPerformerQuery = QuerySupplier.getQuery(deleteBandTrackPerformerQueryPath);
-
-		performDeletion(trackPerformerDto, deleteBandTrackPerformerQuery);
-	}
-
-	private void performDeletion(TrackPerformerDto trackPerformerDto, String query) {
-		String trackCatalogNum = trackPerformerDto.getTrackCatalogNum();
-		String performerAlias = trackPerformerDto.getPerformerAlias();
-		jdbcTemplate.update(query, trackCatalogNum, performerAlias);
+		String trackCatalogNum = trackBandDto.getTrackCatalogNum();
+		String performerAlias = trackBandDto.getBandAlias();
+		jdbcTemplate.update(deleteBandTrackPerformerQuery, trackCatalogNum, performerAlias);
 	}
 
 	@Transactional
 	@Override
-	public List<TrackPerformerDto> searchTrackPerformance(String query) {
-		return jdbcTemplate.query(query, trackPerformerRowMapper);
+	public List<TrackArtistDto> searchTrackArtist(String query) {
+		return jdbcTemplate.query(query, trackArtistDtoRowMapper);
+	}
+
+	@Transactional
+	@Override
+	public List<TrackBandDto> searchTrackBand(String query) {
+		return jdbcTemplate.query(query, trackBandDtoRowMapper);
 	}
 
 }

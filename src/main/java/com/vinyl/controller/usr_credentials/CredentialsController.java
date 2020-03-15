@@ -25,7 +25,7 @@ public class CredentialsController {
 	private UserService userService;
 
 	@PutMapping
-	private ResponseEntity<?> changeUsrPassword(@RequestBody UsrDto usrDto) {
+	public ResponseEntity<?> changeUsrPassword(@RequestBody UsrDto usrDto) {
 		UserCredentials userCredentials = userService.findByLogin(usrDto.getLogin());
 		if (userService.usrDtoCredsEqualUserCredFromDb(usrDto, userCredentials) &&
 				userService.userLoginMatchesCurrentlyLoggedInUser(userCredentials)) {

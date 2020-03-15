@@ -1,20 +1,33 @@
 package com.vinyl.service;
 
 import com.vinyl.dto.SearchDto;
-import com.vinyl.dto.TrackPerformerDto;
+import com.vinyl.dto.TrackArtistDto;
+import com.vinyl.dto.TrackBandDto;
 
 import java.util.List;
 
 public interface TrackPerformerService {
-	void save(TrackPerformerDto trackPerformerDto);
+	void save(TrackArtistDto trackArtistDto);
 
-	void update(TrackPerformerDto trackPerformerDto);
+	void save(TrackBandDto trackBandDto);
 
-	TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackAndPerformerName, boolean isArtist);
+	void update(TrackArtistDto trackArtistDto);
 
-	void deleteTrackPerformanceInstance(TrackPerformerDto trackPerformerDtoToDelete);
+	void update(TrackBandDto trackBandDto);
 
-	List<TrackPerformerDto> searchArtistTrackPerformance(SearchDto searchDto);
+	TrackArtistDto getTrackArtistByTrackNumAndArtistAlias(String trackNumAndArtistAlias);
 
-	List<TrackPerformerDto> searchBandTrackPerformance(SearchDto searchDto);
+	TrackBandDto getTrackBandByTrackNumAndBandAlias(String trackNumAndBandAlias);
+
+	void deleteTrackArtist(TrackArtistDto trackArtistDto);
+
+	void deleteTrackBand(TrackBandDto trackBandDto);
+
+	List<TrackArtistDto> searchArtistTrackPerformance(SearchDto searchDto);
+
+	List<TrackBandDto> searchBandTrackPerformance(SearchDto searchDto);
+
+	boolean isNotEqualTrackNums(String trackAndAlias, String trackNumFromDto);
+
+	boolean isNotEqualArtistAliases(String trackAndAlias, String aliasFromDto);
 }

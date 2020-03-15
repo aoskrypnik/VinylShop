@@ -2,13 +2,16 @@ package com.vinyl.service.impl;
 
 import com.vinyl.dao.TrackPerformerDao;
 import com.vinyl.dto.SearchDto;
-import com.vinyl.dto.TrackPerformerDto;
+import com.vinyl.dto.TrackArtistDto;
+import com.vinyl.dto.TrackBandDto;
 import com.vinyl.service.TrackPerformerService;
 import com.vinyl.utils.QueryBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 @Service
 public class TrackPerformerServiceImpl implements TrackPerformerService {
@@ -20,59 +23,78 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 	private TrackPerformerDao trackPerformerDao;
 
 	@Override
-	public void save(TrackPerformerDto trackPerformerDto) {
-		if (trackPerformerDto.getIsArtist()) {
-			trackPerformerDao.saveTrackForArtist(trackPerformerDto);
-		} else {
-			trackPerformerDao.saveTrackForBand(trackPerformerDto);
-		}
+	public void save(TrackArtistDto trackArtistDto) {
+		trackPerformerDao.save(trackArtistDto);
 	}
 
 	@Override
-	public void update(TrackPerformerDto trackPerformerDto) {
-		if (trackPerformerDto.getIsArtist()) {
-			trackPerformerDao.updateTrackForArtist(trackPerformerDto);
-		} else {
-			trackPerformerDao.updateTrackForBand(trackPerformerDto);
-		}
+	public void save(TrackBandDto trackBandDto) {
+		trackPerformerDao.save(trackBandDto);
 	}
 
 	@Override
-	public TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackAndArtistName, boolean isArtist) {
-		String[] names = trackAndArtistName.split(",");
+	public void update(TrackArtistDto trackArtistDto) {
+		trackPerformerDao.update(trackArtistDto);
+	}
+
+	@Override
+	public void update(TrackBandDto trackBandDto) {
+		trackPerformerDao.update(trackBandDto);
+	}
+
+	@Override
+	public TrackArtistDto getTrackArtistByTrackNumAndArtistAlias(String trackNumAndArtistAlias) {
+		String[] names = trackNumAndArtistAlias.split(",");
 		String trackCatalogNum = names[0];
-		String performerAlias = names[1];
-		if (isArtist) {
-			return trackPerformerDao.getTrackPerformerByTrackNameAndArtistAlias(trackCatalogNum, performerAlias);
-		} else {
-			return trackPerformerDao.getTrackPerformerByTrackNameAndBandAlias(trackCatalogNum, performerAlias);
-		}
+		String artistAlias = names[1];
+		return trackPerformerDao.getTrackArtistByTrackNameAndArtistAlias(trackCatalogNum, artistAlias);
 	}
 
 	@Override
-	public void deleteTrackPerformanceInstance(TrackPerformerDto trackPerformerDtoToDelete) {
-		if (trackPerformerDtoToDelete.getIsArtist()) {
-			trackPerformerDao.deleteTrackArtistInstance(trackPerformerDtoToDelete);
-		} else {
-			trackPerformerDao.deleteTrackBandInstance(trackPerformerDtoToDelete);
-		}
+	public TrackBandDto getTrackBandByTrackNumAndBandAlias(String trackNumAndBandAlias) {
+		String[] names = trackNumAndBandAlias.split(",");
+		String trackCatalogNum = names[0];
+		String bandAlias = names[1];
+		return trackPerformerDao.getTrackBandByTrackNameAndBandAlias(trackCatalogNum, bandAlias);
 	}
 
 	@Override
-	public List<TrackPerformerDto> searchArtistTrackPerformance(SearchDto searchDto) {
+	public void deleteTrackArtist(TrackArtistDto trackArtistDto) {
+		trackPerformerDao.deleteTrackArtistInstance(trackArtistDto);
+	}
+
+	@Override
+	public void deleteTrackBand(TrackBandDto trackBandDto) {
+		trackPerformerDao.deleteTrackBandInstance(trackBandDto);
+	}
+
+	@Override
+	public List<TrackArtistDto> searchArtistTrackPerformance(SearchDto searchDto) {
 		String query = QueryBuilder
 				.build(searchDto.getWheres(), searchDto.getLikes(), searchDto.getBetweens(),
 						searchDto.getJoins(), searchDto.getSort(), searchDto.getOrder(),
 						searchDto.getLimit(), searchDto.getOffset(), ARTIST_TO_TRACK_TABLE_NAME);
-		return trackPerformerDao.searchTrackPerformance(query);
+		return trackPerformerDao.searchTrackArtist(query);
 	}
 
 	@Override
-	public List<TrackPerformerDto> searchBandTrackPerformance(SearchDto searchDto) {
+	public List<TrackBandDto> searchBandTrackPerformance(SearchDto searchDto) {
 		String query = QueryBuilder
 				.build(searchDto.getWheres(), searchDto.getLikes(), searchDto.getBetweens(),
 						searchDto.getJoins(), searchDto.getSort(), searchDto.getOrder(),
 						searchDto.getLimit(), searchDto.getOffset(), BAND_TO_TRACK_TABLE_NAME);
-		return trackPerformerDao.searchTrackPerformance(query);
+		return trackPerformerDao.searchTrackBand(query);
+	}
+
+	@Override
+	public boolean isNotEqualTrackNums(String trackAndAlias, String trackNumFromDto) {
+		String trackNum = trackAndAlias.split(",")[0];
+		return isFalse(trackNum.equals(trackNumFromDto));
+	}
+
+	@Override
+	public boolean isNotEqualArtistAliases(String trackAndAlias, String aliasFromDto) {
+		String alias = trackAndAlias.split(",")[1];
+		return isFalse(alias.equals(aliasFromDto));
 	}
 }
