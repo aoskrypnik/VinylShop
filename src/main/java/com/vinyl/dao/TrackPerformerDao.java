@@ -1,25 +1,28 @@
 package com.vinyl.dao;
 
-import com.vinyl.dto.TrackPerformerDto;
+import com.vinyl.dto.TrackArtistDto;
+import com.vinyl.dto.TrackBandDto;
 
 import java.util.List;
 
 public interface TrackPerformerDao {
-	void saveTrackForArtist(TrackPerformerDto trackPerformerDto);
+	void save(TrackArtistDto trackArtistDto);
 
-	void saveTrackForBand(TrackPerformerDto trackPerformerDto);
+	void save(TrackBandDto trackBandDto);
 
-	void updateTrackForArtist(TrackPerformerDto trackPerformerDto);
+	void update(TrackArtistDto trackArtistDto);
 
-	void updateTrackForBand(TrackPerformerDto trackPerformerDto);
+	void update(TrackBandDto trackBandDto);
 
-	TrackPerformerDto getTrackPerformerByTrackNameAndArtistAlias(String trackName, String artistAlias);
+	TrackArtistDto getTrackArtistByTrackNameAndArtistAlias(String trackName, String artistAlias);
 
-	TrackPerformerDto getTrackPerformerByTrackNameAndBandAlias(String trackName, String bandAlias);
+	TrackBandDto getTrackBandByTrackNameAndBandAlias(String trackName, String bandAlias);
 
-	void deleteTrackArtistInstance(TrackPerformerDto trackPerformerDto);
+	void deleteTrackArtistInstance(TrackArtistDto trackArtistDto);
 
-	void deleteTrackBandInstance(TrackPerformerDto trackPerformerDto);
+	void deleteTrackBandInstance(TrackBandDto trackBandDto);
 
-	List<TrackPerformerDto> searchTrackPerformance(String query);
+	List<TrackArtistDto> searchTrackArtist(String query);
+
+	List<TrackBandDto> searchTrackBand(String query);
 }

@@ -17,9 +17,8 @@ public class EntityManagerFactoriesConfiguration {
 	public LocalContainerEntityManagerFactoryBean emf() {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource);
-		emf.setPackagesToScan(new String[] {"com.vinyl"});
-		emf.setJpaVendorAdapter(
-				new HibernateJpaVendorAdapter());
+		emf.setPackagesToScan("com.vinyl");
+		emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 		return emf;
 	}
 }

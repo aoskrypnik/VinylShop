@@ -29,8 +29,11 @@ public class QueryBuilder {
 
 		if (isFalse(isEmpty(joins))) {
 			for (String join : joins) {
-				stringBuilder.append("INNER JOIN ").append(join).append(" ON ")
-						.append(JOIN_TABLES_MAP.get(tableName + " " + join)).append(" ");
+				stringBuilder
+						.append("INNER JOIN ")
+						.append(join)
+						.append(JOIN_TABLES_MAP.get(tableName + " " + join))
+						.append(" ");
 			}
 		}
 
@@ -63,8 +66,12 @@ public class QueryBuilder {
 	}
 
 	private static void buildSelectPart(String tableName, StringBuilder stringBuilder) {
-		stringBuilder.append("SELECT ");
-		stringBuilder.append(tableName).append(".* ").append("FROM ").append(tableName).append(" ");
+		stringBuilder
+				.append("SELECT ")
+				.append(tableName)
+				.append(".* FROM ")
+				.append(tableName)
+				.append(" ");
 	}
 
 	private static void processBetweenParams(List<String> betweenParams, StringBuilder stringBuilder) {
@@ -179,15 +186,17 @@ public class QueryBuilder {
 	}
 
 	private static final Map<String, String> JOIN_TABLES_MAP = ImmutableMap.<String, String>builder()
-			.put("track track_language", "track.catalog_num=track_language.track_catalog_num")
-			.put("track track2album", "track.catalog_num=track2album.track_catalog_num")
-			.put("track track2composer", "track.catalog_num=track2composer.track_catalog_num")
-			.put("album albumgenre", "album.catalog_num=albumgenre.album_catalog_num")
-			.put("cheq salesman", "cheq.salesman_tab_num=salesman.tab_num")
-			.put("cheq customer", "cheq.customer_num=customer.customer_num")
-			.put("record release", "record.release_bar_code=release.bar_code")
-			.put("artist2band artist", "artist2band.artist_alias=artist.artist_alias")
-			.put("artist2band band", "artist2band.band_alias=band.band_alias")
+			.put("track track_language", " ON track.catalog_num=track_language.track_catalog_num")
+			.put("track track2album", " ON track.catalog_num=track2album.track_catalog_num")
+			.put("track track2composer", " ON track.catalog_num=track2composer.track_catalog_num")
+			.put("album albumgenre", " ON album.catalog_num=albumgenre.album_catalog_num")
+			.put("cheq salesman", " ON cheq.salesman_tab_num=salesman.tab_num")
+			.put("cheq customer", " ON cheq.customer_num=customer.customer_num")
+			.put("record release", " ON record.release_bar_code=release.bar_code")
+			.put("artist2band artist", " ON artist2band.artist_alias=artist.artist_alias")
+			.put("artist2band band", " ON artist2band.band_alias=band.band_alias")
+			.put("artist2track artist", " USING (artist_alias)")
+			.put("band2track band", " USING (band_alias)")
 			.build();
 
 	private static final Map<String, List<String>> JAVA_NAME_TO_DATA_BASE_NAME_MAP = ImmutableMap.<String, List<String>>builder()

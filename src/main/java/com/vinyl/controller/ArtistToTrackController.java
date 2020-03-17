@@ -1,7 +1,7 @@
 package com.vinyl.controller;
 
 import com.vinyl.dto.SearchDto;
-import com.vinyl.dto.TrackPerformerDto;
+import com.vinyl.dto.TrackArtistDto;
 import com.vinyl.service.TrackPerformerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,52 +22,53 @@ import static java.util.Objects.isNull;
 @RequestMapping("/artist2track")
 public class ArtistToTrackController {
 
-	private static final Boolean IS_ARTIST = true;
-
 	@Resource
 	private TrackPerformerService trackPerformerService;
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody TrackPerformerDto trackPerformerDto) {
-		trackPerformerDto.setIsArtist(IS_ARTIST);
-		trackPerformerService.save(trackPerformerDto);
+	public ResponseEntity<?> save(@RequestBody TrackArtistDto trackArtistDto) {
+		trackPerformerService.save(trackArtistDto);
 		return ResponseEntity.ok().build();
 	}
 
-	@PutMapping
-	public ResponseEntity<?> update(@RequestBody TrackPerformerDto trackPerformerDto) {
-		trackPerformerDto.setIsArtist(IS_ARTIST);
-		trackPerformerService.update(trackPerformerDto);
+	@PutMapping("/{trackAndArtistAlias}")
+	public ResponseEntity<?> update(@PathVariable String trackAndArtistAlias,
+									@RequestBody TrackArtistDto trackArtistDto) {
+		TrackArtistDto foundTrackArtistDto = trackPerformerService.getTrackArtistByTrackNumAndArtistAlias(trackAndArtistAlias);
+		if (isNull(foundTrackArtistDto)
+				|| trackPerformerService.isNotEqualTrackNums(trackAndArtistAlias, trackArtistDto.getTrackCatalogNum())
+				|| trackPerformerService.isNotEqualArtistAliases(trackAndArtistAlias, trackArtistDto.getArtistAlias())) {
+			return ResponseEntity.badRequest().build();
+		}
+		trackPerformerService.update(trackArtistDto);
 		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/{trackAndArtistAlias}")
 	public ResponseEntity<?> getByTrackAndPerformerName(@PathVariable String trackAndArtistAlias) {
-		TrackPerformerDto foundTrackPerformer = trackPerformerService
-				.getTrackPerformerByTrackNameAndPerformerAlias(trackAndArtistAlias, IS_ARTIST);
-		if (isNull(foundTrackPerformer)) {
+		TrackArtistDto trackArtistDto = trackPerformerService.getTrackArtistByTrackNumAndArtistAlias(trackAndArtistAlias);
+		if (isNull(trackArtistDto)) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(foundTrackPerformer);
+		return ResponseEntity.ok(trackArtistDto);
 	}
 
 	@DeleteMapping("/{trackAndArtistAlias}")
 	public ResponseEntity<?> delete(@PathVariable String trackAndArtistAlias) {
-		TrackPerformerDto trackPerformerDtoToDelete = trackPerformerService
-				.getTrackPerformerByTrackNameAndPerformerAlias(trackAndArtistAlias, IS_ARTIST);
-		if (isNull(trackPerformerDtoToDelete)) {
+		TrackArtistDto trackArtistDto = trackPerformerService.getTrackArtistByTrackNumAndArtistAlias(trackAndArtistAlias);
+		if (isNull(trackArtistDto)) {
 			return ResponseEntity.notFound().build();
 		}
-		trackPerformerService.deleteTrackPerformanceInstance(trackPerformerDtoToDelete);
+		trackPerformerService.deleteTrackArtist(trackArtistDto);
 		return ResponseEntity.noContent().build();
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> getSupplierByCriteria(SearchDto searchDto) {
-		List<TrackPerformerDto> trackPerformerDtoList = trackPerformerService.searchArtistTrackPerformance(searchDto);
-		if (trackPerformerDtoList.isEmpty()) {
+	public ResponseEntity<?> getTrackArtistByCriteria(SearchDto searchDto) {
+		List<TrackArtistDto> trackArtistDtoList = trackPerformerService.searchArtistTrackPerformance(searchDto);
+		if (trackArtistDtoList.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(trackPerformerDtoList);
+		return ResponseEntity.ok(trackArtistDtoList);
 	}
 }
