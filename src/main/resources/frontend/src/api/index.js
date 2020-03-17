@@ -119,7 +119,10 @@ export async function getItems(schema, count, offset, sortField, sortDirection, 
         }
 
         query.betweens.push(`${prop}:${value.from || ''}:${value.to || ''}`)
-      } else if (SchemaUtils.isEnum(type) || SchemaUtils.isSchemaType(type)) {
+      } else if(SchemaUtils.isString(type) && !SchemaUtils.isSchemaType(type)) {
+        // Likes
+        query.likes.push(`${prop}:${value}`)
+      } else {
         if (SchemaUtils.isSchemaType(type)) {
           if (Array.isArray(value) && value.length === 0) {
             return
@@ -138,9 +141,6 @@ export async function getItems(schema, count, offset, sortField, sortDirection, 
         }
 
         query.wheres.push(`${prop}:${value}`)
-      } else {
-        // Likes
-        query.likes.push(`${prop}:${value}`)
       }
     })
   }

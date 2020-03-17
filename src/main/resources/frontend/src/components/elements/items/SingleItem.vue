@@ -5,6 +5,7 @@
     <span v-else-if="type.isSchema">{{ fkActualValue }}</span>
     <span v-else-if="isEnum">{{Array.isArray(value) ? value.map(v => labels[v]).join(',') : labels[value]}}</span>
     <span v-else-if="typeString === 'country'">{{ $store.state.countries.get(value) }}</span>
+    <span v-else>{{value}}</span>
   </div>
 </template>
 

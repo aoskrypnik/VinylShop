@@ -37,6 +37,7 @@ public class BandDaoImpl implements BandDao {
 				band.getStartYear(), band.getEndYear());
 	}
 
+	@Transactional
 	@Override
 	public Band getBandByAlias(String alias) {
 		String getBandByAliasQuery = QuerySupplier.getQuery(getBandByAliasQueryPath);

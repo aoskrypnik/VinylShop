@@ -4,12 +4,12 @@ export default {
       type: 'track',
       isSchema: true
     },
-    performerAlias: {
+    artistAlias: {
       type: 'artist',
       isSchema: true
     },
     isFeaturing: 'boolean'
   },
-  key: ['track_catalog_num', 'artist_alias'],
-  display: (item) => `${item.artist_alias} - ${item.track_catalog_num}`
+  key: ['trackCatalogNum', 'artistAlias'],
+  display: (item) => `${item.artistAlias} - ${item.trackCatalogNum}`
 }

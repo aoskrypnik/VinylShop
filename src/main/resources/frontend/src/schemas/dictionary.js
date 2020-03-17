@@ -164,7 +164,7 @@ export default {
           en: 'Track',
           ua: 'Трек'
         },
-        performerAlias: {
+        artistAlias: {
           en: 'Artist',
           ua: 'Виконавець'
         },

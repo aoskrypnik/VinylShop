@@ -92,5 +92,14 @@ export const isFilterVisible = (type) => {
 
 export const getKey = (schemaName) => (item) => {
   const schema = store.getters.getSchema(schemaName);
-  return item[schema.key]
+  // eslint-disable-next-line
+  console.log(item)
+  // eslint-disable-next-line
+  console.log(schema)
+
+  if (Array.isArray(schema.key)) {
+    return schema.key.map(k => item[k]).join(',')
+  } else {
+    return item[schema.key]
+  }
 }

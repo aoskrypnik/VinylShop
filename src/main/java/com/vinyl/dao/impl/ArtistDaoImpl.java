@@ -39,6 +39,7 @@ public class ArtistDaoImpl implements ArtistDao {
 				artist.getArtistName(), artist.getArtistBirthDate(), artist.getArtistDeathDate());
 	}
 
+	@Transactional
 	@Override
 	public Artist getArtistByAlias(String alias) {
 		String getArtistByAliasQuery = QuerySupplier.getQuery(getArtistByAliasQueryPath);

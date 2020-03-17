@@ -2,6 +2,7 @@ package com.vinyl.utils;
 
 import com.google.common.collect.ImmutableMap;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -11,6 +12,7 @@ import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
+import static org.apache.commons.lang3.BooleanUtils.isTrue;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 public class QueryBuilder {
@@ -113,24 +115,58 @@ public class QueryBuilder {
 		}
 	}
 
+	private static boolean isPpkParam(String param) {
+		return JAVA_PPK_NAME_TO_DATA_BASE_PPK_NAME_MAP.containsKey(param);
+	}
+
+	private static List<String> ppkParams(String param) {
+		return JAVA_PPK_NAME_TO_DATA_BASE_PPK_NAME_MAP.get(param);
+	}
+
 	private static void processWhereParams(List<String> whereParams, StringBuilder stringBuilder) {
 		Map<String, List<Integer>> repeatedWhereParamsMap = retrieveRepeatedWhereParamsMap(whereParams);
 
 		for (String param : whereParams) {
 			String[] splitParam = param.split(":");
-			String firstParam = formatUrlKey(splitParam[0]);
-			if (isFalse(repeatedWhereParamsMap.containsKey(firstParam))) {
+
+			if (isTrue(repeatedWhereParamsMap.containsKey(splitParam[0])))
+				continue;
+
+			if (isPpkParam(splitParam[0])) {
+				String[] realValues = splitParam[1].split(",");
+				List<String> realParams = ppkParams(splitParam[0]);
+
+				for (int i = 0; i < realValues.length; ++i) {
+					String dbName = formatUrlKey(realParams.get(i));
+					String dbValue = formatUrlValue(realParams.get(i), realValues[i]);
+					stringBuilder.append("AND ").append(dbName).append("=").append(dbValue).append(" ");
+				}
+			} else {
+				String firstParam = formatUrlKey(splitParam[0]);
 				String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
 				stringBuilder.append("AND ").append(firstParam).append("=").append(secondParam).append(" ");
 			}
 		}
 
 		for (Map.Entry<String, List<Integer>> entry : repeatedWhereParamsMap.entrySet()) {
-			stringBuilder.append("And (");
+			stringBuilder.append("AND (");
 			for (Integer i : entry.getValue()) {
 				String[] splitParam = whereParams.get(i).split(":");
-				String value = formatUrlValue(splitParam[0], splitParam[1]);
-				stringBuilder.append(entry.getKey()).append("=").append(value).append(" OR ");
+				if (isPpkParam(splitParam[0])) {
+					String[] realValues = splitParam[1].split(",");
+					List<String> realParams = ppkParams(splitParam[0]);
+
+					stringBuilder.append("(");
+					for (int j = 0; j < realValues.length; ++j) {
+						String dbName = formatUrlKey(realParams.get(j));
+						String dbValue = formatUrlValue(realParams.get(j), realValues[j]);
+						stringBuilder.append(dbName).append("=").append(dbValue).append(" AND ");
+					}
+					stringBuilder.delete(stringBuilder.length() - 5, stringBuilder.length()).append(")").append(" OR ");
+				} else {
+					String value = formatUrlValue(splitParam[0], splitParam[1]);
+					stringBuilder.append(entry.getKey()).append("=").append(value).append(" OR ");
+				}
 			}
 			stringBuilder.delete(stringBuilder.length() - 4, stringBuilder.length()).append(") ");
 		}
@@ -138,20 +174,16 @@ public class QueryBuilder {
 
 	private static Map<String, List<Integer>> retrieveRepeatedWhereParamsMap(List<String> whereParams) {
 		Map<String, List<Integer>> repeatedWhereParamsMap = whereParams.stream()
-				.map(e -> formatUrlKey(e.split(":")[0]))
+				.map(e -> e.split(":")[0])
 				.distinct()
 				.collect(toMap(Function.identity(),
 						e -> IntStream.range(0, whereParams.size())
-								.filter(i -> formatUrlKey(whereParams.get(i).split(":")[0]).equals(e))
+								.filter(i -> whereParams.get(i).split(":")[0].equals(e))
 								.boxed()
 								.collect(toList())));
 
-		for (String key : repeatedWhereParamsMap.keySet()) {
-			if (repeatedWhereParamsMap.get(key).size() < 2) {
-				repeatedWhereParamsMap.remove(key);
-			}
-		}
 
+		repeatedWhereParamsMap.keySet().removeIf(key -> repeatedWhereParamsMap.get(key).size() < 2);
 		return repeatedWhereParamsMap;
 	}
 
@@ -189,6 +221,7 @@ public class QueryBuilder {
 			.put("track track_language", " ON track.catalog_num=track_language.track_catalog_num")
 			.put("track track2album", " ON track.catalog_num=track2album.track_catalog_num")
 			.put("track track2composer", " ON track.catalog_num=track2composer.track_catalog_num")
+			.put("track artist2track", " ON track.catalog_num=artist2track.track_catalog_num")
 			.put("album albumgenre", " ON album.catalog_num=albumgenre.album_catalog_num")
 			.put("cheq salesman", " ON cheq.salesman_tab_num=salesman.tab_num")
 			.put("cheq customer", " ON cheq.customer_num=customer.customer_num")
@@ -273,6 +306,11 @@ public class QueryBuilder {
 			.put("writeOffDate", List.of("write_off_date", STRING_TYPE_NAME))
 			.put("fee", List.of("fee", NOT_STRING_TYPE_NAME))
 			.put("reason", List.of("reason", STRING_TYPE_NAME))
+			.put("isFeaturing", List.of("featuring", NOT_STRING_TYPE_NAME))
+			.build();
+
+	private static final Map<String, List<String>> JAVA_PPK_NAME_TO_DATA_BASE_PPK_NAME_MAP = ImmutableMap.<String, List<String>>builder()
+			.put("artistBindings", List.of("trackCatalogNum", "artistAlias"))
 			.build();
 
 }
