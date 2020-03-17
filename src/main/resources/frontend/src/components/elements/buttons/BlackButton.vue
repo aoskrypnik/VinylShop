@@ -3,9 +3,10 @@
 </template>
 
 <script>
-import BlackButtonView from "./BlackButtonView";
-export default {
-  components: {BlackButtonView},
-  props: ['large', 'inline', 'disabled']
-}
+  import BlackButtonView from "./BlackButtonView";
+
+  export default {
+    components: {BlackButtonView},
+    props: ['large', 'inline', 'disabled']
+  }
 </script>

@@ -10,7 +10,8 @@ export default {
     trackIds: {
       type: 'track',
       isSchema: true,
-      isArray: true
+      isArray: true,
+      joins: ['track2composer']
     }
   },
   key: 'composerName',

@@ -26,5 +26,17 @@ export default {
   applyFilters: {
     en: 'Apply',
     ua: 'Застосувати'
+  },
+  filtersFrom: {
+    en: 'From',
+    ua: 'З'
+  },
+  filtersTo: {
+    en: 'To',
+    ua: 'По'
+  },
+  selectAll: {
+    en: 'Select all ',
+    ua: 'Обрати усі'
   }
 }

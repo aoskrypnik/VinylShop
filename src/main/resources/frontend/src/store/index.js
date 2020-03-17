@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import lookup from 'country-code-lookup'
 
 import Schemas from '../schemas'
+import * as SchemaUtils from '../schemas/utils'
 import SchemaDictionary from '../schemas/dictionary'
 import AppDictionary from './appDictionary'
 
@@ -39,14 +40,25 @@ export default new Vuex.Store({
       return state.schemaDictionary.schemas[schema].properties[property][state.language] || property
     },
     getSchemaHeaders: (state) => (schema) => {
-      return Object.keys(state.schemas[schema].props)
+      return Object.keys(state.schemas[schema].props.filter())
       .map(prop => state.schemaDictionary.schemas[schema].properties[prop][state.language])
     },
     getSchemaPropsNames: (state) => (schema) => {
       return Object.keys(state.schemas[schema].props)
     },
+    getSchemaDictionary: (state) => (schema) => {
+      return Object.keys(state.schemas[schema].props).reduce((acc, prop) => ({
+        ...acc,
+        [prop]: state.schemaDictionary.schemas[schema].properties[prop][state.language]
+      }), {})
+    },
     getSchemaProps: (state) => (schema) => {
       return state.schemas[schema].props
+    },
+    getSchemaListProps: (state) => (schema) => {
+      return Object.entries(state.schemas[schema].props)
+          .filter(([, t]) => SchemaUtils.isListVisible(t))
+          .map(([p,]) => p)
     },
     getSchemaKey: (state) => (schema) => {
       return state.schemas[schema].key

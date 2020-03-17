@@ -43,6 +43,10 @@ export const isEnum = (type) => {
   return enumRegex.test(getTypeString(type))
 }
 
+export const isSchemaType = (type) => {
+  return Boolean(type.isSchema)
+}
+
 export const isArray = (type) => {
   if (typeof type === 'string') {
     return false
@@ -56,4 +60,37 @@ export const fkValue = async (schemaName, key) => {
   const schema = store.getters.getSchema(schemaName)
 
   return schema.display(item)
+};
+
+export const isRangeType = (type) => {
+  const typeString = getTypeString(type);
+
+  return typeString === 'date' || typeString === 'int' || typeString === 'money'
+};
+
+export const generateFilterObject = (schemaName) => {
+  const schema = store.getters.getSchema(schemaName);
+
+  return Object.entries(schema.props).reduce((acc, [prop, type]) => {
+    if (!isFilterVisible(type)) {
+      return acc
+    }
+    return {
+      ...acc,
+      [prop]: isRangeType(type) ? {from: null, to: null} : ((isArray(type) && isSchemaType(type)) ? [] : null)
+    }
+  }, {})
+};
+
+export const isListVisible = (type) => {
+  return !(type.filterOnly)
+};
+
+export const isFilterVisible = (type) => {
+  return type.filterOnly || !type.readonly
+};
+
+export const getKey = (schemaName) => (item) => {
+  const schema = store.getters.getSchema(schemaName);
+  return item[schema.key]
 }

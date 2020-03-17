@@ -1,6 +1,6 @@
 <template>
   <div>
-    <list-view v-if="type === 'list'" :schema="properties.schema" @itemSelection="itemSelection"></list-view>
+    <list-view v-if="type === 'list'" :schema="properties.schema" :multiple="properties.multiple" @itemSelection="itemSelection"></list-view>
     <dialog v-if="type === 'dialog'"></dialog>
   </div>
 </template>

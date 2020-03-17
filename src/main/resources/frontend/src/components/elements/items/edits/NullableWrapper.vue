@@ -10,11 +10,14 @@
 </template>
 
 <script>
+  import * as SchemaUtils from '@/schemas/utils'
+
   import StringEdit from './StringEdit'
   import FkEdit from "./FkEdit";
   import DateEdit from "./DateEdit";
   import CountryEdit from "./CountryEdit";
   import BlackCheckbox from "../../checkboxes/BlackCheckbox";
+  import BooleanEdit from "@/components/elements/items/edits/BooleanEdit";
 
   export default {
     name: "NullableWrapper",
@@ -23,7 +26,8 @@
       CountryEdit,
       DateEdit,
       FkEdit,
-      StringEdit
+      StringEdit,
+      BooleanEdit
     },
     props: ['value', 'inputType', 'type'],
     data: function() {
@@ -45,6 +49,9 @@
     },
     mounted() {
       this.innerValue = this.value
+      if (this.innerValue === null && !SchemaUtils.isSchemaType(this.type)) {
+        this.isNull = true
+      }
     },
     watch: {
       value(newValue) {

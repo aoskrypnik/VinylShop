@@ -2,8 +2,8 @@ package com.vinyl.service.impl;
 
 import com.vinyl.dao.TrackPerformerDao;
 import com.vinyl.dto.SearchDto;
-import com.vinyl.dto.TrackPerformerDto;
-import com.vinyl.service.TrackPerformerService;
+import com.vinyl.dto.TrackArtistDto;
+import com.vinyl.service.TrackArtistService;
 import com.vinyl.utils.QueryBuilder;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class TrackPerformerServiceImpl implements TrackPerformerService {
+public class TrackArtistServiceImpl implements TrackArtistService {
 
 	private static final String ARTIST_TO_TRACK_TABLE_NAME = "artist2track";
 	private static final String BAND_TO_TRACK_TABLE_NAME = "band2track";
@@ -20,7 +20,7 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 	private TrackPerformerDao trackPerformerDao;
 
 	@Override
-	public void save(TrackPerformerDto trackPerformerDto) {
+	public void save(TrackArtistDto trackPerformerDto) {
 		if (trackPerformerDto.getIsArtist()) {
 			trackPerformerDao.saveTrackForArtist(trackPerformerDto);
 		} else {
@@ -29,7 +29,7 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 	}
 
 	@Override
-	public void update(TrackPerformerDto trackPerformerDto) {
+	public void update(TrackArtistDto trackPerformerDto) {
 		if (trackPerformerDto.getIsArtist()) {
 			trackPerformerDao.updateTrackForArtist(trackPerformerDto);
 		} else {
@@ -38,28 +38,20 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 	}
 
 	@Override
-	public TrackPerformerDto getTrackPerformerByTrackNameAndPerformerAlias(String trackAndArtistName, boolean isArtist) {
+	public TrackArtistDto getTrackArtistByTrackNameAndPerformerAlias(String trackAndArtistName) {
 		String[] names = trackAndArtistName.split(",");
 		String trackCatalogNum = names[0];
 		String performerAlias = names[1];
-		if (isArtist) {
-			return trackPerformerDao.getTrackPerformerByTrackNameAndArtistAlias(trackCatalogNum, performerAlias);
-		} else {
-			return trackPerformerDao.getTrackPerformerByTrackNameAndBandAlias(trackCatalogNum, performerAlias);
-		}
+		return trackPerformerDao.getTrackPerformerByTrackNameAndArtistAlias(trackCatalogNum, performerAlias);
 	}
 
 	@Override
-	public void deleteTrackPerformanceInstance(TrackPerformerDto trackPerformerDtoToDelete) {
-		if (trackPerformerDtoToDelete.getIsArtist()) {
-			trackPerformerDao.deleteTrackArtistInstance(trackPerformerDtoToDelete);
-		} else {
-			trackPerformerDao.deleteTrackBandInstance(trackPerformerDtoToDelete);
-		}
+	public void deleteTrackArtistInstance(TrackArtistDto trackPerformerDtoToDelete) {
+		trackPerformerDao.deleteTrackArtistInstance(trackPerformerDtoToDelete);
 	}
 
 	@Override
-	public List<TrackPerformerDto> searchArtistTrackPerformance(SearchDto searchDto) {
+	public List<TrackArtistDto> searchArtistTrackPerformance(SearchDto searchDto) {
 		String query = QueryBuilder
 				.build(searchDto.getWheres(), searchDto.getLikes(), searchDto.getBetweens(),
 						searchDto.getJoins(), searchDto.getSort(), searchDto.getOrder(),
@@ -68,7 +60,7 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 	}
 
 	@Override
-	public List<TrackPerformerDto> searchBandTrackPerformance(SearchDto searchDto) {
+	public List<TrackArtistDto> searchBandTrackPerformance(SearchDto searchDto) {
 		String query = QueryBuilder
 				.build(searchDto.getWheres(), searchDto.getLikes(), searchDto.getBetweens(),
 						searchDto.getJoins(), searchDto.getSort(), searchDto.getOrder(),

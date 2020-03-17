@@ -39,7 +39,7 @@ export default {
       }
     },
     composer: {
-      en:'Composer',
+      en: 'Composer',
       ua: 'Композитор',
       properties: {
         composerName: {
@@ -87,9 +87,134 @@ export default {
         languages: {
           ua: 'Мови',
           en: 'Languages'
+        },
+        artistIds: {
+          ua: 'Виконавці',
+          en: 'Artists'
+        },
+        bandIds: {
+          ua: 'Групи',
+          en: 'Bands'
+        },
+        featuringArtistIds: {
+          ua: 'Другорядні виконавці',
+          en: 'Featuring artists'
+        },
+        featuringBandIds: {
+          ua: 'Другорядні групи',
+          en: 'Featuring bands'
+        },
+        artistBindings: {
+          ua: 'Зв\'язки з виконавцями',
+          en: 'Artists bindings'
+        }
+      }
+    },
+    artist: {
+      en: 'Artist',
+      ua: 'Виконавець',
+      properties: {
+        artistAlias: {
+          ua: 'Псевдонім',
+          en: 'Alias'
+        },
+        isArtistActive: {
+          ua: 'Активний',
+          en: 'Active'
+        },
+        countryCode: {
+          ua: 'Країна',
+          en: 'Country'
+        },
+        artistName: {
+          ua: 'Iм\'я',
+          en: 'Name'
+        },
+        artistBirthDate: {
+          ua: 'Дата народження',
+          en: 'Birth date'
+        },
+        artistDeathDate: {
+          ua: 'Дата смерті',
+          en: 'Death date'
+        },
+        currentBandAliases: {
+          ua: 'Поточні групи',
+          en: 'Current bands'
+        },
+        previousBandAliases: {
+          ua: 'Колишні групи',
+          en: 'Former bands'
+        },
+        trackCatalogNums: {
+          ua: 'Треки',
+          en: 'Tracks'
+        },
+        featuringTrackCatalogNums: {
+          ua: 'Другорядні треки',
+          en: 'Featuring tracks'
+        }
+      }
+    },
+    artist2track: {
+      en: 'Artist - track connection',
+      ua: 'Зв\'язок трек - виконавець',
+      properties: {
+        trackCatalogNum: {
+          en: 'Track',
+          ua: 'Трек'
+        },
+        performerAlias: {
+          en: 'Artist',
+          ua: 'Виконавець'
+        },
+        isFeaturing: {
+          en: 'Featuring',
+          ua: 'Другорядний'
+        }
+      }
+    },
+    band: {
+      en: 'Band',
+      ua: 'Група',
+      properties: {
+        bandAlias: {
+          ua: 'Назва',
+          en: 'Alias'
+        },
+        isBandActive: {
+          ua: 'Активна',
+          en: 'Active'
+        },
+        countryCode: {
+          ua: 'Країна',
+          en: 'Country'
+        },
+        startYear: {
+          ua: 'Дата заснування',
+          en: 'Start date'
+        },
+        endYear: {
+          ua: 'Дата розпаду',
+          en: 'End date'
+        },
+        currentArtistAliases: {
+          ua: 'Поточні виконавці',
+          en: 'Current artists'
+        },
+        previousArtistAliases: {
+          ua: 'Колишні виконавці',
+          en: 'Previous artists'
+        },
+        trackCatalogNums: {
+          ua: 'Треки',
+          en: 'Tracks'
+        },
+        featuringTracksCatalogNums: {
+          ua: 'Другорядні треки',
+          en: 'Featuring tracks'
         }
       }
     }
   }
-  
 }

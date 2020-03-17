@@ -19,6 +19,7 @@
     font-size: 18px;
     transition: 200ms;
     display: block;
+    min-height: 41px;
   }
 
   button.large {

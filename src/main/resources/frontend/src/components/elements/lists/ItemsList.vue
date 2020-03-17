@@ -2,15 +2,15 @@
   <table>
     <tr>
       <th
-              v-for="(header, index) in getHeaders"
-              :key="header"
+              v-for="prop in listProps"
+              :key="prop"
               :title="$store.getters.getAppLocale('sortTooltip')"
-              :class="{ desc: sortAttribute === getPropsNames[index] && sortDirection === 1, asc: sortAttribute === getPropsNames[index] && sortDirection === 0 }"
-              @click="sortChange(getPropsNames[index])"
-      >{{header}}</th>
+              :class="{ desc: sortAttribute === prop && sortDirection === 1, asc: sortAttribute === prop && sortDirection === 0 }"
+              @click="sortChange(prop)"
+      >{{schemaDictionary[prop]}}</th>
     </tr>
     <tr v-for="(item, index) in items" :key="itemsKeys[index]" class="tableRow" @click="itemClick(index)">
-      <td v-for="prop in getPropsNames" :key="prop">
+      <td v-for="prop in listProps" :key="prop">
         <item :value="item[prop]" :type="getProps[prop]" :schema="schema"></item>
       </td>
     </tr>
@@ -27,12 +27,6 @@ export default {
     Item
   },
   computed: {
-    getHeaders() {
-      return this.$store.getters.getSchemaHeaders(this.schema)
-    },
-    getPropsNames() {
-      return this.$store.getters.getSchemaPropsNames(this.schema)
-    },
     getProps() {
       return this.$store.getters.getSchemaProps(this.schema)
     },
@@ -44,6 +38,12 @@ export default {
         return this.items.map(item => this.getKey.map(k => item[k]).join(','))
       }
       return this.items.map(item => item[this.getKey])
+    },
+    schemaDictionary() {
+      return this.$store.getters.getSchemaDictionary(this.schema)
+    },
+    listProps() {
+      return this.$store.getters.getSchemaListProps(this.schema)
     }
   },
   methods: {

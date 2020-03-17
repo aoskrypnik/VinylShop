@@ -1,6 +1,6 @@
 package com.vinyl.row_mapper;
 
-import com.vinyl.dto.TrackPerformerDto;
+import com.vinyl.dto.TrackArtistDto;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -8,9 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
-public class TrackPerformerRowMapper implements RowMapper<TrackPerformerDto> {
+public class TrackPerformerRowMapper implements RowMapper<TrackArtistDto> {
 	@Override
-	public TrackPerformerDto mapRow(ResultSet resultSet, int i) throws SQLException {
+	public TrackArtistDto mapRow(ResultSet resultSet, int i) throws SQLException {
 		String alias;
 		boolean isArtist = false;
 		try {
@@ -19,7 +19,7 @@ public class TrackPerformerRowMapper implements RowMapper<TrackPerformerDto> {
 		} catch (SQLException e) {
 			alias = resultSet.getString("band_alias");
 		}
-		return TrackPerformerDto.builder()
+		return TrackArtistDto.builder()
 				.trackCatalogNum(resultSet.getString("track_catalog_num"))
 				.performerAlias(alias)
 				.isArtist(isArtist)

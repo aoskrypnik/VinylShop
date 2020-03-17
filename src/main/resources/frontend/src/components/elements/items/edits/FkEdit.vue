@@ -29,7 +29,16 @@
         }
       },
       selectPopup() {
-        this.$store.commit('popup', { type: 'list', properties: { schema: this.type.type, itemSelection: (item) => { this.$emit('input', item) } } })
+        this.$store.commit(
+            'popup',
+            {
+              type: 'list',
+              properties: {
+                schema: this.type.type,
+                itemSelection: (item) => { this.$emit('input', item) },
+                multiple: this.type.isActuallyArray
+              }
+            })
       }
     },
     watch: {
