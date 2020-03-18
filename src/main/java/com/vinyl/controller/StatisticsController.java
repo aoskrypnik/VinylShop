@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.isNull;
 
@@ -23,6 +24,25 @@ public class StatisticsController {
 
 	@Resource
 	private StatisticsService statisticsService;
+
+	@GetMapping
+	public ResponseEntity<?> getAllStatisticsByPeriod(@RequestParam String from, @RequestParam String to) throws ParseException {
+		Map<String, Integer> statisticsMap = statisticsService.getAllStatistics(dateConverter(from), dateConverter(to));
+		if (isNull(statisticsMap)) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(statisticsMap);
+	}
+
+	@GetMapping("/salesmen")
+	public ResponseEntity<?> getAllSalesmenStatisticsByPeriod(@RequestParam String from, @RequestParam String to) throws ParseException {
+		Map<Integer, Map<String, Integer>> statisticsMap = statisticsService.getAllSalesmanStatistics(dateConverter(from), dateConverter(to));
+		if (isNull(statisticsMap)) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(statisticsMap);
+	}
+
 
 	@GetMapping("/income")
 	public ResponseEntity<?> getIncomesByPeriod(@RequestParam String from, @RequestParam String to) throws ParseException {

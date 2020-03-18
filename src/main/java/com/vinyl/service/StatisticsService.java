@@ -4,8 +4,13 @@ import com.vinyl.dto.StatisticsDto;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 public interface StatisticsService {
+
+	Map<String, Integer> getAllStatistics(Timestamp from, Timestamp to);
+
+	Map<Integer, Map<String, Integer>> getAllSalesmanStatistics(Timestamp from, Timestamp to);
 
 	StatisticsDto getIncomeByPeriod(Timestamp from, Timestamp to);
 
