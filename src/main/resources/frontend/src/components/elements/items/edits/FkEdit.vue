@@ -1,5 +1,5 @@
 <template>
-  <black-button :disabled="disabled" @click="selectPopup">{{ fkActualValue }}</black-button>
+  <black-button :disabled="disabled" @click="selectPopup">{{ value === null ? $store.getters.getAppLocale('fkSelect') : fkActualValue }}</black-button>
 </template>
 
 <script>

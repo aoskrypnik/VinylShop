@@ -1,5 +1,5 @@
 <template>
-  <black-checkbox :value="value" @input="onInput">{{label}}</black-checkbox>
+  <black-checkbox :value="value" :disabled="disabled" @input="onInput">{{label}}</black-checkbox>
 </template>
 
 <script>
@@ -7,7 +7,7 @@
   export default {
     name: "BooleanEdit",
     components: {BlackCheckbox},
-    props: ['value', 'label'],
+    props: ['value', 'label', 'disabled'],
     methods: {
       onInput(val) {
         this.$emit('input', val)

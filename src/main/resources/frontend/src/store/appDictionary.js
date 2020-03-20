@@ -38,5 +38,9 @@ export default {
   selectAll: {
     en: 'Select all ',
     ua: 'Обрати усі'
+  },
+  fkSelect: {
+    en: 'Select...',
+    ua: 'Обрати...'
   }
 }

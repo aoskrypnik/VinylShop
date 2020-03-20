@@ -32,6 +32,19 @@ export default {
       isSchema: true,
       isArray: true,
       readonly: true
+    },
+    artistBindings: {
+      type: 'artist2track',
+      isSchema: true,
+      isArray: true,
+      filterOnly: true
+    },
+    participations: {
+      type: 'participation',
+      isSchema: true,
+      isArray: true,
+      filterOnly: true,
+      joins: ['artist2band']
     }
   },
   key: 'artistAlias',

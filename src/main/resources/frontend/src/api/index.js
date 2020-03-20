@@ -25,33 +25,6 @@ function generateQueryString(params) {
       })).join('&').replace('&&', '&').replace('&&', '&')
 }
 
-const clients = [
-  {
-    phone: ['+123456', '+654321'],
-    name: 'Lolkek Cheburek1',
-    email: 'drakosvlad@gmail.com',
-    type: '1'
-  },
-  {
-    phone: ['+123456', '+654321'],
-    name: 'Lolkek Cheburek2',
-    email: 'drakosvla@gmail.com',
-    type: '1'
-  },
-  {
-    phone: ['+123456', '+654321'],
-    name: 'Lolkek Cheburek3',
-    email: 'drakosvl@gmail.com',
-    type: '1'
-  },
-  {
-    phone: ['+123456', '+654321'],
-    name: 'Lolkek Cheburek4',
-    email: 'drakosv@gmail.com',
-    type: '1'
-  }
-];
-
 export async function auth(login, password) {
   const authData = await Axios.post(
       `${endpoint}/auth/sign-in`,
@@ -74,23 +47,6 @@ export async function auth(login, password) {
 
 // eslint-disable-next-line no-unused-vars
 export async function getItems(schema, count, offset, sortField, sortDirection, filters) {
-  if (schema === 'client') {
-    return clients
-  }
-
-  if (schema === 'check') {
-    return [
-      {
-        date: '2018-12-03',
-        client: 'drakosvlad@gmail.com'
-      },
-      {
-        date: '2018-12-04',
-        client: 'drakosvl@gmail.com'
-      }
-    ]
-  }
-
   let query = {
     count,
     offset,
@@ -113,24 +69,35 @@ export async function getItems(schema, count, offset, sortField, sortDirection, 
 
       const type = schemaObject[prop]
 
+      if (type.joins) {
+        query.joins.push(...type.joins)
+      }
+
       if (SchemaUtils.isRangeType(type)) {
         if (value.from === null && value.to === null) {
           return
         }
 
+        if (type.joins) {
+          query.joins.push(...type.joins)
+        }
+
         query.betweens.push(`${prop}:${value.from || ''}:${value.to || ''}`)
-      } else if(SchemaUtils.isString(type) && !SchemaUtils.isSchemaType(type)) {
+      } else if (SchemaUtils.isString(type) && !SchemaUtils.isSchemaType(type)) {
         // Likes
         query.likes.push(`${prop}:${value}`)
+
+        if (type.joins) {
+          query.joins.push(...type.joins)
+        }
+
       } else {
         if (SchemaUtils.isSchemaType(type)) {
           if (Array.isArray(value) && value.length === 0) {
             return
           }
 
-          if (type.joins) {
-            query.joins.push(...type.joins)
-          } else {
+          if (!type.joins) {
             query.joins.push(SchemaUtils.getTypeString(type))
           }
 
@@ -160,19 +127,8 @@ export async function getItems(schema, count, offset, sortField, sortDirection, 
 }
 
 export async function getItem(schema, key) {
-  if (key === null) {
+  if (key === null || key === undefined) {
     return null
-  }
-
-  if (schema === 'client') {
-    return clients.filter(c => c.email === key)[0]
-  }
-
-  if (schema === 'check') {
-    return {
-      date: '2018-12-03',
-      client: 'drakosvl@gmail.com'
-    }
   }
 
   try {

@@ -2,7 +2,6 @@ package com.vinyl.utils;
 
 import com.google.common.collect.ImmutableMap;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -34,7 +33,7 @@ public class QueryBuilder {
 				stringBuilder
 						.append("INNER JOIN ")
 						.append(join)
-						.append(JOIN_TABLES_MAP.get(tableName + " " + join))
+						.append(JOIN_TABLES_MAP.get(tableName.compareTo(join) < 0 ? tableName + " " + join : join + " " + tableName))
 						.append(" ");
 			}
 		}
@@ -221,19 +220,20 @@ public class QueryBuilder {
 			.put("track track_language", " ON track.catalog_num=track_language.track_catalog_num")
 			.put("track track2album", " ON track.catalog_num=track2album.track_catalog_num")
 			.put("track track2composer", " ON track.catalog_num=track2composer.track_catalog_num")
-			.put("track artist2track", " ON track.catalog_num=artist2track.track_catalog_num")
+			.put("artist2track track", " ON track.catalog_num=artist2track.track_catalog_num")
 			.put("album albumgenre", " ON album.catalog_num=albumgenre.album_catalog_num")
 			.put("cheq salesman", " ON cheq.salesman_tab_num=salesman.tab_num")
 			.put("cheq customer", " ON cheq.customer_num=customer.customer_num")
 			.put("record release", " ON record.release_bar_code=release.bar_code")
-			.put("artist2band artist", " ON artist2band.artist_alias=artist.artist_alias")
+			.put("artist artist2band", " ON artist2band.artist_alias=artist.artist_alias")
 			.put("artist2band band", " ON artist2band.band_alias=band.band_alias")
-			.put("artist2track artist", " USING (artist_alias)")
-			.put("band2track band", " USING (band_alias)")
+			.put("artist artist2track", " USING (artist_alias)")
+			.put("band band2track", " USING (band_alias)")
 			.build();
 
 	private static final Map<String, List<String>> JAVA_NAME_TO_DATA_BASE_NAME_MAP = ImmutableMap.<String, List<String>>builder()
-			.put("artistAlias", List.of("artist_alias", STRING_TYPE_NAME))
+			.put("artistAlias", List.of("artist.artist_alias", STRING_TYPE_NAME))
+			.put("participationArtistAlias", List.of("artist2band.artist_alias", STRING_TYPE_NAME))
 			.put("isArtistActive", List.of("activity", NOT_STRING_TYPE_NAME))
 			.put("artistCountryCode", List.of("artist.country", STRING_TYPE_NAME))
 			.put("bandCountryCode", List.of("band.country", STRING_TYPE_NAME))
@@ -242,7 +242,8 @@ public class QueryBuilder {
 			.put("artistName", List.of("artist_name", STRING_TYPE_NAME))
 			.put("artistBirthDate", List.of("birth_date", STRING_TYPE_NAME))
 			.put("artistDeathDate", List.of("death_date", STRING_TYPE_NAME))
-			.put("bandAlias", List.of("band_alias", STRING_TYPE_NAME))
+			.put("bandAlias", List.of("band.band_alias", STRING_TYPE_NAME))
+			.put("participationBandAlias", List.of("artist2band.band_alias", STRING_TYPE_NAME))
 			.put("isBandActive", List.of("activity", NOT_STRING_TYPE_NAME))
 			.put("startYear", List.of("start_year", STRING_TYPE_NAME))
 			.put("endYear", List.of("end_year", STRING_TYPE_NAME))
@@ -250,6 +251,7 @@ public class QueryBuilder {
 			.put("activityStart", List.of("activity_start", STRING_TYPE_NAME))
 			.put("activityEnd", List.of("activity_end", STRING_TYPE_NAME))
 			.put("trackCatalogNum", List.of("catalog_num", STRING_TYPE_NAME))
+			.put("bindingTrackCatalogNum", List.of("track_catalog_num", STRING_TYPE_NAME))
 			.put("trackName", List.of("track_name", STRING_TYPE_NAME))
 			.put("duration", List.of("duration", NOT_STRING_TYPE_NAME))
 			.put("albumCatalogNum", List.of("catalog_num", STRING_TYPE_NAME))
@@ -310,7 +312,8 @@ public class QueryBuilder {
 			.build();
 
 	private static final Map<String, List<String>> JAVA_PPK_NAME_TO_DATA_BASE_PPK_NAME_MAP = ImmutableMap.<String, List<String>>builder()
-			.put("artistBindings", List.of("trackCatalogNum", "artistAlias"))
+			.put("artistBindings", List.of("bindingTrackCatalogNum", "artistAlias"))
+			.put("participations", List.of("participationArtistAlias", "participationBandAlias"))
 			.build();
 
 }

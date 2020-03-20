@@ -21,7 +21,10 @@
       },
       editType() {
         if (SchemaUtils.isSchemaType(this.type)) {
-          return this.type
+          return {
+            ...this.type,
+            isNullable: true
+          }
         }
 
         return {

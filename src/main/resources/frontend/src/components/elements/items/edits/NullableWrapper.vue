@@ -3,7 +3,7 @@
     <div class="editContainer">
       <component :is="inputType" @input="onInnerInput" :value="innerValue" :type="type" :disabled="isNull"></component>
     </div>
-    <div class="checkboxContainer" v-if="!type.isArray && type.isNullable">
+    <div class="checkboxContainer" v-if="!type.isArray && type.isNullable && !type.isActuallyArray">
       <black-checkbox :value="isNull" v-model="isNull" @input="onInput">NULL</black-checkbox>
     </div>
   </div>
@@ -18,6 +18,7 @@
   import CountryEdit from "./CountryEdit";
   import BlackCheckbox from "../../checkboxes/BlackCheckbox";
   import BooleanEdit from "@/components/elements/items/edits/BooleanEdit";
+  import {getTypeString, isArray} from "@/schemas/utils";
 
   export default {
     name: "NullableWrapper",
@@ -44,6 +45,13 @@
         }
       },
       onInput(val) {
+        // Custom logic for default values
+        if (getTypeString(this.type) === 'boolean' && !isArray(this.type)) {
+          if (!val && this.innerValue === null) {
+            this.innerValue = false
+          }
+        }
+
         this.$emit('input', val ? null : this.innerValue)
       }
     },

@@ -28,6 +28,13 @@ export default {
       isSchema: true,
       isArray: true,
       readonly: true
+    },
+    participations: {
+      type: 'participation',
+      isSchema: true,
+      isArray: true,
+      filterOnly: true,
+      joins: ['artist2band']
     }
   },
   key: 'bandAlias',

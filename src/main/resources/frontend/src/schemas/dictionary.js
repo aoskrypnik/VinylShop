@@ -153,6 +153,14 @@ export default {
         featuringTrackCatalogNums: {
           ua: 'Другорядні треки',
           en: 'Featuring tracks'
+        },
+        artistBindings: {
+          ua: 'Зв\'язки з треками',
+          en: 'Track bindings'
+        },
+        participations: {
+          ua: 'Зв\'язки з групами',
+          en: 'Bands bindings'
         }
       }
     },
@@ -213,6 +221,32 @@ export default {
         featuringTracksCatalogNums: {
           ua: 'Другорядні треки',
           en: 'Featuring tracks'
+        },
+        participations: {
+          ua: 'Зв\'язки з учасниками',
+          en: 'Artists bindings'
+        }
+      }
+    },
+    participation: {
+      en: 'Band participation',
+      ua: 'Участь у групі',
+      properties: {
+        artistAlias: {
+          en: 'Artist',
+          ua: 'Виконавець'
+        },
+        bandAlias: {
+          en: 'Band',
+          ua: 'Група'
+        },
+        joinDate: {
+          en: 'Join date',
+          ua: 'Дата вступу'
+        },
+        exitDate: {
+          en: 'Exit date',
+          ua: 'Дата виходу'
         }
       }
     }

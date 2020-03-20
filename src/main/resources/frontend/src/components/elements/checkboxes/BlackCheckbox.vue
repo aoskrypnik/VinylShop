@@ -1,7 +1,7 @@
 <template>
   <label class="boxContainer">
     <slot></slot>
-    <input type="checkbox" :checked="value" @change="onInput" id="blc">
+    <input type="checkbox" :checked="value" :disabled="disabled" @change="onInput" id="blc">
     <span class="checkmark"></span>
   </label>
 </template>
@@ -9,7 +9,7 @@
 <script>
   export default {
     name: "BlackCheckbox",
-    props: ['value'],
+    props: ['value', 'disabled'],
     methods: {
       onInput(e) {
         this.$emit('input', e.target.checked)
