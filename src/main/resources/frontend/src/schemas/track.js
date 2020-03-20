@@ -8,9 +8,11 @@ export default {
       isSchema: true,
       isArray: true
     },
-    /*"albumIds: [
-      "101"
-    ],*/
+    albumIds: {
+      type: 'album',
+      isSchema: true,
+      isArray: true
+    },
     artistIds: {
       type: 'artist',
       isSchema: true,

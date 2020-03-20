@@ -46,9 +46,9 @@ export async function auth(login, password) {
 }
 
 // eslint-disable-next-line no-unused-vars
-export async function getItems(schema, count, offset, sortField, sortDirection, filters) {
+export async function getItems(schema, limit, offset, sortField, sortDirection, filters) {
   let query = {
-    count,
+    limit,
     offset,
     sort: sortField,
     order: sortField ? (sortDirection === 0 ? 'ASC' : 'DESC') : undefined,

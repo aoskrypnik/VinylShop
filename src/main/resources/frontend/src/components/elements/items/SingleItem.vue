@@ -3,7 +3,7 @@
     <!--String types-->
     <span v-if="isStringType && !type.isSchema">{{value}}</span>
     <span v-else-if="type.isSchema">{{ fkActualValue }}</span>
-    <span v-else-if="isEnum">{{Array.isArray(value) ? value.map(v => labels[v]).join(',') : labels[value]}}</span>
+    <span v-else-if="isEnum">{{Array.isArray(value) ? value.map(v => labels[v]).join(', ') : labels[value]}}</span>
     <span v-else-if="typeString === 'country'">{{ $store.state.countries.get(value) }}</span>
     <span v-else>{{value}}</span>
   </div>
@@ -42,7 +42,11 @@ export default {
   },
   methods: {
     label(key) {
-      return this.$store.getters.getPropertyLocale(this.schema, key)
+      try {
+        return this.$store.getters.getPropertyLocale(this.schema, key)
+      } catch (e) {
+        return key
+      }
     },
     updateFkValue() {
       if (this.type.isSchema) {

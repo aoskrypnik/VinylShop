@@ -107,6 +107,10 @@ export default {
         artistBindings: {
           ua: 'Зв\'язки з виконавцями',
           en: 'Artists bindings'
+        },
+        albumIds: {
+          ua: 'Альбоми',
+          en: 'Albums'
         }
       }
     },
@@ -247,6 +251,98 @@ export default {
         exitDate: {
           en: 'Exit date',
           ua: 'Дата виходу'
+        }
+      }
+    },
+    album: {
+      en: 'Album',
+      ua: 'Альбом',
+      properties: {
+        albumCatalogNum: {
+          en: 'Catalog #',
+          ua: 'Номер каталогу'
+        },
+        releaseYear: {
+          en: 'Release year',
+          ua: 'Рік випуску'
+        },
+        albumGenres: {
+          en: 'Genres',
+          ua: 'Жанри'
+        },
+        albumName: {
+          en: 'Name',
+          ua: 'Назва'
+        },
+        variousArtists: {
+          en: 'Compilation',
+          ua: 'Компіляція'
+        },
+        trackCatalogNums: {
+          en: 'Tracks',
+          ua: 'Треки'
+        },
+        rock: {
+          en: 'Rock',
+          ua: 'Рок'
+        },
+        pop: {
+          en: 'Pop',
+          ua: 'Поп'
+        },
+        classic: {
+          en: 'Classical',
+          ua: 'Класична'
+        },
+        indie: {
+          en: 'Indie',
+          ua: 'Інді'
+        },
+        electronic: {
+          en: 'Electronic',
+          ua: 'Електроніка'
+        }
+      }
+    },
+    release: {
+      en: 'Release',
+      ua: 'Реліз',
+      properties: {
+        releaseBarcode: {
+          en: 'Barcode #',
+          ua: 'Штрих-код'
+        },
+        albumCatalogNum: {
+          en: 'Album',
+          ua: 'Альбом'
+        },
+        releaseCountryCode: {
+          en: 'Country',
+          ua: 'Країна'
+        },
+        releaseDate: {
+          en: 'Release date',
+          ua: 'Дата випуску'
+        },
+        recordSize: {
+          en: 'Record size',
+          ua: 'Розмір платівки'
+        },
+        recordSpeed: {
+          en: 'Record speed',
+          ua: 'Швидкість програвання'
+        },
+        copiesCount: {
+          en: 'Copies count',
+          ua: 'Наклад'
+        },
+        isRepress: {
+          en: 'Repress',
+          ua: 'Перевидання'
+        },
+        label: {
+          en: 'Label',
+          ua: 'Лейбл'
         }
       }
     }
