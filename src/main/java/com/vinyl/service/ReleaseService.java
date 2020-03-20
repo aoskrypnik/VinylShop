@@ -14,5 +14,5 @@ public interface ReleaseService {
 
 	List<Release> searchReleases(SearchDto searchDto);
 
-	public void update(Release release, String releaseBarCode);
+	void update(Release release, String releaseBarCode);
 }
