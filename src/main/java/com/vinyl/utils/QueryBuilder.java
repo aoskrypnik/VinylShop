@@ -281,7 +281,7 @@ public class QueryBuilder {
 			.put("edrpou", List.of("edrpou", STRING_TYPE_NAME))
 			.put("supplierAddress", List.of("address", STRING_TYPE_NAME))
 			.put("phoneNumber", List.of("phone_num", STRING_TYPE_NAME))
-			.put("customerNum", List.of("customer_num", NOT_STRING_TYPE_NAME))
+			.put("customerNum", List.of("customer.customer_num", NOT_STRING_TYPE_NAME))
 			.put("customerName", List.of("customer_name", STRING_TYPE_NAME))
 			.put("customerEmail", List.of("email", STRING_TYPE_NAME))
 			.put("customerDiscount", List.of("discount", NOT_STRING_TYPE_NAME))
