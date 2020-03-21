@@ -6,6 +6,10 @@ import Artist2TrackSchema from './artist2track'
 import ParticipationSchema from './participation'
 import AlbumSchema from './album'
 import ReleaseSchema from './release'
+import RecordSchema from './record'
+import SalesmanSchema from './salesman'
+import CustomerSchema from './customer'
+import CheckSchema from './check'
 
 export default {
   composer: ComposerSchema,
@@ -15,5 +19,9 @@ export default {
   artist2track: Artist2TrackSchema,
   participation: ParticipationSchema,
   album: AlbumSchema,
-  release: ReleaseSchema
+  release: ReleaseSchema,
+  record: RecordSchema,
+  salesman: SalesmanSchema,
+  customer: CustomerSchema,
+  check: CheckSchema
 }

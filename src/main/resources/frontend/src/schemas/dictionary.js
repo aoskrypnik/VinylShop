@@ -1,43 +1,5 @@
 export default {
   schemas: {
-    client: {
-      en: 'Customer',
-      ua: 'Покупець',
-      properties: {
-        phone: {
-          ua: 'Номер телефону'
-        },
-        name: {
-          ua: 'Ім\'я'
-        },
-        email: {
-          ua: 'Електронна пошта'
-        },
-        type: {
-          ua: 'Статус'
-        },
-        "1": {
-          ua: 'Постійний'
-        },
-        "2": {
-          ua: 'Непостійний'
-        }
-      }
-    },
-    check: {
-      en: 'Check',
-      ua: 'Чек',
-      properties: {
-        date: {
-          ua: 'Дата',
-          en: 'Date'
-        },
-        client: {
-          ua: 'Покупець',
-          en: 'Customer'
-        }
-      }
-    },
     composer: {
       en: 'Composer',
       ua: 'Композитор',
@@ -343,6 +305,154 @@ export default {
         label: {
           en: 'Label',
           ua: 'Лейбл'
+        }
+      }
+    },
+    record: {
+      en: 'Record',
+      ua: 'Платівка',
+      properties: {
+        recordBarcode: {
+          en: 'Internal barcode',
+          ua: 'Штрих-код магазину'
+        },
+        releaseBarcodeFk: {
+          en: 'Release',
+          ua: 'Реліз'
+        },
+        purchaseDate: {
+          en: 'Purchase date',
+          ua: 'Дата закупівлі'
+        },
+        purchasePrice: {
+          en: 'Purchase price',
+          ua: 'Ціна закупівлі'
+        },
+        sellPrice: {
+          en: 'Sell price',
+          ua: 'Ціна продажу'
+        },
+        available: {
+          en: 'Available',
+          ua: 'В наявності'
+        },
+        recordState: {
+          en: 'Condition',
+          ua: 'Стан'
+        },
+        stateCheckDate: {
+          en: 'State check date',
+          ua: 'Дата перевірки стану'
+        }
+      }
+    },
+    salesman: {
+      en: 'Salesman',
+      ua: 'Продавець',
+      properties: {
+        tabNum: {
+          en: 'ID',
+          ua: 'Табельний #'
+        },
+        salesmanName: {
+          en: 'Name',
+          ua: 'Ім\'я'
+        },
+        passportNum: {
+          en: 'Passport #',
+          ua: 'Номер паспорту'
+        },
+        addressCity: {
+          en: 'City',
+          ua: 'Місто'
+        },
+        addressStr: {
+          en: 'Street',
+          ua: 'Вулиця'
+        },
+        addressHome: {
+          en: 'Home',
+          ua: 'Будинок'
+        },
+        addressApt: {
+          en: 'Apartment',
+          ua: 'Квартира'
+        },
+        salesmanPhoneNum: {
+          en: 'Phone',
+          ua: 'Телефон'
+        },
+        worksFrom: {
+          en: 'Works from',
+          ua: 'Працює з'
+        },
+        worksTo: {
+          en: 'Works to',
+          ua: 'Працює до'
+        },
+        salary: {
+          en: 'Salary',
+          ua: 'З/п'
+        }
+      }
+    },
+    customer: {
+      en: 'Customer',
+      ua: 'Покупець',
+      properties: {
+        customerNum: {
+          en: 'Customer #',
+          ua: 'Номер'
+        },
+        customerName: {
+          en: 'Name',
+          ua: 'Ім\'я'
+        },
+        customerEmail: {
+          en: 'Email',
+          ua: 'Email'
+        },
+        customerDiscount: {
+          en: 'Discount',
+          ua: 'Знижка'
+        }
+      }
+    },
+    check: {
+      en: 'Check',
+      ua: 'Чек',
+      properties: {
+        checkNum: {
+          en: 'Check #',
+          ua: 'Номер'
+        },
+        dateTime: {
+          en: 'Date/Time',
+          ua: 'Дата/Час'
+        },
+        customerNum: {
+          en: 'Customer',
+          ua: 'Покупець'
+        },
+        salesmanTabNum: {
+          en: 'Salesman',
+          ua: 'Продавець'
+        },
+        overallSum: {
+          en: 'Sum',
+          ua: 'Сума'
+        },
+        checkDiscount: {
+          en: 'Discount',
+          ua: 'Знижка'
+        },
+        sumWithDiscount: {
+          en: 'Sum with discount',
+          ua: 'Сума зі знижкою'
+        },
+        productBarcodes: {
+          en: 'Records',
+          ua: 'Платівки'
         }
       }
     }

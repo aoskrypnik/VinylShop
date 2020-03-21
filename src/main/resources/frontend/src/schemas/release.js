@@ -11,8 +11,11 @@ export default {
     recordSpeed: '33|45|78',
     copiesCount: 'int',
     isRepress: 'boolean',
-    label: 'string'
+    label: {
+      type: 'string',
+      isNullable: true
+    }
   },
   key: 'releaseBarcode',
-  display: (item) => `${item.albumCatalogNum} ${item.releaseDate} ${item.countryCode}`
+  display: (item) => `${item.albumCatalogNum} ${item.releaseDate} ${item.label}`
 }
