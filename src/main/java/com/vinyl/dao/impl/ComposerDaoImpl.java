@@ -40,6 +40,7 @@ public class ComposerDaoImpl implements ComposerDao {
 		jdbcTemplate.update(createComposerQuery, name, country, activityStart, activityEnd);
 	}
 
+	@Transactional
 	@Override
 	public Composer getComposerByName(String composerName) {
 		String getComposerByNameQuery = QuerySupplier.getQuery(getComposerByNameQueryPath);

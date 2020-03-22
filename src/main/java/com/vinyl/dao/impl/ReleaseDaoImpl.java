@@ -37,6 +37,7 @@ public class ReleaseDaoImpl implements ReleaseDao {
 				release.getIsRepress(), release.getLabel());
 	}
 
+	@Transactional
 	@Override
 	public Release getReleaseByBarcode(String barcode) {
 		String getReleaseByBarcodeQuery = QuerySupplier.getQuery(getReleaseByBarcodeQueryPath);

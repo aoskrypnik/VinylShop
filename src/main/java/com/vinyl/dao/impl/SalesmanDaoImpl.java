@@ -34,6 +34,7 @@ public class SalesmanDaoImpl implements SalesmanDao {
 	@Resource
 	private RowMapper<Salesman> salesmanRowMapper;
 
+	@Transactional
 	@Override
 	public Salesman getSalesmanByTabNum(int tabNum) {
 		String getGetSalesmanByTabNumQuery = QuerySupplier.getQuery(getGetSalesmanByTabNumQueryPath);

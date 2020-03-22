@@ -34,6 +34,7 @@ public class SupplierDaoImpl implements SupplierDao {
 				supplier.getSupplierAddress(), supplier.getPhoneNumber());
 	}
 
+	@Transactional
 	@Override
 	public Supplier getSupplierByEdrpou(String edrpou) {
 		String getSupplierByEdrpouQuery = QuerySupplier.getQuery(getSupplierByEdrpouQueryPath);

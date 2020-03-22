@@ -56,6 +56,7 @@ public class CustomerDaoImpl implements CustomerDao {
 		return KeyHolderUtils.extractInt(keyHolder, "customer_num");
 	}
 
+	@Transactional
 	@Override
 	public Customer getCustomerByNum(int num) {
 		String getGetCustomerByNumQuery = QuerySupplier.getQuery(getCustomerByNumQueryPath);
@@ -87,6 +88,7 @@ public class CustomerDaoImpl implements CustomerDao {
 		jdbcTemplate.update(updateDiscountQuery, discount, num);
 	}
 
+	@Transactional
 	@Override
 	public Integer getSumForAllPurchases(int num) {
 		String getSumForAllPurchasesQuery = QuerySupplier.getQuery(getSumForAllPurchasesQueryPath);

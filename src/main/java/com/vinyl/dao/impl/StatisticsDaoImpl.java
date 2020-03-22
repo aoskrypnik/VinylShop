@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
@@ -37,45 +38,53 @@ public class StatisticsDaoImpl implements StatisticsDao {
 	@Resource
 	private RowMapper<StatisticsDto> statisticsRowMapper;
 
+	@Transactional
 	@Override
 	public StatisticsDto getIncomeByPeriod(Timestamp from, Timestamp to) {
 		return getStatisticsDto(from, to, incomeByPeriodQueryPath);
 	}
 
 
+	@Transactional
 	@Override
 	public List<StatisticsDto> getSalesmanIncomeByPeriod(Timestamp from, Timestamp to) {
 		String salesmanIncomeByPeriodQuery = QuerySupplier.getQuery(salesmanIncomeByPeriodQueryPath);
 		return jdbcTemplate.query(salesmanIncomeByPeriodQuery, new Object[]{from, to}, statisticsRowMapper);
 	}
 
+	@Transactional
 	@Override
 	public StatisticsDto getAvgIncomeByPeriod(Timestamp from, Timestamp to) {
 		return getStatisticsDto(from, to, averageIncomeByPeriodQueryPath);
 	}
 
+	@Transactional
 	@Override
 	public List<StatisticsDto> getSalesmanAvgIncomeByPeriod(Timestamp from, Timestamp to) {
 		String salesmanAverageIncomeByPeriodQuery = QuerySupplier.getQuery(salesmanAverageIncomeByPeriodQueryPath);
 		return jdbcTemplate.query(salesmanAverageIncomeByPeriodQuery, new Object[]{from, to}, statisticsRowMapper);
 	}
 
+	@Transactional
 	@Override
 	public StatisticsDto getChecksNumByPeriod(Timestamp from, Timestamp to) {
 		return getStatisticsDto(from, to, numberOfChecksByPeriodQueryPath);
 	}
 
+	@Transactional
 	@Override
 	public List<StatisticsDto> getSalesmanChecksNumByPeriod(Timestamp from, Timestamp to) {
 		String numberOfSalesmanChecksQuery = QuerySupplier.getQuery(numberOfSalesmanChecksQueryPath);
 		return jdbcTemplate.query(numberOfSalesmanChecksQuery, new Object[]{from, to}, statisticsRowMapper);
 	}
 
+	@Transactional
 	@Override
 	public StatisticsDto getProceedsPeriod(Timestamp from, Timestamp to) {
 		return getStatisticsDto(from, to, proceedsByPeriodQueryPath);
 	}
 
+	@Transactional
 	@Override
 	public List<StatisticsDto> getSalesmanProceedsByPeriod(Timestamp from, Timestamp to) {
 		String salesmanProceedsByPeriodQuery = QuerySupplier.getQuery(salesmanProceedsByPeriodQueryPath);

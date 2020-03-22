@@ -67,6 +67,7 @@ public class TrackPerformerDaoImpl implements TrackPerformerDao {
 		jdbcTemplate.update(updateBandTrackPerformanceQuery, trackBandDto.getIsFeaturing(), trackBandDto.getBandAlias());
 	}
 
+	@Transactional
 	@Override
 	public TrackArtistDto getTrackArtistByTrackNameAndArtistAlias(String trackName, String artistAlias) {
 		String getArtistTrackPerformanceQuery = QuerySupplier.getQuery(getArtistTrackPerformanceQueryPath);
@@ -77,6 +78,7 @@ public class TrackPerformerDaoImpl implements TrackPerformerDao {
 		return trackArtistList.size() == 0 ? null : trackArtistList.get(0);
 	}
 
+	@Transactional
 	@Override
 	public TrackBandDto getTrackBandByTrackNameAndBandAlias(String trackName, String bandAlias) {
 		String getBandTrackPerformanceQuery = QuerySupplier.getQuery(getBandTrackPerformanceQueryPath);

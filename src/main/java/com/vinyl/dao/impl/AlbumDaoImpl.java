@@ -41,6 +41,7 @@ public class AlbumDaoImpl implements AlbumDao {
 		album.getAlbumGenres().forEach(genre -> jdbcTemplate.update(addAlbumGenreQuery, album.getAlbumCatalogNum(), genre));
 	}
 
+	@Transactional
 	@Override
 	public Album getAlbumByCatalogNum(String catalogNum) {
 		String getAlbumByCatalogNumQuery = QuerySupplier.getQuery(getAlbumByCatalogNumQueryPath);

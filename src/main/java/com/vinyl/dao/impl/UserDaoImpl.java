@@ -49,6 +49,7 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 		jdbcTemplate.update(createUserQuery, login, password, isDirector);
 	}
 
+	@Transactional
 	@Override
 	public UserCredentials findByLogin(String login) {
 		String findByLoginQuery = QuerySupplier.getQuery(findByLoginQueryPath);
@@ -61,6 +62,7 @@ public class UserDaoImpl implements UserDao, RowMapper<UserCredentials> {
 		return foundCredentials;
 	}
 
+	@Transactional
 	@Override
 	public Integer findSalesmanTabNumByLogin(String login) {
 		String findSalesmanTabNumByUserLoginQuery = QuerySupplier.getQuery(findSalesmanTabNumByUserLoginQueryPath);

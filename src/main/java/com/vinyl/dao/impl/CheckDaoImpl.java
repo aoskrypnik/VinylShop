@@ -35,6 +35,7 @@ public class CheckDaoImpl implements CheckDao {
 	@Resource
 	private RowMapper<Check> checkRowMapper;
 
+	@Transactional
 	@Override
 	public Check getByNum(Integer num) {
 		String getByNumQuery = QuerySupplier.getQuery(getCheckByNumQueryPath);

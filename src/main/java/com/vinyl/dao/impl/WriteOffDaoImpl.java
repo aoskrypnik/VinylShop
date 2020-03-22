@@ -37,6 +37,7 @@ public class WriteOffDaoImpl implements WriteOffDao {
 	@Resource
 	private JdbcTemplate jdbcTemplate;
 
+	@Transactional
 	@Override
 	public WriteOff getByNum(Integer num) {
 		String getWriteOffByNumQuery = QuerySupplier.getQuery(getWriteOffByNumQueryPath);
@@ -80,6 +81,7 @@ public class WriteOffDaoImpl implements WriteOffDao {
 		jdbcTemplate.update(updateWriteOffQuery, fee, reason, writeOffNum);
 	}
 
+	@Transactional
 	@Override
 	public WriteOff getByproductBarcode(String barcode) {
 		String getWriteOffByProductBarcodeQuery = QuerySupplier.getQuery(getWriteOffByProductBarcodeQueryPath);

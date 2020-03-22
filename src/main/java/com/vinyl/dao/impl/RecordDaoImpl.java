@@ -51,6 +51,7 @@ public class RecordDaoImpl implements RecordDao {
 		return RC_BARCODE_PREFIX + nextIntBarcodeValue;
 	}
 
+	@Transactional
 	@Override
 	public Record getByBarcode(String barcode) {
 		String getRecordByBarcodeQuery = QuerySupplier.getQuery(getRecordByBarcodeQueryPath);

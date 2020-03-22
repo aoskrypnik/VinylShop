@@ -48,6 +48,7 @@ public class ArtistBandDaoImpl implements ArtistBandDao {
 		jdbcTemplate.update(updateArtistToBandQuery, exitDate, artistAlias, bandAlias, joinDate);
 	}
 
+	@Transactional
 	@Override
 	public ArtistBandDto getArtistBandByPks(String id1, String id2) {
 		String getArtistBandByIdsQuery = QuerySupplier.getQuery(getArtistBandByIdsQueryPath);

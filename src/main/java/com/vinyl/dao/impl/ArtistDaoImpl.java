@@ -73,6 +73,7 @@ public class ArtistDaoImpl implements ArtistDao {
 		jdbcTemplate.update(deleteArtistByAliasQuery, alias);
 	}
 
+	@Transactional
 	@Override
 	public List<Artist> getArtistWhoseAlbumsWereSoldOut() {
 		String getArtistWhoseAlbumsWhereSoldOutQuery = QuerySupplier.getQuery(getArtistWhoseAlbumsWhereSoldOutQueryPath);
