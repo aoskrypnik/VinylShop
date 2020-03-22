@@ -19,6 +19,16 @@ const routes = [
     path: '/form/:schema/:item',
     name: 'form',
     component: () => import(/* webpackChunkName: "about" */ './pages/Form.vue')
+  },
+  {
+    path: '/form/:schema',
+    name: 'form-new',
+    component: () => import(/* webpackChunkName: "about" */ './pages/Form.vue')
+  },
+  {
+    path: '/entry/:schema/:item',
+    name: 'entry',
+    component: () => import(/* webpackChunkName: "about" */ './pages/Entry.vue')
   }
 ]
 

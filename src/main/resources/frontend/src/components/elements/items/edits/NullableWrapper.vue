@@ -18,6 +18,9 @@
   import CountryEdit from "./CountryEdit";
   import BlackCheckbox from "../../checkboxes/BlackCheckbox";
   import BooleanEdit from "@/components/elements/items/edits/BooleanEdit";
+  import DateTimeEdit from "@/components/elements/items/edits/DateTimeEdit";
+  import NumberEdit from "@/components/elements/items/edits/NumberEdit";
+
   import {getTypeString, isArray} from "@/schemas/utils";
 
   export default {
@@ -28,7 +31,9 @@
       DateEdit,
       FkEdit,
       StringEdit,
-      BooleanEdit
+      BooleanEdit,
+      DateTimeEdit,
+      NumberEdit
     },
     props: ['value', 'inputType', 'type'],
     data: function() {

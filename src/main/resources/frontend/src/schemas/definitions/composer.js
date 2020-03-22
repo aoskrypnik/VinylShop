@@ -11,7 +11,8 @@ export default {
       type: 'track',
       isSchema: true,
       isArray: true,
-      joins: ['track2composer']
+      joins: ['track2composer'],
+      readonly: true
     }
   },
   key: 'composerName',

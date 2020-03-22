@@ -15,5 +15,5 @@ export default {
     stateCheckDate: 'date'
   },
   key: 'recordBarcode',
-  display: (item) => `${item.releaseBarcodeFk} - ${item.recordState}`
+  display: (item) => `${item.recordBarcode}: ${item.releaseBarcodeFk} - ${item.recordState}`
 }

@@ -1,11 +1,11 @@
 <template>
-  <input :placeholder="placeholder" ref="input" :type="inputType" :value="value" @input="updateModel()" :class="{ wrong, large, inline }" :disabled="disabled" />
+  <input :placeholder="placeholder" ref="input" :type="inputType" :value="value" @input="updateModel()" :class="{ wrong, large, inline, narrow }" :disabled="disabled" />
 </template>
 
 <script>
 export default {
   name: 'BlackInput',
-  props: ['placeholder', 'password', 'value', 'wrong', 'large', 'inline', 'number', 'date', 'disabled'],
+  props: ['placeholder', 'password', 'value', 'wrong', 'large', 'inline', 'number', 'date', 'disabled', 'narrow'],
   computed: {
     inputType() {
       if (this.password) {
@@ -57,6 +57,10 @@ export default {
   input[disabled] {
     border-color: lightgrey;
     color: lightgrey;
+  }
+
+  input.narrow {
+    width: 70px;
   }
 
 

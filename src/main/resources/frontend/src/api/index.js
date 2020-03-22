@@ -146,3 +146,23 @@ export async function getItem(schema, key) {
     console.log(e)
   }
 }
+
+export async function newItem(schema, item) {
+  try {
+    const response = await Axios.post(
+        `${endpoint}/${schema}`,
+        item,
+        {
+          headers: {
+            ...generateAuthHeader()
+          }
+        });
+    const locationParts = response.headers.location.split('/')
+    // eslint-disable-next-line no-console
+    console.log(locationParts)
+    return locationParts[locationParts.length - 1]
+  } catch(e) {
+    // eslint-disable-next-line no-console
+    console.log(e)
+  }
+}

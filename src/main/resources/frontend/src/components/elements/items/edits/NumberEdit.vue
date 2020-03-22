@@ -1,16 +1,24 @@
 <template>
-  <black-input :value="value" :wrong="isWrong" :number="true" :disabled="disabled" @input="onEdit"></black-input>
+  <black-input
+          :value="value"
+          :wrong="isWrong"
+          :number="true"
+          :disabled="disabled"
+          :narrow="narrow"
+
+          @input="onEdit"
+  ></black-input>
 </template>
 
 <script>
   import BlackInput from '../../inputs/BlackInput'
 
   export default {
-    name: 'StringEdit',
+    name: 'NumberEdit',
     components: {
       BlackInput
     },
-    props: ['value', 'type', 'disabled'],
+    props: ['value', 'type', 'disabled', 'narrow'],
     data: function() {
       return {
         isWrong: false
@@ -23,20 +31,26 @@
     },
     methods: {
       onEdit(newValue) {
-        if (this.isObject) {
-          if (this.type.typeConstraint) {
-            if (this.type.typeConstraint.test(newValue)) {
-              this.$emit('input', newValue)
-              this.isWrong = false
-            } else {
-              this.isWrong = true
-            }
-          } else {
-            this.$emit('input', newValue)
-          }
-        } else {
+        const valid = this.validate(newValue)
+        this.isWrong = !valid
+        if (valid) {
           this.$emit('input', newValue)
         }
+      },
+      validate(newValue) {
+        if (this.isObject) {
+          if (this.type.typeConstraint) {
+            if (this.type.typeConstraint.from && newValue < this.type.typeConstraint.from) {
+              return false
+            }
+
+            if (this.type.typeConstraint.to && newValue > this.type.typeConstraint.to) {
+              return false
+            }
+          }
+        }
+
+        return true
       }
     }
   }

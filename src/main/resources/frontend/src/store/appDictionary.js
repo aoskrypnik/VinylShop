@@ -42,5 +42,21 @@ export default {
   fkSelect: {
     en: 'Select...',
     ua: 'Обрати...'
+  },
+  dateTimeNow: {
+    en: 'Now',
+    ua: 'Зараз'
+  },
+  newEntry: {
+    en: '(New entry)',
+    ua: '(Новий запис)'
+  },
+  cantBeNull: {
+    en: 'Can\'t be NULL',
+    ua: 'Не може бути порожнім'
+  },
+  saveEntry: {
+    en: 'Save',
+    ua: 'Зберегти'
   }
 }

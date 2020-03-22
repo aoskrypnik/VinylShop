@@ -23,20 +23,22 @@ export default {
   },
   methods: {
     onEdit(newValue) {
-      if (this.isObject) {
-        if (this.type.typeConstraint) {
-          if (this.type.typeConstraint.test(newValue)) {
-            this.$emit('input', newValue)
-            this.isWrong = false
-          } else {
-            this.isWrong = true
-          }
-        } else {
-          this.$emit('input', newValue)
-        }
-      } else {
+      const valid = this.validate(newValue)
+      this.isWrong = !valid
+      if (valid) {
         this.$emit('input', newValue)
       }
+    },
+    validate(newValue) {
+      if (this.isObject) {
+        if (this.type.typeConstraint) {
+          if (!this.type.typeConstraint.test(newValue)) {
+            return false
+          }
+        }
+      }
+
+      return true
     }
   }
 }

@@ -55,8 +55,16 @@
           return 'country-edit'
         }
 
+        if (this.typeString === 'int') {
+          return 'number-edit'
+        }
+
         if (this.typeString === 'boolean') {
-          return 'boolean-edit'
+          return 'number-edit'
+        }
+
+        if (this.typeString === 'datetime') {
+          return 'date-time-edit'
         }
 
         return 'string-edit'

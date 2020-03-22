@@ -1,6 +1,9 @@
 export default {
   props: {
-    checkNum: 'int',
+    checkNum: {
+      type: 'int',
+      readonly: true
+    },
     dateTime: 'datetime',
     customerNum: {
       type: 'customer',
@@ -11,9 +14,18 @@ export default {
       type: 'salesman',
       isSchema: true
     },
-    overallSum: 'int',
-    checkDiscount: 'int',
-    sumWithDiscount: 'int',
+    overallSum: {
+      type: 'int',
+      readonly: true
+    },
+    checkDiscount: {
+      type: 'int',
+      readonly: true
+    },
+    sumWithDiscount: {
+      type: 'int',
+      readonly: true
+    },
     productBarcodes: {
       type: 'record',
       isSchema: true,

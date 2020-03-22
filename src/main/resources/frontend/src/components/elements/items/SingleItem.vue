@@ -1,20 +1,23 @@
 <template>
-  <div>
+  <div :class="{ large }">
     <!--String types-->
     <span v-if="isStringType && !type.isSchema">{{value}}</span>
     <span v-else-if="type.isSchema">{{ fkActualValue }}</span>
     <span v-else-if="isEnum">{{Array.isArray(value) ? value.map(v => labels[v]).join(', ') : labels[value]}}</span>
     <span v-else-if="typeString === 'country'">{{ $store.state.countries.get(value) }}</span>
+    <span v-else-if="typeString === 'datetime'">{{ dateTime }}</span>
     <span v-else>{{value}}</span>
   </div>
 </template>
 
 <script>
 
+  import * as Moment from 'moment'
+
 import * as SchemaUtils from '@/schemas/utils'
 
 export default {
-  props: ['value', 'type', 'schema'],
+  props: ['value', 'type', 'schema', 'large'],
   data: function() {
     return {
       fkActualValue: ''
@@ -38,6 +41,13 @@ export default {
               ({ ...acc, [k]: this.label(k) }),
           {}
       )
+    },
+    dateTime() {
+      try {
+        return Moment(this.value).format("dddd, MMMM Do YYYY, h:mm:ss a")
+      } catch (_) {
+        return ''
+      }
     }
   },
   methods: {
@@ -71,5 +81,9 @@ export default {
 </script>
 
 <style>
+
+  .large {
+    font-size: 24px;
+  }
 
 </style>

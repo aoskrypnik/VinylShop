@@ -59,8 +59,21 @@ export const fkValue = async (schemaName, key) => {
   const item = await Api.getItem(schemaName, key)
   const schema = store.getters.getSchema(schemaName)
 
+  if (item === null) {
+    return null
+  }
+
   return schema.display(item)
 };
+
+export const valueString = (schemaName, item) => {
+  if (item === null) {
+    return null
+  }
+
+  const schema = store.getters.getSchema(schemaName)
+  return schema.display(item)
+}
 
 export const isRangeType = (type) => {
   const typeString = getTypeString(type);
@@ -90,16 +103,24 @@ export const isFilterVisible = (type) => {
   return type.filterOnly || !type.readonly
 };
 
+export const isFormVisible = (type) => {
+  return !type.filterOnly && !type.readonly
+};
+
 export const getKey = (schemaName) => (item) => {
   const schema = store.getters.getSchema(schemaName);
-  // eslint-disable-next-line
-  console.log(item)
-  // eslint-disable-next-line
-  console.log(schema)
 
   if (Array.isArray(schema.key)) {
     return schema.key.map(k => item[k]).join(',')
   } else {
     return item[schema.key]
   }
-}
+};
+
+export const nullCheck = (schemaName, item) => {
+  const schema = store.getters.getSchema(schemaName);
+
+  return Object.entries(schema.props).filter(([prop, type]) => {
+    return isFormVisible(type) && !type.isNullable && (item[prop] === null || item[prop] === undefined)
+  }).map(([prop]) => prop)
+};

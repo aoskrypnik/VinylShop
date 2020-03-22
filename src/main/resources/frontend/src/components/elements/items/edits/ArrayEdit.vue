@@ -2,7 +2,7 @@
     <div>
       <div v-for="(item, key) in items" :key="key" class="itemContainer">
         <item-edit :value="item" :type="{...type, isArray: false, isActuallyArray: true }" @input="onInput($event, key)" :schema="schema" class="itemInput"></item-edit>
-        <black-button :inline="true" :disabled="value.length === 1 && !type.isNullable" @click="removeItem(key)">x</black-button>
+        <black-button :inline="true" :disabled="items.length === 1 && !type.isNullable" @click="removeItem(key)">x</black-button>
       </div>
       <BlackButton  @click="addItem">{{$store.getters.getAppLocale('addArrayItem')}}</BlackButton>
     </div>
@@ -30,7 +30,7 @@
       }
     },
     mounted() {
-      this.items = [...this.value]
+      this.items = this.value === undefined ? [] : [...this.value]
     },
     methods: {
       onInput(newValue, index) {
@@ -47,7 +47,11 @@
         this.$emit('input', this.items.filter(i => i !== null))
       },
       addItem() {
-        this.items.push(null)
+        if (this.items === undefined) {
+          this.items = [null]
+        } else {
+          this.items.push(null)
+        }
       }
     }
   }
