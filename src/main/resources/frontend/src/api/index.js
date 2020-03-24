@@ -112,7 +112,6 @@ export async function getItems(schema, limit, offset, sortField, sortDirection, 
     })
   }
 
-  // eslint-disable-next-line no-console
   const params = generateQueryString(query);
 
   const response = await Axios.get(
@@ -131,38 +130,48 @@ export async function getItem(schema, key) {
     return null
   }
 
-  try {
-    const response = await Axios.get(
-        `${endpoint}/${schema}/${key}`,
-        {
-          headers: {
-            ...generateAuthHeader()
-          }
-        });
+  const response = await Axios.get(
+      `${endpoint}/${schema}/${key}`,
+      {
+        headers: {
+          ...generateAuthHeader()
+        }
+      });
 
-    return response.data
-  } catch(e) {
-    // eslint-disable-next-line no-console
-    console.log(e)
-  }
+  return response.data
 }
 
 export async function newItem(schema, item) {
-  try {
-    const response = await Axios.post(
-        `${endpoint}/${schema}`,
-        item,
-        {
-          headers: {
-            ...generateAuthHeader()
-          }
-        });
-    const locationParts = response.headers.location.split('/')
-    // eslint-disable-next-line no-console
-    console.log(locationParts)
-    return locationParts[locationParts.length - 1]
-  } catch(e) {
-    // eslint-disable-next-line no-console
-    console.log(e)
-  }
+  const response = await Axios.post(
+      `${endpoint}/${schema}`,
+      item,
+      {
+        headers: {
+          ...generateAuthHeader()
+        }
+      });
+  const locationParts = response.headers.location.split('/')
+  return locationParts[locationParts.length - 1]
+}
+
+export async function updateItem(schema, item, key) {
+  return Axios.put(
+      `${endpoint}/${schema}/${key}`,
+      item,
+      {
+        headers: {
+          ...generateAuthHeader()
+        }
+      });
+}
+
+export async function deleteItem(schema, key) {
+  return Axios.delete(
+      `${endpoint}/${schema}/${key}`,
+      {
+        headers: {
+          ...generateAuthHeader()
+        }
+      }
+  )
 }

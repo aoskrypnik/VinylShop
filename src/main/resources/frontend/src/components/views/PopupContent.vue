@@ -1,15 +1,16 @@
 <template>
   <div>
     <list-view v-if="type === 'list'" :schema="properties.schema" :multiple="properties.multiple" @itemSelection="itemSelection"></list-view>
-    <dialog v-if="type === 'dialog'"></dialog>
+    <dialog-view v-if="type === 'dialog'" :title="properties.title" :text="properties.text" :buttons="properties.buttons"></dialog-view>
   </div>
 </template>
 
 <script>
   import ListView from "./ListView";
+  import DialogView from "./DialogView";
   export default {
     name: 'PopupContent',
-    components: {ListView},
+    components: {ListView, DialogView},
     props: ['type', 'properties'],
     methods: {
       itemSelection(key) {

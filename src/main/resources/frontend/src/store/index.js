@@ -7,6 +7,7 @@ import Schemas from '../schemas'
 import * as SchemaUtils from '../schemas/utils'
 import SchemaDictionary from '../schemas/dictionary'
 import AppDictionary from './appDictionary'
+import ErrorMessages from './errorMessages'
 
 Vue.use(Vuex)
 
@@ -68,6 +69,31 @@ export default new Vuex.Store({
     },
     getAppLocale: (state) => (key) => {
       return state.appDictionary[key][state.language]
+    },
+    getErrorMessage: (_, getters) => (operation, type) => {
+      const keys = ErrorMessages[operation][type]
+      if (!keys) {
+        return {
+          title: '',
+          message: ''
+        }
+      }
+      return {
+        title: getters.getAppLocale(keys.title),
+        message: getters.getAppLocale(keys.message)
+      }
+    },
+    getErrorType: () => (error) => {
+      // TODO elaborate error types
+      if (error.response) {
+        switch(error.response.status) {
+          case 404:
+            return 'notfound'
+          case 401:
+            return 'forbidden'
+        }
+      }
+      return 'generic'
     }
   },
   actions: {

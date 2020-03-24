@@ -33,48 +33,69 @@ export default {
 </script>
 
 <style>
-body {
-  background: black !important;
-  color: white !important;
 
-  scrollbar-color: white black;
-}
+  body {
+    background: black !important;
+    color: white !important;
 
-#app {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-.logo {
-  line-height: 70px;
-  font-size: 18pt;
-  font-weight: 400;
-  color: white;
-}
-
-.fade-enter-active {
-  animation: fade-in .5s;
-}
-
-.fade-leave-active {
-  animation: fade-out .5s;
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
+    scrollbar-color: white black;
   }
-  100% {
-    opacity: 1;
-  }
-}
 
-@keyframes fade-out {
-  0% {
-    opacity: 1;
+  #app {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
-  100% {
-    opacity: 0;
+
+  .logo {
+    line-height: 70px;
+    font-size: 18pt;
+    font-weight: 400;
+    color: white;
   }
-}
+
+  .fade-enter-active {
+    animation: fade-in .5s;
+  }
+
+  .fade-leave-active {
+    animation: fade-out .5s;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .grayLink {
+    color: lightgrey;
+  }
+
+  .grayLink::before {
+    content: '< ';
+  }
+
+  .grayLink:hover {
+    color: white;
+  }
+
+  .buttonGroup {
+    display: flex;
+  }
+
+  .buttonGroup > * {
+    margin-right: 5px;
+  }
 
 </style>

@@ -1,8 +1,10 @@
 <template>
   <div>
-    <PageHeader v-if="title">{{title}}}</PageHeader>
+    <PageHeader v-if="title">{{title}}</PageHeader>
     <p v-if="text">{{text}}</p>
-    <BlackButton v-for="button in buttons" :key="button.label" @click="button.onClick(close)">{{button.label}}</BlackButton>
+    <div class="buttonGroup">
+      <BlackButton v-for="button in buttons" :key="button.label" @click="button.onClick()">{{button.label}}</BlackButton>
+    </div>
   </div>
 </template>
 
@@ -10,7 +12,7 @@
   import PageHeader from "../elements/typography/PageHeader";
   import BlackButton from "../elements/buttons/BlackButton";
   export default {
-    name: "Dialog",
+    name: "DialogView",
     components: {BlackButton, PageHeader},
     props: ['title', 'text', 'buttons'],
     methods: {
@@ -22,5 +24,7 @@
 </script>
 
 <style scoped>
+
+
 
 </style>

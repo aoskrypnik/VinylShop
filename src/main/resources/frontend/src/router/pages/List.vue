@@ -1,6 +1,6 @@
 <template>
   <div>
-    <list-view :schema="$route.params.schema"></list-view>
+    <list-view :schema="$route.params.schema" @itemSelection="goToEntry"></list-view>
   </div>
 </template>
 
@@ -13,6 +13,17 @@ export default {
     ListView
   },
   computed: {
+  },
+  methods: {
+    goToEntry(key) {
+      this.$router.push({
+        name: 'entry',
+        params: {
+          item: key,
+          schema: this.$route.params.schema
+        }
+      })
+    }
   }
 }
 </script>

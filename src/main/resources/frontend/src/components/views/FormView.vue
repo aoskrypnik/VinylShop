@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-link :to="{ name: 'entry', params: { schema, item } }" class="grayLink">{{$store.getters.getAppLocale('backToEntry')}}</router-link>
     <page-header>{{schemaName + ' ' + (item ? itemString : $store.getters.getAppLocale('newEntry'))}}</page-header>
     <item-form :schema="schema" :wrong-null-fields="wrongNullFields" v-model="values"></item-form>
     <black-button @click="validate">{{$store.getters.getAppLocale('saveEntry')}}</black-button>
@@ -61,7 +62,9 @@ export default {
         this.loading = true
 
         if (this.item) {
-          // TODO update
+          Api.updateItem(this.schema, this.values, this.item).then(() => {
+            this.updateItem()
+          })
         } else {
           Api.newItem(this.schema, this.values).then((item) => {
             this.loading = false
