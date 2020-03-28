@@ -100,7 +100,7 @@ export const isListVisible = (type) => {
 };
 
 export const isFilterVisible = (type) => {
-  return type.filterOnly || !type.readonly
+  return !type.nofilter
 };
 
 export const isFormVisible = (type) => {

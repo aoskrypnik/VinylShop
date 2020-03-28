@@ -3,6 +3,7 @@ import TrackSchema from './definitions/track'
 import BandSchema from './definitions/band'
 import ArtistSchema from './definitions/artist'
 import Artist2TrackSchema from './definitions/artist2track'
+import Band2TrackSchema from './definitions/band2track'
 import ParticipationSchema from './definitions/participation'
 import AlbumSchema from './definitions/album'
 import ReleaseSchema from './definitions/release'
@@ -17,6 +18,7 @@ export default {
   artist: ArtistSchema,
   band: BandSchema,
   artist2track: Artist2TrackSchema,
+  band2track: Band2TrackSchema,
   participation: ParticipationSchema,
   album: AlbumSchema,
   release: ReleaseSchema,

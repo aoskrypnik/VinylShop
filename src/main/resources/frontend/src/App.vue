@@ -1,12 +1,13 @@
 <template>
   <div id="app" class="container">
-    <div class="row">
-      <span class="logo col-md-12">MyVinyl</span>
+    <div class="row header">
+      <span class="logo col-md-6">MyVinyl</span>
+      <span v-if="isAuthenticated()" class="headerLink" @click="signOut">{{$store.getters.getAppLocale('signOut')}}</span>
     </div>
     <router-view/>
     <div class="popups">
-      <transition-group name="fade" tag="span">
-        <PopupView v-for="(content, i) in popups" :key="i" :type="content.type" :properties="content.properties" @close="closePopup" transition="fade"></PopupView>
+      <transition-group name="fade">
+        <PopupView v-for="content in popups" :key="content.key" :type="content.type" :properties="content.properties" @close="closePopup" transition="fade"></PopupView>
       </transition-group>
     </div>
   </div>
@@ -14,7 +15,7 @@
 
 <script>
 import PopupView from "./components/views/PopupView";
-import {mapState} from "vuex";
+import {mapState, mapGetters} from "vuex";
 
 export default {
   name: 'app',
@@ -22,11 +23,15 @@ export default {
     PopupView
   },
   computed: {
-    ...mapState(['popups'])
+    ...mapState(['popups']),
+    ...mapGetters(['isAuthenticated'])
   },
   methods: {
     closePopup() {
       this.$store.commit('closePopup')
+    },
+    signOut() {
+      this.$store.dispatch('signOut').then(() => this.$router.push({ name: 'login' }))
     }
   }
 }
@@ -38,11 +43,16 @@ export default {
     background: black !important;
     color: white !important;
 
-    scrollbar-color: white black;
+    scrollbar-color: #595959 black;
   }
 
   #app {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  .header {
+
+    justify-content: space-between;
   }
 
   .logo {
@@ -50,6 +60,12 @@ export default {
     font-size: 18pt;
     font-weight: 400;
     color: white;
+  }
+
+  .headerLink {
+    line-height: 70px;
+    cursor: pointer;
+    user-select: none;
   }
 
   .fade-enter-active {
@@ -96,6 +112,10 @@ export default {
 
   .buttonGroup > * {
     margin-right: 5px;
+  }
+
+  h2 {
+    font-weight: bold !important;
   }
 
 </style>

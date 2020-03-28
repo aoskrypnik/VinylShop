@@ -101,8 +101,8 @@
         })
       },
       deleteEntry() {
-        this.$store.commit(
-            'popup',
+        this.$store.dispatch(
+            'addPopup',
             {
               type: 'dialog',
               properties: {

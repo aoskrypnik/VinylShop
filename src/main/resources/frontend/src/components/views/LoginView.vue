@@ -1,5 +1,6 @@
 <template>
   <div class="loginContainer">
+    <router-link :to="{ name: 'register' }" class="grayLink">{{$store.getters.getAppLocale('registration')}}</router-link>
     <div class="vertMidCont">
       <div class="row vertMidEl">
           <x-header class="col-md-6">Автоматизована інформаційна система</x-header>
@@ -18,8 +19,6 @@ import XHeader from '../elements/typography/XHeader'
 import BlackButton from '../elements/buttons/BlackButton'
 import BlackInput from '../elements/inputs/BlackInput'
 
-import * as Api from '@/api'
-
 export default {
   components: {
     XHeader,
@@ -34,22 +33,21 @@ export default {
   },
   methods: {
     auth() {
-      Api.auth(this.login, this.password)
-          .then(() =>
-              this.$router.push({
-                name: 'list',
-                params: {
-                  schema: 'composer'
-                }
-              })
-          )
+      this.$store.dispatch('authenticate', { login: this.login, password: this.password })
+          .then(() => {
+            this.login = ''
+            this.password = ''
+            this.$router.push({
+              name: 'home'
+            })
+          })
           .catch(() => {})
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
 .loginContainer {
   color: white;
 }

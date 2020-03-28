@@ -1,5 +1,6 @@
 <template>
   <div class="viewRoot">
+    <router-link :to="{ name: 'home' }" class="grayLink">{{$store.getters.getAppLocale('backToHome')}}</router-link>
     <page-header>{{schemaName}}</page-header>
     <div :class="{ filtersContainer: true, closed: !filtersOpen }" v-if="filtersOpen">
       <div class="scroller">

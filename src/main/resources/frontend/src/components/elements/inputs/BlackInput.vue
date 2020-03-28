@@ -39,6 +39,7 @@ export default {
     display: block;
     margin-bottom: 2px !important;
     border-radius: 0px;
+    border-radius: 5px;
   }
 
   input.inline {

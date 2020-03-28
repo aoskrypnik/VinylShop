@@ -29,8 +29,8 @@
         }
       },
       selectPopup() {
-        this.$store.commit(
-            'popup',
+        this.$store.dispatch(
+            'addPopup',
             {
               type: 'list',
               properties: {

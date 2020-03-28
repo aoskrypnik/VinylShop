@@ -53,6 +53,7 @@
     width: 25px;
     background: black;
     border: solid 2px white;
+    border-radius: 3px;
   }
 
   /* Create the checkmark/indicator (hidden when not checked) */

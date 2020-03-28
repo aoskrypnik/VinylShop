@@ -118,5 +118,65 @@ export default {
   backToEntry: {
     en: 'Back to entry',
     ua: 'Назад до запису'
+  },
+  quickActions: {
+    en: 'Quick actions',
+    ua: 'Швидкі дії'
+  },
+  welcome: {
+    en: 'Welcome',
+    ua: 'Ласкаво просимо'
+  },
+  salesmanCreationTitle: {
+    en: 'Register new salesman',
+    ua: 'Реєстрація нового продавця'
+  },
+  step: {
+    en: 'Step',
+    ua: 'Крок'
+  },
+  salesmanCreationStep1: {
+    en: 'Add salesman personal information',
+    ua: 'Збережіть персональну інформацію продавця'
+  },
+  salesmanCreationStep2: {
+    en: 'Provide salesman with his personal number and ask him to register',
+    ua: 'Надайте продавцю його табельний номер та попросіть зареєструватися'
+  },
+  salesmanCreationStep22: {
+    en: 'at this link',
+    ua: 'за цим посиланням'
+  },
+  backToHome: {
+    en: 'Back home',
+    ua: 'Назад додому'
+  },
+  createSalesmanAction: {
+    en: 'Salesman',
+    ua: 'Продавець'
+  },
+  statsAction: {
+    en: 'Statistics',
+    ua: 'Статистика'
+  },
+  findHome: {
+    en: 'Search',
+    ua: 'Знайти'
+  },
+  signOut: {
+    en: 'Sign out',
+    ua: 'Вийти'
+  },
+  login: {
+    en: 'Login',
+    ua: 'Вхід'
+  },
+  registration: {
+    en: 'Registration',
+    ua: 'Реєстрація'
+  },
+  createCheckAction: {
+    en: 'Check',
+    ua: 'Чек'
   }
 }

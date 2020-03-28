@@ -148,6 +148,10 @@ export default {
         }
       }
     },
+    band2track: {
+      en: 'Artist - Band connection',
+      ua: 'Зв\'язок група - виконавець'
+    },
     band: {
       en: 'Band',
       ua: 'Група',

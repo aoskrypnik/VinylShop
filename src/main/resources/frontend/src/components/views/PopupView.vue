@@ -3,8 +3,10 @@
     <div class="veil" @click="close">
 
     </div>
-    <div class="content">
-      <popup-content :type="type" :properties="properties" @close="close"></popup-content>
+    <div class="body">
+      <div class="content">
+        <popup-content :type="type" :properties="properties" @close="close"></popup-content>
+      </div>
     </div>
   </div>
 </template>
@@ -42,17 +44,22 @@
     left: 0;
   }
 
-  .content {
-    background: black;
+  .body {
     border-radius: 20px;
+    background: black;
     max-width: calc(100vw - 20px);
     max-height: calc(100vh - 100px);
-    overflow-y: scroll;
-    position: absolute;
     top: 50%;
     left: 50%;
+    position: absolute;
     transform: translate(-50%, -50%);
-    padding: 20px 40px;
+    padding: 40px 0;
+  }
+
+  .content {
+    overflow-y: scroll;
+    padding: 0 40px;
+    max-height: calc(100vh - 180px);
   }
 
 </style>

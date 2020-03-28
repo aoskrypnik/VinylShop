@@ -20,6 +20,7 @@
     transition: 200ms;
     display: block;
     min-height: 41px;
+    border-radius: 5px;
   }
 
   button.large {

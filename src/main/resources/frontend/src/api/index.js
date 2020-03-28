@@ -11,9 +11,6 @@ function generateAuthHeader() {
 }
 
 function generateQueryString(params) {
-  // eslint-disable-next-line
-  console.log(params)
-
   const entries = Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== []);
 
   return entries.map(
@@ -41,8 +38,10 @@ export async function auth(login, password) {
 
   );
 
-  store.commit('authenticate', authData.data.accessToken);
-  return true
+  return {
+    token: authData.data.accessToken,
+    role: authData.data.authority
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -68,6 +67,16 @@ export async function getItems(schema, limit, offset, sortField, sortDirection, 
       }
 
       const type = schemaObject[prop]
+
+      if (SchemaUtils.isRangeType(type)) {
+        if (value.from === null && value.to === null) {
+          return
+        }
+      }
+
+      if (Array.isArray(value) && value.length === 0) {
+        return
+      }
 
       if (type.joins) {
         query.joins.push(...type.joins)
@@ -173,5 +182,22 @@ export async function deleteItem(schema, key) {
           ...generateAuthHeader()
         }
       }
+  )
+}
+
+export async function registerSalesman(tabNum, login, password) {
+  return Axios.post(
+      `${endpoint}/auth/sign-up`,
+      {
+        tabNum,
+        login,
+        password,
+        password2: password
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      },
   )
 }
