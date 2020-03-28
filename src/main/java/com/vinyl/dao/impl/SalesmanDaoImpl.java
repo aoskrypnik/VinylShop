@@ -16,7 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.List;
+
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Repository
@@ -55,7 +58,11 @@ public class SalesmanDaoImpl implements SalesmanDao {
 			ps.setString(3, salesman.getAddressCity());
 			ps.setString(4, salesman.getAddressStr());
 			ps.setString(5, salesman.getAddressHome());
-			ps.setInt(6, salesman.getAddressApt());
+			if (nonNull(salesman.getAddressApt())) {
+				ps.setInt(6, salesman.getAddressApt());
+			} else {
+				ps.setNull(6, Types.INTEGER);
+			}
 			ps.setString(7, salesman.getSalesmanPhoneNum());
 			ps.setDate(8, salesman.getWorksFrom());
 			ps.setDate(9, salesman.getWorksTo());
