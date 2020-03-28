@@ -1,10 +1,13 @@
 package com.vinyl.controller;
 
+import com.vinyl.controller.authorization.response.ApiResponse;
 import com.vinyl.dto.CheckDto;
 import com.vinyl.dto.SearchDto;
 import com.vinyl.model.Check;
 import com.vinyl.service.CheckService;
+import com.vinyl.service.RecordService;
 import com.vinyl.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,14 +22,20 @@ import java.net.URI;
 import java.sql.Timestamp;
 import java.util.List;
 
+import static java.lang.Boolean.FALSE;
 import static java.util.Objects.isNull;
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 @RestController
 @RequestMapping("/check")
 public class CheckController {
 
+	private static final String UNABLE_TO_CREATE_RESPONSE_MESSAGE = "Unable to create check, some records are already sold";
+
 	@Resource
 	private CheckService checkService;
+	@Resource
+	private RecordService recordService;
 	@Resource
 	private UserService userService;
 
@@ -41,9 +50,17 @@ public class CheckController {
 
 	@PostMapping
 	public ResponseEntity<?> saveCheck(@RequestBody CheckDto checkDto) {
+		List<String> recordBarcodes = checkDto.getRecordBarcodes();
+		boolean allRecordsAvailable = recordBarcodes.stream().noneMatch(barcode -> recordService.recordIsSold(barcode));
+		if (isFalse(allRecordsAvailable)) {
+			return new ResponseEntity<>(new ApiResponse(FALSE, UNABLE_TO_CREATE_RESPONSE_MESSAGE), HttpStatus.CONFLICT);
+		}
+
 		Integer salesmanTabNum = userService.findSalesmanTabNumByLogin(userService.getCurrentlyLoggedInUserLogin());
+		Integer customerNum = checkDto.getCustomerNum();
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		Check check = new Check(timestamp, salesmanTabNum, checkDto.getCustomerNum(), checkDto.getProductBarcodes());
+
+		Check check = new Check(timestamp, salesmanTabNum, customerNum, recordBarcodes);
 		Integer checkNum = checkService.save(check);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{checkNum}")
 				.buildAndExpand(checkNum).toUri();
