@@ -5,7 +5,6 @@ import com.vinyl.dto.CheckDto;
 import com.vinyl.dto.SearchDto;
 import com.vinyl.model.Check;
 import com.vinyl.service.CheckService;
-import com.vinyl.service.RecordService;
 import com.vinyl.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +29,10 @@ import static org.apache.commons.lang3.BooleanUtils.isFalse;
 @RequestMapping("/check")
 public class CheckController {
 
-	private static final String UNABLE_TO_CREATE_RESPONSE_MESSAGE = "Unable to create check, some records are already sold";
+	private static final String UNABLE_TO_CREATE_CHECK_RESPONSE_MESSAGE = "Unable to create check, some records are already sold";
 
 	@Resource
 	private CheckService checkService;
-	@Resource
-	private RecordService recordService;
 	@Resource
 	private UserService userService;
 
@@ -51,9 +48,9 @@ public class CheckController {
 	@PostMapping
 	public ResponseEntity<?> saveCheck(@RequestBody CheckDto checkDto) {
 		List<String> recordBarcodes = checkDto.getRecordBarcodes();
-		boolean allRecordsAvailable = recordBarcodes.stream().noneMatch(barcode -> recordService.recordIsSold(barcode));
+		boolean allRecordsAvailable = checkService.allRecordsAvailable(checkDto.getRecordBarcodes());
 		if (isFalse(allRecordsAvailable)) {
-			return new ResponseEntity<>(new ApiResponse(FALSE, UNABLE_TO_CREATE_RESPONSE_MESSAGE), HttpStatus.CONFLICT);
+			return new ResponseEntity<>(new ApiResponse(FALSE, UNABLE_TO_CREATE_CHECK_RESPONSE_MESSAGE), HttpStatus.CONFLICT);
 		}
 
 		Integer salesmanTabNum = userService.findSalesmanTabNumByLogin(userService.getCurrentlyLoggedInUserLogin());

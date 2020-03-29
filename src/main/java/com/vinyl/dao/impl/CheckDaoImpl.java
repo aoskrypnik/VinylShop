@@ -61,6 +61,7 @@ public class CheckDaoImpl implements CheckDao {
 			ps.setTimestamp(3, check.getDateTime());
 			ps.setInt(4, check.getOverallSum());
 			ps.setInt(5, check.getCheckDiscount());
+			ps.setInt(6, check.getSumWithDiscount());
 			return ps;
 		}, keyHolder);
 

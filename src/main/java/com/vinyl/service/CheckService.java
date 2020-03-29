@@ -11,4 +11,6 @@ public interface CheckService {
 	Integer save(Check check);
 
 	List<Check> searchChecks(SearchDto searchDto);
+
+	boolean allRecordsAvailable(List<String> recordBarcodes);
 }

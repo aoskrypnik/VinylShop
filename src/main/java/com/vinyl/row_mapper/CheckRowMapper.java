@@ -24,8 +24,6 @@ public class CheckRowMapper implements RowMapper<Check> {
 	@Override
 	public Check mapRow(ResultSet resultSet, int i) throws SQLException {
 		Integer checkNum = resultSet.getInt("check_num");
-		Integer overallSum = resultSet.getInt("overall_sum");
-		Short checkDiscount = resultSet.getShort("check_discount");
 		int customerNum = resultSet.getInt("customer_num");
 		Integer customerNumObj = customerNum == 0 ? null : customerNum;
 		return Check.builder()
@@ -33,15 +31,11 @@ public class CheckRowMapper implements RowMapper<Check> {
 				.dateTime(resultSet.getTimestamp("date_time"))
 				.customerNum(customerNumObj)
 				.salesmanTabNum(resultSet.getInt("salesman_tab_num"))
-				.overallSum(overallSum)
-				.checkDiscount(checkDiscount)
-				.sumWithDiscount(getSumWithDiscount(overallSum, checkDiscount))
+				.overallSum(resultSet.getInt("overall_sum"))
+				.checkDiscount(resultSet.getShort("check_discount"))
+				.sumWithDiscount(resultSet.getInt("sum_with_discount"))
 				.productBarcodes(getProductBarcodeByCheckNum(checkNum))
 				.build();
-	}
-
-	private Integer getSumWithDiscount(Integer overallSum, Short checkDiscount) {
-		return (int) Math.floor(overallSum * ((100 - checkDiscount) * 0.01));
 	}
 
 	private List<String> getProductBarcodeByCheckNum(Integer checkNum) {
