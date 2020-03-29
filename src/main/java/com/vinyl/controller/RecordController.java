@@ -44,10 +44,9 @@ public class RecordController {
 		return ResponseEntity.ok(foundRecord);
 	}
 
-	//TODO remove string "replaceAll" method, modify sql sequence for barcode to start from 1000000000000
 	@PutMapping("/{barcode}")
 	public ResponseEntity<?> updateRecord(@RequestBody Record record, @PathVariable String barcode) {
-		if (isFalse(barcode.equals(record.getRecordBarcode().replaceAll("\\s+", "")))) {
+		if (isFalse(barcode.equals(record.getRecordBarcode()))) {
 			return ResponseEntity.badRequest().build();
 		}
 		if (isNull(recordService.getByBarcode(barcode))) {

@@ -3,17 +3,29 @@ package com.vinyl.service.impl;
 import com.vinyl.dao.ArtistBandDao;
 import com.vinyl.dto.ArtistBandDto;
 import com.vinyl.dto.SearchDto;
+import com.vinyl.model.Artist;
+import com.vinyl.model.Band;
 import com.vinyl.service.ArtistBandService;
+import com.vinyl.service.ArtistService;
+import com.vinyl.service.BandService;
 import com.vinyl.utils.QueryBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
+
+import static org.apache.commons.lang3.BooleanUtils.isTrue;
 
 @Service
 public class ArtistBandServiceImpl implements ArtistBandService {
 
 	private static final String ARTIST2BAND_TABLE_NAME = "artist2band";
+
+	@Resource
+	private ArtistService artistService;
+	@Resource
+	private BandService bandService;
 	@Resource
 	private ArtistBandDao artistBandDao;
 
@@ -48,6 +60,19 @@ public class ArtistBandServiceImpl implements ArtistBandService {
 		String id1 = ids.split(",")[0];
 		String id2 = ids.split(",")[1];
 		artistBandDao.deleteByIds(id1, id2);
+	}
+
+	@Override
+	public boolean validateArtistBand(ArtistBandDto artistBandDto) {
+		Artist artist = artistService.getArtistByAlias(artistBandDto.getArtistAlias());
+		Band band = bandService.getBandByAlias(artistBandDto.getBandAlias());
+		Date joinDate = artistBandDto.getJoinDate();
+		Date exitDate = artistBandDto.getExitDate();
+
+		return isTrue(artist.getArtistBirthDate().before(joinDate)) &&
+				isTrue(artist.getArtistDeathDate().after(exitDate)) &&
+				isTrue(band.getEndYear().after(exitDate)) &&
+				isTrue(band.getStartYear().before(joinDate));
 	}
 
 }

@@ -16,4 +16,6 @@ public interface ArtistBandService {
 	List<ArtistBandDto> searchArtistBands(SearchDto searchDto);
 
 	void deleteByIds(String ids);
+
+	boolean validateArtistBand(ArtistBandDto artistBandDto);
 }
