@@ -102,6 +102,7 @@ public class QueryBuilder {
 	private static void processLikeParams(List<String> likeParams, StringBuilder stringBuilder) {
 		for (String param : likeParams) {
 			String[] splitParam = param.split(":");
+			if (splitParam.length == 1) return;
 			String firstParam = formatUrlKey(splitParam[0]);
 			String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
 			secondParam = secondParam.substring(1, secondParam.length() - 1);
