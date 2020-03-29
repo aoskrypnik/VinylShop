@@ -55,13 +55,15 @@ public class StatisticsServiceImpl implements StatisticsService {
 		return statisticsMap;
 	}
 
-	private void fillStatisticsMap(Map<Integer, Map<String, Integer>> statisticsMap, List<StatisticsDto> statisticsDtoList, String statisticsMetric) {
+	private void fillStatisticsMap(Map<Integer, Map<String, Integer>> statisticsMap,
+								   List<StatisticsDto> statisticsDtoList,
+								   String statisticsMetric) {
 		statisticsDtoList.forEach(statisticsDto -> {
 			Map<String, Integer> innerMap = statisticsMap.get(statisticsDto.getSalesmanTabNum());
 			if (isNull(innerMap)) {
-				statisticsMap.put(statisticsDto.getSalesmanTabNum(), new HashMap() {{
-					put(statisticsMetric, statisticsDto.getStatisticsResult());
-				}});
+				Map<String, Integer> newInnerMap = new HashMap<>();
+				newInnerMap.put(statisticsMetric, statisticsDto.getStatisticsResult());
+				statisticsMap.put(statisticsDto.getSalesmanTabNum(), newInnerMap);
 			} else {
 				innerMap.put(statisticsMetric, statisticsDto.getStatisticsResult());
 				statisticsMap.put(statisticsDto.getSalesmanTabNum(), innerMap);

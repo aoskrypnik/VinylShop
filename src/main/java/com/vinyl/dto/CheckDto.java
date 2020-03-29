@@ -15,5 +15,5 @@ import java.util.List;
 @Builder
 public class CheckDto {
 	private Integer customerNum;
-	private List<String> recordBarcodes;
+	private List<String> productBarcodes;
 }

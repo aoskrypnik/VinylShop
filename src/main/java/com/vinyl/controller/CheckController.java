@@ -47,8 +47,8 @@ public class CheckController {
 
 	@PostMapping
 	public ResponseEntity<?> saveCheck(@RequestBody CheckDto checkDto) {
-		List<String> recordBarcodes = checkDto.getRecordBarcodes();
-		boolean allRecordsAvailable = checkService.allRecordsAvailable(checkDto.getRecordBarcodes());
+		List<String> recordBarcodes = checkDto.getProductBarcodes();
+		boolean allRecordsAvailable = checkService.allRecordsAvailable(checkDto.getProductBarcodes());
 		if (isFalse(allRecordsAvailable)) {
 			return new ResponseEntity<>(new ApiResponse(FALSE, UNABLE_TO_CREATE_CHECK_RESPONSE_MESSAGE), HttpStatus.CONFLICT);
 		}
