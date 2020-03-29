@@ -76,7 +76,7 @@ public class RecordDaoImpl implements RecordDao {
 		String checkIfRecordIsAvailableQuery = QuerySupplier.getQuery(checkIfRecordIsAvailableQueryPath);
 		List<Integer> isRecordAvailableResult = jdbcTemplate
 				.queryForList(checkIfRecordIsAvailableQuery, new Object[]{barcode}, Integer.class);
-		return isRecordAvailableResult.get(0) != 0;
+		return isRecordAvailableResult.get(0) != null;
 	}
 
 }
