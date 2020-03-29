@@ -2,11 +2,11 @@
   <div class="rangeContainer">
     <div class="rangeItem">
       <p>{{$store.getters.getAppLocale('filtersFrom')}}:</p>
-      <item-edit :value="value.from" :type="type" @input="onFromInput"></item-edit>
+      <item-edit :value="value.from" :type="type" :schema="schema" @input="onFromInput"></item-edit>
     </div>
     <div class="rangeItem">
       <p>{{$store.getters.getAppLocale('filtersTo')}}:</p>
-      <item-edit :value="value.to" :type="type" @input="onToInput"></item-edit>
+      <item-edit :value="value.to" :type="type" :schema="schema" @input="onToInput"></item-edit>
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@
   export default {
     name: "FilterRangeEdit",
     components: {ItemEdit},
-    props: ['value', 'type'],
+    props: ['value', 'type', 'schema'],
     methods: {
       onFromInput(val) {
         this.$emit('input', {

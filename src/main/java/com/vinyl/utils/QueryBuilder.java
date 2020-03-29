@@ -68,7 +68,7 @@ public class QueryBuilder {
 
 	private static void buildSelectPart(String tableName, StringBuilder stringBuilder) {
 		stringBuilder
-				.append("SELECT ")
+				.append("SELECT DISTINCT ")
 				.append(tableName)
 				.append(".* FROM ")
 				.append(tableName)

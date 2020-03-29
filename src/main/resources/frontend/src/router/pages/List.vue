@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-link :to="{ name: 'home' }" class="grayLink">{{$store.getters.getAppLocale('backToHome')}}</router-link>
     <list-view :schema="$route.params.schema" @itemSelection="goToEntry"></list-view>
   </div>
 </template>

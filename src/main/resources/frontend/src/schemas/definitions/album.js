@@ -6,7 +6,7 @@ export default {
     albumGenres: {
       type: 'rock|pop|classic|indie|electronic|hip hop|reggae|funk|soul',
       isArray: true,
-      joins: ['albumGenre']
+      joins: ['albumgenre']
     },
     variousArtists: {
       type: 'boolean',

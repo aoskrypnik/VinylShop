@@ -1,5 +1,5 @@
 <template>
-  <black-button-view :large="large" :inline="inline" @click="$emit('input', !value)"><slot></slot></black-button-view>
+  <black-button-view :large="large" :inline="inline" :class="{ enabled: value }" @click="$emit('input', !value)"><slot></slot></black-button-view>
 </template>
 
 <script>

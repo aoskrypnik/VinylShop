@@ -2,7 +2,7 @@
   <div>
     <div v-for="key in keys" :key="key" class="item">
       <p class="label">{{schemaDictionary[key]}}</p>
-      <filter-edit :type="schemaProps[key]" :value="value[key]" @input="onInput($event, key)"></filter-edit>
+      <filter-edit :type="schemaProps[key]" :value="value[key]" :schema="schema" @input="onInput($event, key)"></filter-edit>
     </div>
   </div>
 </template>

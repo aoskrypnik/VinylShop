@@ -36,7 +36,11 @@ export default {
       if (!this.value) {
         return {}
       }
-      return this.value.reduce((acc, val) => ({ ...acc, [val]: true }), {})
+      if (this.type.isArray) {
+        return this.value.reduce((acc, val) => ({...acc, [val]: true}), {})
+      } else {
+        return { [this.value]: true }
+      }
     }
   },
   methods: {

@@ -56,7 +56,13 @@ export default new Vuex.Store({
       return state.schemaDictionary.schemas[schema][state.language] || schema
     },
     getPropertyLocale: (state) => (schema, property) => {
-      return state.schemaDictionary.schemas[schema].properties[property][state.language] || property
+      try {
+        return state.schemaDictionary.schemas[schema].properties[property][state.language] || property
+      } catch (_) {
+        // eslint-disable-next-line
+        console.log(schema + property)
+        return ''
+      }
     },
     getSchemaHeaders: (state) => (schema) => {
       return Object.keys(state.schemas[schema].props.filter())

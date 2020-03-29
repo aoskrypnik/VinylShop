@@ -272,7 +272,7 @@ export default {
           en: 'Soul',
           ua: 'Соул'
         },
-        'hip hop': {
+        "hip hop": {
           en: 'Hip-Hop',
           ua: 'Хіп-хоп'
         },

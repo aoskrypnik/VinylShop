@@ -1,7 +1,7 @@
 <template>
   <div>
-    <filter-range-edit v-if="isRangeType" :type="editType" :value="value" @input="onInput"></filter-range-edit>
-    <item-edit v-else :type="editType" :value="value" @input="onInput"></item-edit>
+    <filter-range-edit v-if="isRangeType" :type="editType" :value="value" :schema="schema" @input="onInput"></filter-range-edit>
+    <item-edit v-else :type="editType" :value="value" :schema="schema" @input="onInput"></item-edit>
   </div>
 </template>
 
@@ -14,7 +14,7 @@
   export default {
     name: 'FilterEdit',
     components: {ItemEdit, FilterRangeEdit},
-    props: ['value', 'type'],
+    props: ['value', 'type', 'schema'],
     computed: {
       isRangeType() {
         return SchemaUtils.isRangeType(this.type)
