@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
     <div class="row header">
-      <span class="logo col-md-6">MyVinyl</span>
+      <span class="logo col-md-6" @click="$router.push({name: 'home'})">MyVinyl</span>
       <span v-if="isAuthenticated()" class="headerLink" @click="signOut">{{$store.getters.getAppLocale('signOut')}}</span>
     </div>
     <router-view/>
@@ -60,6 +60,8 @@ export default {
     font-size: 18pt;
     font-weight: 400;
     color: white;
+    user-select: none;
+    cursor: pointer;
   }
 
   .headerLink {

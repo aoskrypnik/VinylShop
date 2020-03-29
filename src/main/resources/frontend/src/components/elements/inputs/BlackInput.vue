@@ -1,5 +1,5 @@
 <template>
-  <input :placeholder="placeholder" ref="input" :type="inputType" :value="value" @input="updateModel()" :class="{ wrong, large, inline, narrow }" :disabled="disabled" />
+  <input :placeholder="placeholder" ref="input" :type="inputType" :value="value" @input="updateModel" :class="{ wrong, large, inline, narrow }" :disabled="disabled" />
 </template>
 
 <script>
@@ -38,7 +38,6 @@ export default {
     font-size: 18px !important;
     display: block;
     margin-bottom: 2px !important;
-    border-radius: 0px;
     border-radius: 5px;
   }
 

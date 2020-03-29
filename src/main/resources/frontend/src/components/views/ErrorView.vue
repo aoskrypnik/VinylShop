@@ -6,6 +6,7 @@
       <p>{{errorMessage.message}}</p>
       <black-button v-if="buttonType === 'retry'" @click="retry">{{$store.getters.getAppLocale('retryLoad')}}</black-button>
       <black-button v-if="buttonType === 'return'" @click="returnToList">{{$store.getters.getAppLocale('returnToList')}}</black-button>
+      <black-button v-if="buttonType === 'home'" @click="returnToHome">{{$store.getters.getAppLocale('returnToHome')}}</black-button>
     </div>
   </div>
 </template>
@@ -38,6 +39,9 @@
       },
       returnToList() {
         this.$emit('return')
+      },
+      returnToHome() {
+        this.$router.push({name: 'home'})
       }
     }
   }

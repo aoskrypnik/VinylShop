@@ -2,7 +2,7 @@ export default {
   props: {
     artistAlias: 'string',
     isArtistActive: 'boolean',
-    countryCode: 'country',
+    artistCountryCode: 'country',
     artistName: 'string',
     artistBirthDate: 'date',
     artistDeathDate: {

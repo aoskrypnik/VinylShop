@@ -41,11 +41,11 @@ export const isEnum = (type) => {
   }
 
   return enumRegex.test(getTypeString(type))
-}
+};
 
 export const isSchemaType = (type) => {
   return Boolean(type.isSchema)
-}
+};
 
 export const isArray = (type) => {
   if (typeof type === 'string') {
@@ -53,11 +53,11 @@ export const isArray = (type) => {
   }
 
   return type.isArray
-}
+};
 
 export const fkValue = async (schemaName, key) => {
-  const item = await Api.getItem(schemaName, key)
-  const schema = store.getters.getSchema(schemaName)
+  const item = await Api.getItem(schemaName, key);
+  const schema = store.getters.getSchema(schemaName);
 
   if (item === null) {
     return null
@@ -71,9 +71,9 @@ export const valueString = (schemaName, item) => {
     return null
   }
 
-  const schema = store.getters.getSchema(schemaName)
+  const schema = store.getters.getSchema(schemaName);
   return schema.display(item)
-}
+};
 
 export const isRangeType = (type) => {
   const typeString = getTypeString(type);

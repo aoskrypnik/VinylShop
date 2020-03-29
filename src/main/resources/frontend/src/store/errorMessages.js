@@ -12,5 +12,19 @@ export default {
       title: 'forbiddenError',
       message: 'forbiddenErrorMessage'
     }
+  },
+  stats: {
+    generic: {
+      title: 'genericLoadError',
+      message: 'genericLoadErrorMessage'
+    },
+    internal: {
+      title: 'genericInternalError',
+      message: 'genericInternalErrorMessage'
+    },
+    forbidden: {
+      title: 'forbiddenError',
+      message: 'forbiddenErrorMessage'
+    }
   }
 }

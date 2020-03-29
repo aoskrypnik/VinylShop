@@ -201,3 +201,27 @@ export async function registerSalesman(tabNum, login, password) {
       },
   )
 }
+
+export async function statsByDate(from, to) {
+  const params = generateQueryString({from, to})
+  return (await Axios.get(
+      `${endpoint}/statistics?${params}`,
+      {
+        headers: {
+          ...generateAuthHeader()
+        }
+      }
+  )).data
+}
+
+export async function statsBySalesmen(from, to) {
+  const params = generateQueryString({from, to})
+  return (await Axios.get(
+      `${endpoint}/statistics/salesmen?${params}`,
+      {
+        headers: {
+          ...generateAuthHeader()
+        }
+      }
+  )).data
+}

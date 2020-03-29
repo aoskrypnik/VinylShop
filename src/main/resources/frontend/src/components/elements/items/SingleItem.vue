@@ -6,6 +6,7 @@
     <span v-else-if="isEnum">{{Array.isArray(value) ? value.map(v => labels[v]).join(', ') : labels[value]}}</span>
     <span v-else-if="typeString === 'country'">{{ $store.state.countries.get(value) }}</span>
     <span v-else-if="typeString === 'datetime'">{{ dateTime }}</span>
+    <span v-else-if="typeString === 'money'">{{ money }}</span>
     <span v-else>{{value}}</span>
   </div>
 </template>
@@ -45,6 +46,13 @@ export default {
     dateTime() {
       try {
         return Moment(this.value).format("dddd, MMMM Do YYYY, h:mm:ss a")
+      } catch (_) {
+        return ''
+      }
+    },
+    money() {
+      try {
+        return (Number(this.value) / 100).toFixed(2)
       } catch (_) {
         return ''
       }

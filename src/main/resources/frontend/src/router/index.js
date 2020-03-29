@@ -46,6 +46,26 @@ const routes = [
     path: '/help/salesmanCreation',
     name: 'salesman-creation',
     component: () => import(/* webpackChunkName: "help" */ './pages/SalesmanCreation.vue')
+  },
+  {
+    path: '/stats/dates',
+    name: 'specific-dates-stats',
+    component: () => import(/* webpackChunkName: "stats" */ './pages/SpecificDatesStats.vue')
+  },
+  {
+    path: '/stats/month',
+    name: 'month-stats',
+    component: () => import(/* webpackChunkName: "stats" */ './pages/MonthStats.vue')
+  },
+  {
+    path: '/stats',
+    name: 'stats',
+    component: () => import(/* webpackChunkName: "stats" */ './pages/StatsHome.vue')
+  },
+  {
+    path: '/stats/salesmen',
+    name: 'salesmen-stats',
+    component: () => import(/* webpackChunkName: "stats" */ './pages/SalesmenStats.vue')
   }
 ]
 

@@ -32,7 +32,9 @@
     methods: {
       onEdit(newValue) {
         const valid = this.validate(newValue)
-        this.isWrong = !valid
+        // eslint-disable-next-line
+        console.log(newValue+valid)
+        this.isWrong = !valid;
         if (valid) {
           this.$emit('input', newValue)
         }

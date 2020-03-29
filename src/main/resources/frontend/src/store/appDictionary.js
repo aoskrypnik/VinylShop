@@ -178,5 +178,73 @@ export default {
   createCheckAction: {
     en: 'Check',
     ua: 'Чек'
+  },
+  statsByDate: {
+    en: 'Statistics by dates',
+    ua: 'Статистика за датами'
+  },
+  statsResult: {
+    en: 'Results',
+    ua: 'Результат'
+  },
+  income: {
+    en: 'Income',
+    ua: 'Прибуток'
+  },
+  avgIncome: {
+    en: 'Average check',
+    ua: 'Середній чек'
+  },
+  proceeds: {
+    en: 'Proceeds',
+    ua: 'Виручка'
+  },
+  checksNum: {
+    en: 'Checks count',
+    ua: 'К-ть чеків'
+  },
+  statsByMonth: {
+    en: 'Stats by months',
+    ua: 'Статистика за місяцями'
+  },
+  year: {
+    en: 'Year',
+    ua: 'Рік'
+  },
+  month: {
+    en: 'Month',
+    ua: 'Місяць'
+  },
+  bySalesmen: {
+    en: 'By salesmen',
+    ua: 'За продавцями'
+  },
+  byMonths: {
+    en: 'By months',
+    ua: 'За місяцями'
+  },
+  byDates: {
+    en: 'By dates',
+    ua: 'За датами'
+  },
+  backToStats: {
+    en: 'Back to statistics',
+    ua: 'Назад до статистики'
+  },
+  genericInternalError: {
+    en: 'Something went wrong on our side',
+    ua: 'Щось не так на нашій стороні'
+  },
+  genericInternalErrorMessage: {
+    en: 'Please verify the input data validity and try again. If the error persists, please contact support',
+    ua: 'Будь-ласка, перевірте правильність введених даних та спробуйте знову. Якщо помилка повторюється, зверніться до служби підтримки'
+  },
+  returnToHome: {
+    en: 'Return home',
+    ua: 'Повернутися додому'
+  },
+  statsBySalesmen: {
+    en: 'Statistics by salesmen',
+    ua: 'Статистика за продавцями'
   }
 }

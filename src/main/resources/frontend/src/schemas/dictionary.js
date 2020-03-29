@@ -88,7 +88,7 @@ export default {
           ua: 'Активний',
           en: 'Active'
         },
-        countryCode: {
+        artistCountryCode: {
           ua: 'Країна',
           en: 'Country'
         },

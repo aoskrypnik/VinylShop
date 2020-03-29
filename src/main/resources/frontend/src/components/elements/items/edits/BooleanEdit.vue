@@ -1,5 +1,5 @@
 <template>
-  <black-checkbox :value="value" :disabled="disabled" @input="onInput">{{label}}</black-checkbox>
+  <black-checkbox :value="value" :disabled="disabled" @input="onInput">_</black-checkbox>
 </template>
 
 <script>

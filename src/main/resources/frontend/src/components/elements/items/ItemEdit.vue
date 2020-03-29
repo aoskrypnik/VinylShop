@@ -60,7 +60,7 @@
         }
 
         if (this.typeString === 'boolean') {
-          return 'number-edit'
+          return 'boolean-edit'
         }
 
         if (this.typeString === 'datetime') {

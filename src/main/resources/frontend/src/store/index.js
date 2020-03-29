@@ -86,7 +86,7 @@ export default new Vuex.Store({
       return state.schemas[schema]
     },
     getAppLocale: (state) => (key) => {
-      return state.appDictionary[key][state.language]
+      return state.appDictionary[key] ? state.appDictionary[key][state.language] : key
     },
     getErrorMessage: (_, getters) => (operation, type) => {
       const keys = ErrorMessages[operation][type]
@@ -109,6 +109,8 @@ export default new Vuex.Store({
             return 'notfound'
           case 401:
             return 'forbidden'
+          case 500:
+            return 'internal'
         }
       }
       return 'generic'
