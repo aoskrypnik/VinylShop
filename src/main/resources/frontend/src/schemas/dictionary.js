@@ -267,6 +267,22 @@ export default {
         electronic: {
           en: 'Electronic',
           ua: 'Електроніка'
+        },
+        soul: {
+          en: 'Soul',
+          ua: 'Соул'
+        },
+        'hip hop': {
+          en: 'Hip-Hop',
+          ua: 'Хіп-хоп'
+        },
+        reggae: {
+          en: 'Reggae',
+          ua: 'Реггі'
+        },
+        funk: {
+          en: 'Funk',
+          ua: 'Фанк'
         }
       }
     },

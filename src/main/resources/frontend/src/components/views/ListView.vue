@@ -81,12 +81,11 @@ export default {
         this.loading = false
         this.items = this.items.concat(newItems)
 
-        if (newItems.length < Config.itemsPerPage) {
-          //this.availableMore = false
-        }
+        this.availableMore = newItems.length === Config.itemsPerPage
       }).catch((e) => {
         if (!e.response || e.response.status !== 404) {
           this.error = true
+          this.loading = false
         }
       })
     },

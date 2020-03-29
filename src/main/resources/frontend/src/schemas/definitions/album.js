@@ -4,7 +4,7 @@ export default {
     albumName: 'string',
     releaseYear: 'int',
     albumGenres: {
-      type: 'rock|pop|classic|indie|electronic',
+      type: 'rock|pop|classic|indie|electronic|hip hop|reggae|funk|soul',
       isArray: true,
       joins: ['albumGenre']
     },
@@ -15,7 +15,8 @@ export default {
     trackCatalogNums: {
       type: 'track',
       isSchema: 'true',
-      isArray: true
+      isArray: true,
+      joins: ['track2album']
     }
     // TODO release
   },

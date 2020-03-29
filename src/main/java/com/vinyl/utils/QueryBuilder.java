@@ -164,7 +164,8 @@ public class QueryBuilder {
 					stringBuilder.delete(stringBuilder.length() - 5, stringBuilder.length()).append(")").append(" OR ");
 				} else {
 					String value = formatUrlValue(splitParam[0], splitParam[1]);
-					stringBuilder.append(entry.getKey()).append("=").append(value).append(" OR ");
+					String name = formatUrlKey(entry.getKey());
+					stringBuilder.append(name).append("=").append(value).append(" OR ");
 				}
 			}
 			stringBuilder.delete(stringBuilder.length() - 4, stringBuilder.length()).append(") ");
@@ -220,21 +221,14 @@ public class QueryBuilder {
 			.put("track track_language", " ON track.catalog_num=track_language.track_catalog_num")
 			.put("track track2album", " ON track.catalog_num=track2album.track_catalog_num")
 			.put("track track2composer", " ON track.catalog_num=track2composer.track_catalog_num")
-			.put("track artist2track", " ON track.catalog_num=artist2track.track_catalog_num")
-			.put("track band2track", " ON track.catalog_num=band2track.track_catalog_num")
 			.put("artist2track track", " ON track.catalog_num=artist2track.track_catalog_num")
 			.put("band2track track", " ON track.catalog_num=band2track.track_catalog_num")
 			.put("cheq salesman", " ON cheq.salesman_tab_num=salesman.tab_num")
 			.put("cheq customer", " ON cheq.customer_num=customer.customer_num")
 			.put("cheq record", " ON cheq.check_num=record.check_num")
-			.put("customer cheq", " ON cheq.customer_num=customer.customer_num")
 			.put("customer customer_phone_number", " ON customer.customer_num=customer_phone_number.customer_num")
-			.put("salesman cheq", " ON cheq.salesman_tab_num=salesman.tab_num")
-			.put("record cheq", " ON cheq.check_num=record.check_num")
 			.put("record release", " ON record.release_bar_code=release.bar_code")
 			.put("artist artist2band", " ON artist2band.artist_alias=artist.artist_alias")
-			.put("band artist2band", " ON artist2band.band_alias=band.band_alias")
-			.put("artist2band artist", " ON artist2band.artist_alias=artist.artist_alias")
 			.put("artist2band band", " ON artist2band.band_alias=band.band_alias")
 			.put("artist artist2track", " USING (artist_alias)")
 			.put("band band2track", " USING (band_alias)")
@@ -242,12 +236,11 @@ public class QueryBuilder {
 			.put("album release", " ON album.catalog_num=release.album_catalog_num")
 			.put("album track2album", " ON album.catalog_num=track2album.album_catalog_num")
 			.put("album albumgenre", " ON album.catalog_num=albumgenre.album_catalog_num")
-			.put("release album", " ON album.catalog_num=release.album_catalog_num")
-			.put("release record", " ON record.release_bar_code=release.bar_code")
 			.build();
 
 	private static final Map<String, List<String>> JAVA_NAME_TO_DATA_BASE_NAME_MAP = ImmutableMap.<String, List<String>>builder()
 			.put("artistAlias", List.of("artist.artist_alias", STRING_TYPE_NAME))
+			.put("artistIds", List.of("artist2track.artist_alias", STRING_TYPE_NAME))
 			.put("participationArtistAlias", List.of("artist2band.artist_alias", STRING_TYPE_NAME))
 			.put("isArtistActive", List.of("activity", NOT_STRING_TYPE_NAME))
 			.put("artistCountryCode", List.of("artist.country", STRING_TYPE_NAME))
@@ -267,6 +260,7 @@ public class QueryBuilder {
 			.put("activityEnd", List.of("activity_end", STRING_TYPE_NAME))
 			.put("trackCatalogNum", List.of("catalog_num", STRING_TYPE_NAME))
 			.put("bindingTrackCatalogNum", List.of("track_catalog_num", STRING_TYPE_NAME))
+			.put("trackCatalogNums", List.of("track_catalog_num", STRING_TYPE_NAME))
 			.put("trackName", List.of("track_name", STRING_TYPE_NAME))
 			.put("duration", List.of("duration", NOT_STRING_TYPE_NAME))
 			.put("albumCatalogNum", List.of("catalog_num", STRING_TYPE_NAME))
@@ -327,7 +321,7 @@ public class QueryBuilder {
 			.build();
 
 	private static final Map<String, List<String>> JAVA_PPK_NAME_TO_DATA_BASE_PPK_NAME_MAP = ImmutableMap.<String, List<String>>builder()
-			.put("artistBindings", List.of("bindingTrackCatalogNum", "artistAlias"))
+			.put("artistBindings", List.of("bindingTrackCatalogNum", "artistIds"))
 			.put("participations", List.of("participationArtistAlias", "participationBandAlias"))
 			.build();
 

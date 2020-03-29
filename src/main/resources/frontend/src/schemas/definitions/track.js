@@ -6,7 +6,8 @@ export default {
     composerIds: {
       type: 'composer',
       isSchema: true,
-      isArray: true
+      isArray: true,
+      joins: ['track2composer']
     },
     albumIds: {
       type: 'album',
@@ -17,25 +18,29 @@ export default {
       type: 'artist',
       isSchema: true,
       isArray: true,
-      readonly: true
+      readonly: true,
+      nofilter: true
     },
     bandIds: {
       type: 'band',
       isSchema: true,
       isArray: true,
-      readonly: true
+      readonly: true,
+      nofilter: true
     },
     featuringArtistIds: {
       type: 'artist',
       isSchema: true,
       isArray: true,
-      readonly: true
+      readonly: true,
+      nofilter: true
     },
     featuringBandIds: {
       type: 'band',
       isSchema: true,
       isArray: true,
-      readonly: true
+      readonly: true,
+      nofilter: true
     },
     languages: {
       type: 'country',
