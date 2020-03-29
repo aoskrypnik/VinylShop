@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Objects.isNull;
+
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
 
@@ -37,27 +39,33 @@ public class StatisticsServiceImpl implements StatisticsService {
 	@Override
 	public Map<Integer, Map<String, Integer>> getAllSalesmanStatistics(Timestamp from, Timestamp to) {
 		Map<Integer, Map<String, Integer>> statisticsMap = new HashMap<>();
-		Map<String, Integer> statisticsData = new HashMap<>();
 		List<StatisticsDto> income = getSalesmanIncomeByPeriod(from, to);
 		List<StatisticsDto> avgIncome = getSalesmanAvgIncomeByPeriod(from, to);
 		List<StatisticsDto> checksNum = getSalesmanChecksNumByPeriod(from, to);
 		List<StatisticsDto> proceeds = getSalesmanProceedsByPeriod(from, to);
 
-		fillStatisticsMap(statisticsMap, statisticsData, income, "salesmanIncome");
+		fillStatisticsMap(statisticsMap, income, "salesmanIncome");
 
-		fillStatisticsMap(statisticsMap, statisticsData, avgIncome, "salesmanAvgIncome");
+		fillStatisticsMap(statisticsMap, avgIncome, "salesmanAvgIncome");
 
-		fillStatisticsMap(statisticsMap, statisticsData, checksNum, "salesmanChecksNum");
+		fillStatisticsMap(statisticsMap, checksNum, "salesmanChecksNum");
 
-		fillStatisticsMap(statisticsMap, statisticsData, proceeds, "salesmanProceeds");
+		fillStatisticsMap(statisticsMap, proceeds, "salesmanProceeds");
 
 		return statisticsMap;
 	}
 
-	private void fillStatisticsMap(Map<Integer, Map<String, Integer>> statisticsMap, Map<String, Integer> statistisData, List<StatisticsDto> statisticsDtoList, String salesmanIncome) {
+	private void fillStatisticsMap(Map<Integer, Map<String, Integer>> statisticsMap, List<StatisticsDto> statisticsDtoList, String statisticsMetric) {
 		statisticsDtoList.forEach(statisticsDto -> {
-			statistisData.put(salesmanIncome, statisticsDto.getStatisticsResult());
-			statisticsMap.put(statisticsDto.getSalesmanTabNum(), statistisData);
+			Map<String, Integer> innerMap = statisticsMap.get(statisticsDto.getSalesmanTabNum());
+			if (isNull(innerMap)) {
+				statisticsMap.put(statisticsDto.getSalesmanTabNum(), new HashMap() {{
+					put(statisticsMetric, statisticsDto.getStatisticsResult());
+				}});
+			} else {
+				innerMap.put(statisticsMetric, statisticsDto.getStatisticsResult());
+				statisticsMap.put(statisticsDto.getSalesmanTabNum(), innerMap);
+			}
 		});
 	}
 

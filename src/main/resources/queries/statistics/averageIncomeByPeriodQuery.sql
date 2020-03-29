@@ -1,4 +1,3 @@
-SELECT (SUM(c.overall_sum * ((100 - c.check_discount) * 0.01)) - (SELECT SUM(r.purchase_price))) / COUNT(*) AS statistics_res
-FROM cheq c
-         INNER JOIN record r on c.check_num = r.check_num
+SELECT (SUM(sum_with_discount) / COUNT(*)) AS statistics_res
+FROM cheq
 WHERE date_time BETWEEN ? AND ?;
