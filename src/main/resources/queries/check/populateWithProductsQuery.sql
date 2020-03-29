@@ -1,3 +1,3 @@
 UPDATE record
-SET check_num = ?, available = ?
+SET check_num = ?
 WHERE bar_code = ?

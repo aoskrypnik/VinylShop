@@ -12,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-import static org.apache.commons.lang3.BooleanUtils.isFalse;
-
 @Repository
 public class RecordDaoImpl implements RecordDao {
 
@@ -41,7 +39,7 @@ public class RecordDaoImpl implements RecordDao {
 		String createRecordQuery = QuerySupplier.getQuery(createRecordQueryPath);
 		jdbcTemplate.update(createRecordQuery, fullRecordBarcode, record.getReleaseBarcodeFk(), record.getCheckNum(),
 				record.getSupplierEdrpou(), record.getPurchaseDate(), record.getPurchasePrice(), record.getSellPrice(),
-				record.getAvailable(), record.getRecordState(), record.getStateCheckDate());
+				record.getRecordState(), record.getStateCheckDate());
 		return fullRecordBarcode;
 	}
 
@@ -64,7 +62,7 @@ public class RecordDaoImpl implements RecordDao {
 		String updateRecordQuery = QuerySupplier.getQuery(updateRecordQueryPath);
 		jdbcTemplate.update(updateRecordQuery, record.getReleaseBarcodeFk(), record.getCheckNum(),
 				record.getSupplierEdrpou(), record.getPurchaseDate(), record.getPurchasePrice(), record.getSellPrice(),
-				record.getAvailable(), record.getRecordState(), record.getStateCheckDate(), record.getRecordBarcode());
+				record.getRecordState(), record.getStateCheckDate(), record.getRecordBarcode());
 	}
 
 	@Transactional
@@ -76,9 +74,9 @@ public class RecordDaoImpl implements RecordDao {
 	@Override
 	public boolean recordIsSold(String barcode) {
 		String checkIfRecordIsAvailableQuery = QuerySupplier.getQuery(checkIfRecordIsAvailableQueryPath);
-		List<Boolean> isRecordAvailableResult = jdbcTemplate
-				.queryForList(checkIfRecordIsAvailableQuery, new Object[]{barcode}, Boolean.class);
-		return isFalse(isRecordAvailableResult.get(0));
+		List<Integer> isRecordAvailableResult = jdbcTemplate
+				.queryForList(checkIfRecordIsAvailableQuery, new Object[]{barcode}, Integer.class);
+		return isRecordAvailableResult.get(0) != 0;
 	}
 
 }

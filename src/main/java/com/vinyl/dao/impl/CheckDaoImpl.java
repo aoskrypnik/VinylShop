@@ -66,7 +66,7 @@ public class CheckDaoImpl implements CheckDao {
 
 		Integer checkNum = KeyHolderUtils.extractInt(keyHolder, "check_num");
 		check.getProductBarcodes().forEach(barcode ->
-				jdbcTemplate.update(populateCheckWithProductsQuery, checkNum, false, barcode));
+				jdbcTemplate.update(populateCheckWithProductsQuery, checkNum, barcode));
 
 		return checkNum;
 	}
