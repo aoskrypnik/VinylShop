@@ -1,6 +1,7 @@
 package com.vinyl.utils;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import static org.apache.commons.lang3.BooleanUtils.isFalse;
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
+@Slf4j
 public class QueryBuilder {
 
 	private static final String STRING_TYPE_NAME = "String";
@@ -63,6 +65,7 @@ public class QueryBuilder {
 
 		buildingOffsetPart(limit, offset, stringBuilder);
 
+		log.info("Performing next query: " + stringBuilder.toString());
 		return stringBuilder.toString();
 	}
 
