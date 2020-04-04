@@ -13,8 +13,8 @@ public class ArtistBandRowMapper implements RowMapper<ArtistBandDto> {
 	@Override
 	public ArtistBandDto mapRow(ResultSet resultSet, int i) throws SQLException {
 		return ArtistBandDto.builder()
-				.artistAlias(resultSet.getString("artist_alias"))
-				.bandAlias(resultSet.getString("band_alias"))
+				.participationArtistAlias(resultSet.getString("artist_alias"))
+				.participationBandAlias(resultSet.getString("band_alias"))
 				.joinDate(resultSet.getDate("join_date"))
 				.exitDate(resultSet.getDate("exit_date"))
 				.build();

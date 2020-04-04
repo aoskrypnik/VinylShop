@@ -33,16 +33,16 @@ public class ArtistBandDaoImpl implements ArtistBandDao {
 	@Override
 	public void save(ArtistBandDto artistBandDto) {
 		String createArtistToBandQuery = QuerySupplier.getQuery(createArtistToBandQueryPath);
-		jdbcTemplate.update(createArtistToBandQuery, artistBandDto.getArtistAlias(),
-				artistBandDto.getBandAlias(), artistBandDto.getJoinDate(), artistBandDto.getExitDate());
+		jdbcTemplate.update(createArtistToBandQuery, artistBandDto.getParticipationArtistAlias(),
+				artistBandDto.getParticipationBandAlias(), artistBandDto.getJoinDate(), artistBandDto.getExitDate());
 	}
 
 	@Override
 	public void update(ArtistBandDto artistBandDto) {
 		String updateArtistToBandQuery = QuerySupplier.getQuery(updateArtistToBandQueryPath);
 
-		String artistAlias = artistBandDto.getArtistAlias();
-		String bandAlias = artistBandDto.getBandAlias();
+		String artistAlias = artistBandDto.getParticipationArtistAlias();
+		String bandAlias = artistBandDto.getParticipationBandAlias();
 		Date joinDate = artistBandDto.getJoinDate();
 		Date exitDate = artistBandDto.getExitDate();
 		jdbcTemplate.update(updateArtistToBandQuery, exitDate, artistAlias, bandAlias, joinDate);

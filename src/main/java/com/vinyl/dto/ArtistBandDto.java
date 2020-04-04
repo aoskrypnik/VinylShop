@@ -14,8 +14,8 @@ import java.util.Date;
 @Setter
 @Builder
 public class ArtistBandDto {
-	private String artistAlias;
-	private String bandAlias;
+	private String participationArtistAlias;
+	private String participationBandAlias;
 	private Date joinDate;
 	private Date exitDate;
 }

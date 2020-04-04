@@ -64,8 +64,8 @@ public class ArtistBandServiceImpl implements ArtistBandService {
 
 	@Override
 	public boolean validateArtistBand(ArtistBandDto artistBandDto) {
-		Artist artist = artistService.getArtistByAlias(artistBandDto.getArtistAlias());
-		Band band = bandService.getBandByAlias(artistBandDto.getBandAlias());
+		Artist artist = artistService.getArtistByAlias(artistBandDto.getParticipationArtistAlias());
+		Band band = bandService.getBandByAlias(artistBandDto.getParticipationBandAlias());
 		Date joinDate = artistBandDto.getJoinDate();
 		Date exitDate = artistBandDto.getExitDate();
 
