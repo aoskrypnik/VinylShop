@@ -60,7 +60,7 @@ public class RecordDaoImpl implements RecordDao {
 	@Override
 	public void update(Record record) {
 		String updateRecordQuery = QuerySupplier.getQuery(updateRecordQueryPath);
-		jdbcTemplate.update(updateRecordQuery, record.getReleaseBarcodeFk(), record.getCheckNum(),
+		jdbcTemplate.update(updateRecordQuery, record.getReleaseBarcodeFk(),
 				record.getSupplierEdrpou(), record.getPurchaseDate(), record.getPurchasePrice(), record.getSellPrice(),
 				record.getRecordState(), record.getStateCheckDate(), record.getRecordBarcode());
 	}
