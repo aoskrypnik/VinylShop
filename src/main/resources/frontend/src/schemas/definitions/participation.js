@@ -1,21 +1,29 @@
 export default {
   props: {
-    artistAlias: {
+    participationArtistAlias: {
       type: 'artist',
       isSchema: true,
       joins: []
     },
-    bandAlias: {
+    participationBandAlias: {
       type: 'band',
       isSchema: true,
       joins: []
     },
-    joinDate: 'date',
+    joinDate: {
+      type: 'date',
+      typeConstraint: {
+        to: []
+      }
+    },
     exitDate: {
       type: 'date',
-      isNullable: true
+      isNullable: true,
+      typeConstraint: {
+        to: []
+      }
     }
   },
-  key: ['artistAlias', 'bandAlias'],
-  display: (item) => `${item.artistAlias} - ${item.bandAlias}`
+  key: ['participationArtistAlias', 'participationBandAlias'],
+  display: (item) => `${item.participationArtistAlias} - ${item.participationBandAlias}`
 }

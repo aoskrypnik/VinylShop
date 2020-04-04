@@ -13,6 +13,8 @@
 <script>
   import BlackInput from '../../inputs/BlackInput'
 
+  import * as SchemaUtils from '@/schemas/utils'
+
   export default {
     name: 'NumberEdit',
     components: {
@@ -27,13 +29,15 @@
     computed: {
       isObject() {
         return typeof this.type === 'object'
+      },
+      typeString() {
+        return SchemaUtils.getTypeString(this.type)
       }
     },
     methods: {
       onEdit(newValue) {
         const valid = this.validate(newValue)
-        // eslint-disable-next-line
-        console.log(newValue+valid)
+
         this.isWrong = !valid;
         if (valid) {
           this.$emit('input', newValue)
@@ -42,11 +46,11 @@
       validate(newValue) {
         if (this.isObject) {
           if (this.type.typeConstraint) {
-            if (this.type.typeConstraint.from && newValue < this.type.typeConstraint.from) {
+            if (this.type.typeConstraint.from !== undefined && Number(newValue) < this.type.typeConstraint.from) {
               return false
             }
 
-            if (this.type.typeConstraint.to && newValue > this.type.typeConstraint.to) {
+            if (this.type.typeConstraint.to !== undefined && Number(newValue) > this.type.typeConstraint.to) {
               return false
             }
           }

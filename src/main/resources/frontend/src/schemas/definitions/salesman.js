@@ -1,6 +1,9 @@
 export default {
   props: {
-    tabNum: 'int',
+    tabNum: {
+      type: 'int',
+      readonly: true
+    },
     salesmanName: 'string',
     passportNum: 'string',
     addressCity: 'string',
@@ -8,15 +11,34 @@ export default {
     addressHome: 'string',
     addressApt: {
       type: 'int',
-      isNullable: true
+      isNullable: true,
+      typeConstraint: {
+        from: 1
+      }
     },
-    salesmanPhoneNum: 'string',
-    worksFrom: 'date',
+    salesmanPhoneNum: {
+      type: 'string',
+      typeConstraint: /^\+?\d+$/
+    },
+    worksFrom: {
+      type: 'date',
+      typeConstraint: {
+        to: []
+      }
+    },
     worksTo: {
       type: 'date',
-      isNullable: true
+      isNullable: true,
+      typeConstraint: {
+        to: []
+      }
     },
-    salary: 'int'
+    salary: {
+      type: 'int',
+      typeConstraint: {
+        from: 0
+      }
+    }
   },
   key: 'tabNum',
   display: (item) => item.salesmanName

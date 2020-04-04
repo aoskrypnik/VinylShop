@@ -36,9 +36,11 @@
       onInput(newValue, index) {
         if (!Array.isArray(newValue)) {
           this.items[index] = newValue;
+          this.items = Array.from(new Set(this.items))
           this.$emit('input', this.items.filter(i => i !== null))
         } else {
           this.items.splice(index, 1, ...newValue);
+          this.items = Array.from(new Set(this.items))
           this.$emit('input', this.items.filter(i => i !== null))
         }
       },

@@ -2,32 +2,47 @@ export default {
   props: {
     bandAlias: 'string',
     isBandActive: 'boolean',
-    countryCode: 'country',
-    startYear: 'date',
-    endYear: 'date',
+    bandCountryCode: 'country',
+    startYear: {
+      type: 'date',
+      typeConstraint: {
+        to: []
+      }
+    },
+    endYear: {
+      type: 'date',
+      isNullable: true,
+      typeConstraint: {
+        to: []
+      }
+    },
     currentArtistAliases: {
       type: 'artist',
       isSchema: true,
       isArray: true,
-      readonly: true
+      readonly: true,
+      nofilter: true
     },
     previousArtistAliases: {
       type: 'artist',
       isSchema: true,
       isArray: true,
-      readonly: true
+      readonly: true,
+      nofilter: true
     },
     trackCatalogNums: {
       type: 'track',
       isSchema: true,
       isArray: true,
-      readonly: true
+      readonly: true,
+      nofilter: true
     },
     featuringTracksCatalogNums: {
       type: 'track',
       isSchema: true,
       isArray: true,
-      readonly: true
+      readonly: true,
+      nofilter: true
     },
     participations: {
       type: 'participation',

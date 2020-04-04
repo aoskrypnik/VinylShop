@@ -1,16 +1,35 @@
 export default {
   props: {
-    recordBarcode: 'string',
+    recordBarcode: {
+      type: 'string',
+      readonly: true
+    },
     releaseBarcodeFk: {
       type: 'release',
       isSchema: true
     },
     purchaseDate: {
-      type: 'date'
+      type: 'date',
+      typeConstraint: {
+        to: []
+      }
     },
-    purchasePrice: 'int',
-    sellPrice: 'int',
-    available: true,
+    purchasePrice: {
+      type: 'money',
+      typeConstraint: {
+        from: 0
+      }
+    },
+    sellPrice: {
+      type: 'money',
+      typeConstraint: {
+        from: 0
+      }
+    },
+    available: {
+      type: 'boolean',
+      readonly: true
+    },
     recordState: 'M|NM|VG+|VG|G|F',
     stateCheckDate: 'date'
   },

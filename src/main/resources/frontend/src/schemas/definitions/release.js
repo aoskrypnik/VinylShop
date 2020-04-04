@@ -6,10 +6,20 @@ export default {
       isSchema: true
     },
     releaseCountryCode: 'country',
-    releaseDate: 'date',
+    releaseDate: {
+      type: 'date',
+      typeConstraint: {
+        to: []
+      }
+    },
     recordSize: '7|10|12',
     recordSpeed: '33|45|78',
-    copiesCount: 'int',
+    copiesCount: {
+      type: 'int',
+      typeConstraint: {
+        from: 0
+      }
+    },
     isRepress: 'boolean',
     label: {
       type: 'string',

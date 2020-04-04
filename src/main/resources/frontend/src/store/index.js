@@ -57,7 +57,11 @@ export default new Vuex.Store({
     },
     getPropertyLocale: (state) => (schema, property) => {
       try {
-        return state.schemaDictionary.schemas[schema].properties[property][state.language] || property
+        if (state.schemaDictionary.schemas[schema].properties[property]) {
+          return state.schemaDictionary.schemas[schema].properties[property][state.language] || property
+        } else {
+          return property
+        }
       } catch (_) {
         // eslint-disable-next-line
         console.log(schema + property)

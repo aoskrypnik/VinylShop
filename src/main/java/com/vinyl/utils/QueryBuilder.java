@@ -146,9 +146,18 @@ public class QueryBuilder {
 				}
 			} else {
 				String firstParam = formatUrlKey(splitParam[0]);
-				String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
-				stringBuilder.append("AND ").append(firstParam).append("=").append(secondParam).append(" ");
+				if (splitParam[0].equals("available")) {
+					boolean value = Boolean.parseBoolean(formatUrlValue(splitParam[0], splitParam[1]));
+					stringBuilder.append("AND ").append(firstParam).append(" IS ");
+					if (!value)
+						stringBuilder.append("NOT ");
+					stringBuilder.append("NULL ");
+				} else {
+					String secondParam = formatUrlValue(splitParam[0], splitParam[1]);
+					stringBuilder.append("AND ").append(firstParam).append("=").append(secondParam).append(" ");
+				}
 			}
+			// TODO PPK
 		}
 
 		for (Map.Entry<String, List<Integer>> entry : repeatedWhereParamsMap.entrySet()) {
@@ -257,6 +266,7 @@ public class QueryBuilder {
 			.put("bandAlias", List.of("band.band_alias", STRING_TYPE_NAME))
 			.put("participationBandAlias", List.of("artist2band.band_alias", STRING_TYPE_NAME))
 			.put("isBandActive", List.of("activity", NOT_STRING_TYPE_NAME))
+			.put("checksNum", List.of("check_num", NOT_STRING_TYPE_NAME))
 			.put("startYear", List.of("start_year", STRING_TYPE_NAME))
 			.put("endYear", List.of("end_year", STRING_TYPE_NAME))
 			.put("composerName", List.of("composer_name", STRING_TYPE_NAME))
@@ -282,13 +292,13 @@ public class QueryBuilder {
 			.put("label", List.of("label", STRING_TYPE_NAME))
 			.put("albumIds", List.of("album_catalog_num", STRING_TYPE_NAME))
 			.put("composerIds", List.of("composer_name", STRING_TYPE_NAME))
-			.put("recordBarcode", List.of("bar_code", STRING_TYPE_NAME))
+			.put("recordBarcode", List.of("record.bar_code", STRING_TYPE_NAME))
 			.put("releaseBarcodeFk", List.of("release_bar_code", STRING_TYPE_NAME))
 			.put("supplierEdrpou", List.of("supplier_edrpou", STRING_TYPE_NAME))
 			.put("purchaseDate", List.of("purchase_date", STRING_TYPE_NAME))
 			.put("purchasePrice", List.of("purchase_price", NOT_STRING_TYPE_NAME))
 			.put("sellPrice", List.of("sell_price", NOT_STRING_TYPE_NAME))
-			.put("available", List.of("available", NOT_STRING_TYPE_NAME))
+			.put("available", List.of("check_num", NOT_STRING_TYPE_NAME))
 			.put("recordState", List.of("state", STRING_TYPE_NAME))
 			.put("stateCheckDate", List.of("state_check_date", STRING_TYPE_NAME))
 			.put("edrpou", List.of("edrpou", STRING_TYPE_NAME))
@@ -322,6 +332,9 @@ public class QueryBuilder {
 			.put("fee", List.of("fee", NOT_STRING_TYPE_NAME))
 			.put("reason", List.of("reason", STRING_TYPE_NAME))
 			.put("isFeaturing", List.of("featuring", NOT_STRING_TYPE_NAME))
+			.put("sumWithDiscount", List.of("sum_with_discount", NOT_STRING_TYPE_NAME))
+			.put("trackIds", List.of("track_catalog_num", STRING_TYPE_NAME))
+			.put("productBarcodes", List.of("bar_code", STRING_TYPE_NAME))
 			.build();
 
 	private static final Map<String, List<String>> JAVA_PPK_NAME_TO_DATA_BASE_PPK_NAME_MAP = ImmutableMap.<String, List<String>>builder()

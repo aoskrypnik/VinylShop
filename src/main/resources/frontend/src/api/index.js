@@ -11,6 +11,7 @@ function generateAuthHeader() {
 }
 
 function generateQueryString(params) {
+  // TODO fix plus sign
   const entries = Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== []);
 
   return entries.map(
@@ -46,6 +47,7 @@ export async function auth(login, password) {
 
 // eslint-disable-next-line no-unused-vars
 export async function getItems(schema, limit, offset, sortField, sortDirection, filters) {
+  // TODO fix money type
   let query = {
     limit,
     offset,

@@ -4,7 +4,7 @@
       <component :is="inputType" @input="onInnerInput" :value="innerValue" :type="type" :disabled="isNull"></component>
     </div>
     <div class="checkboxContainer" v-if="!type.isArray && type.isNullable && !type.isActuallyArray">
-      <black-checkbox :value="isNull" v-model="isNull" @input="onInput">NULL</black-checkbox>
+      <black-checkbox :value="isNull" v-model="isNull" @input="onInput">{{$store.getters.getAppLocale('nullValue')}}</black-checkbox>
     </div>
   </div>
 </template>
@@ -62,7 +62,7 @@
     },
     mounted() {
       this.innerValue = this.value
-      if (this.innerValue === null && !SchemaUtils.isSchemaType(this.type)) {
+      if (this.innerValue === null && !SchemaUtils.isSchemaType(this.type) && !this.type.isActuallyArray) {
         this.isNull = true
       }
     },

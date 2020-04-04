@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
 @RestController
@@ -43,7 +44,7 @@ public class ArtistBandController {
 	public ResponseEntity<?> saveParticipation(@RequestBody ArtistBandDto artistBandDto) {
 		ArtistBandDto foundArtistBand = artistBandService
 				.getArtistBandByPks(artistBandDto.getParticipationArtistAlias() + "," + artistBandDto.getParticipationBandAlias());
-		if (isNull(foundArtistBand)) {
+		if (nonNull(foundArtistBand)) {
 			return ResponseEntity.badRequest().build();
 		}
 		if (isFalse(artistBandService.validateArtistBand(artistBandDto))) {

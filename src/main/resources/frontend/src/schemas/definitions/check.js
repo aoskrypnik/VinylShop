@@ -4,7 +4,11 @@ export default {
       type: 'int',
       readonly: true
     },
-    dateTime: 'datetime',
+    dateTime: {
+      type: 'datetime',
+      readonly: true,
+      nofilter: true
+    },
     customerNum: {
       type: 'customer',
       isSchema: true,
@@ -12,10 +16,11 @@ export default {
     },
     salesmanTabNum: {
       type: 'salesman',
-      isSchema: true
+      isSchema: true,
+      readonly: true
     },
     overallSum: {
-      type: 'int',
+      type: 'money',
       readonly: true
     },
     checkDiscount: {
@@ -23,7 +28,7 @@ export default {
       readonly: true
     },
     sumWithDiscount: {
-      type: 'int',
+      type: 'money',
       readonly: true
     },
     productBarcodes: {

@@ -55,7 +55,7 @@
           return 'country-edit'
         }
 
-        if (this.typeString === 'int') {
+        if (this.typeString === 'int' || this.typeString === 'money') {
           return 'number-edit'
         }
 

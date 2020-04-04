@@ -246,5 +246,13 @@ export default {
   statsBySalesmen: {
     en: 'Statistics by salesmen',
     ua: 'Статистика за продавцями'
+  },
+  wrongOrder: {
+    en: 'Wrong values order',
+    ua: 'Невірний порядок значень'
+  },
+  nullValue: {
+    en: 'N/A',
+    ua: 'Не вказувати'
   }
 }

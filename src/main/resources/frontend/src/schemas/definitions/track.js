@@ -2,7 +2,12 @@ export default {
   props: {
     trackCatalogNum: 'int',
     trackName: 'string',
-    duration: 'int',
+    duration: {
+      type: 'int',
+      typeConstraint: {
+        from: 0
+      }
+    },
     composerIds: {
       type: 'composer',
       isSchema: true,
@@ -12,7 +17,8 @@ export default {
     albumIds: {
       type: 'album',
       isSchema: true,
-      isArray: true
+      isArray: true,
+      joins: ['track2album']
     },
     artistIds: {
       type: 'artist',

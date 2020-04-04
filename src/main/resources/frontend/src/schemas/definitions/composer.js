@@ -2,10 +2,18 @@ export default {
   props: {
     composerName: 'string',
     composerCountryCode: 'country',
-    activityStart: 'date',
+    activityStart: {
+      type: 'date',
+      typeConstraint: {
+        to: []
+      }
+    },
     activityEnd: {
       type: 'date',
-      isNullable: true
+      isNullable: true,
+      typeConstraint: {
+        to: []
+      }
     },
     trackIds: {
       type: 'track',

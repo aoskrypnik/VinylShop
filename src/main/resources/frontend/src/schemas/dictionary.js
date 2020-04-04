@@ -149,8 +149,22 @@ export default {
       }
     },
     band2track: {
-      en: 'Artist - Band connection',
-      ua: 'Зв\'язок група - виконавець'
+      en: 'Artist - Track connection',
+      ua: 'Зв\'язок група - трек',
+      properties: {
+        trackCatalogNum: {
+          en: 'Track',
+          ua: 'Трек'
+        },
+        bandAlias: {
+          en: 'Band',
+          ua: 'Група'
+        },
+        isFeaturing: {
+          en: 'Featuring',
+          ua: 'Другорядний'
+        }
+      }
     },
     band: {
       en: 'Band',
@@ -164,7 +178,7 @@ export default {
           ua: 'Активна',
           en: 'Active'
         },
-        countryCode: {
+        bandCountryCode: {
           ua: 'Країна',
           en: 'Country'
         },
@@ -202,11 +216,11 @@ export default {
       en: 'Band participation',
       ua: 'Участь у групі',
       properties: {
-        artistAlias: {
+        participationArtistAlias: {
           en: 'Artist',
           ua: 'Виконавець'
         },
-        bandAlias: {
+        participationBandAlias: {
           en: 'Band',
           ua: 'Група'
         },
@@ -435,6 +449,10 @@ export default {
         customerDiscount: {
           en: 'Discount',
           ua: 'Знижка'
+        },
+        checksNum: {
+          en: 'Checks',
+          ua: 'Чеки'
         }
       }
     },

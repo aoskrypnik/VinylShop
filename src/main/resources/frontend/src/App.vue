@@ -120,4 +120,8 @@ export default {
     font-weight: bold !important;
   }
 
+  .error {
+    color: #d87878;
+  }
+
 </style>

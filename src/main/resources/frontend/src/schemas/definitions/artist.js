@@ -4,34 +4,46 @@ export default {
     isArtistActive: 'boolean',
     artistCountryCode: 'country',
     artistName: 'string',
-    artistBirthDate: 'date',
+    artistBirthDate: {
+      type: 'date',
+      typeConstraint: {
+        to: []
+      }
+    },
     artistDeathDate: {
       type: 'date',
+      typeConstraint: {
+        to: []
+      },
       isNullable: true
     },
     currentBandAliases: {
       type: 'band',
       isSchema: true,
       isArray: true,
-      readonly: true
+      readonly: true,
+      nofilter: true
     },
     previousBandAliases: {
       type: 'band',
       isSchema: true,
       isArray: true,
-      readonly: true
+      readonly: true,
+      nofilter: true
     },
     trackCatalogNums: {
       type: 'track',
       isSchema: true,
       isArray: true,
-      readonly: true
+      readonly: true,
+      nofilter: true
     },
     featuringTrackCatalogNums: {
       type: 'track',
       isSchema: true,
       isArray: true,
-      readonly: true
+      readonly: true,
+      nofilter: true
     },
     artistBindings: {
       type: 'artist2track',

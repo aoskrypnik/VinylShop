@@ -11,6 +11,7 @@ import RecordSchema from './definitions/record'
 import SalesmanSchema from './definitions/salesman'
 import CustomerSchema from './definitions/customer'
 import CheckSchema from './definitions/check'
+// TODO supplier
 
 export default {
   composer: ComposerSchema,

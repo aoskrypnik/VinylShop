@@ -2,17 +2,23 @@ export default {
   props: {
     albumCatalogNum: 'int',
     albumName: 'string',
-    releaseYear: 'int',
+    releaseYear: {
+      type: 'int',
+      typeConstraint: {
+        from: 0,
+        to: new Date().getFullYear()
+      }
+    },
     albumGenres: {
       type: 'rock|pop|classic|indie|electronic|hip hop|reggae|funk|soul',
       isArray: true,
       joins: ['albumgenre']
     },
     variousArtists: {
-      type: 'boolean',
-      readonly: true
+      type: 'boolean'
     },
     trackCatalogNums: {
+      readonly: true,
       type: 'track',
       isSchema: 'true',
       isArray: true,
