@@ -25,5 +25,5 @@ export default {
     }
   },
   key: ['participationArtistAlias', 'participationBandAlias'],
-  display: (item) => `${item.participationArtistAlias} - ${item.participationBandAlias}`
+  display: (item) => `${item.participationArtistAlias} - ${item.participationBandAlias }`
 }

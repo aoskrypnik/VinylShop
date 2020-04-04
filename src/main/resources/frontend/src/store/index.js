@@ -13,7 +13,7 @@ import RolePermissions from './rolePermissions'
 
 import * as Api from '@/api'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -76,6 +76,11 @@ export default new Vuex.Store({
       return Object.keys(state.schemas[schema].props)
     },
     getSchemaDictionary: (state) => (schema) => {
+      // eslint-disable-next-line
+      console.log(schema)
+      // eslint-disable-next-line
+      console.log(state.schemaDictionary.schemas[schema])
+
       return Object.keys(state.schemas[schema].props).reduce((acc, prop) => ({
         ...acc,
         [prop]: state.schemaDictionary.schemas[schema].properties[prop][state.language]

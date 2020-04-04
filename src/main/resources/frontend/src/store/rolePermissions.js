@@ -45,7 +45,8 @@ export default {
       'record',
       'release',
       'salesman',
-      'track'
+      'track',
+      'supplier'
     ],
     ROLE_SALESMAN: [
       'album',
@@ -59,7 +60,8 @@ export default {
       'participation',
       'record',
       'release',
-      'track'
+      'track',
+      'supplier'
     ]
   }
 }

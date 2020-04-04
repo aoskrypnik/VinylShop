@@ -3,7 +3,7 @@
     <PageHeader v-if="title">{{title}}</PageHeader>
     <p v-if="text">{{text}}</p>
     <div class="buttonGroup">
-      <BlackButton v-for="button in buttons" :key="button.label" @click="button.onClick()">{{button.label}}</BlackButton>
+      <BlackButton v-for="button in buttons" :key="button.label" @click="click(button.onClick)">{{button.label}}</BlackButton>
     </div>
   </div>
 </template>
@@ -18,6 +18,13 @@
     methods: {
       close() {
         this.$emit('close')
+      },
+      click(f) {
+        try {
+          f();
+        } finally {
+          this.close()
+        }
       }
     }
   }

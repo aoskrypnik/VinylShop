@@ -1,10 +1,12 @@
 <template>
   <black-input
-          :value="value"
+          :value="actualValue"
           :wrong="isWrong"
           :number="true"
           :disabled="disabled"
           :narrow="narrow"
+
+          :step="typeString === 'money' ? 0.01 : 1"
 
           @input="onEdit"
   ></black-input>
@@ -32,6 +34,9 @@
       },
       typeString() {
         return SchemaUtils.getTypeString(this.type)
+      },
+      actualValue() {
+        return this.typeString === 'money' ? this.value / 100 : this.value;
       }
     },
     methods: {
@@ -40,7 +45,7 @@
 
         this.isWrong = !valid;
         if (valid) {
-          this.$emit('input', newValue)
+          this.$emit('input', this.typeString === 'money' ? newValue * 100 : newValue)
         }
       },
       validate(newValue) {

@@ -2,7 +2,7 @@
   <div :class="{ large }">
     <!--String types-->
     <span v-if="isStringType && !type.isSchema">{{value}}</span>
-    <span v-else-if="type.isSchema">{{ fkActualValue }}</span>
+    <router-link v-else-if="type.isSchema" :to="{ name: 'entry', params: { item: value, schema: type.type }}" class="text-white">{{ fkActualValue }}</router-link>
     <span v-else-if="isEnum">{{Array.isArray(value) ? value.map(v => labels[v]).join(', ') : labels[value]}}</span>
     <span v-else-if="typeString === 'country'">{{ $store.state.countries.get(value) }}</span>
     <span v-else-if="typeString === 'datetime'">{{ dateTime }}</span>
@@ -92,6 +92,10 @@ export default {
 
   .large {
     font-size: 24px;
+  }
+
+  a.text-white {
+    text-decoration: underline;
   }
 
 </style>

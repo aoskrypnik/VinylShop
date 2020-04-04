@@ -23,7 +23,9 @@
               @sortChange="sortChange"
       ></items-list>
     </div>
-    <black-button @click="newItem">+</black-button>
+    <router-link :to="{ name: 'form-new', params: { schema }}">
+      <black-button>+</black-button>
+    </router-link>
     <three-dots-spinner v-if="loading"></three-dots-spinner>
     <p v-if="error" class="error mx-auto">{{ $store.getters.getAppLocale( serverError ? 'serverListError' : 'otherListError') }}</p>
     <black-button v-if="!loading && availableMore" class="mx-auto" @click="loadMore">{{$store.getters.getAppLocale('loadMore')}}</black-button>
@@ -117,9 +119,6 @@ export default {
     },
     toggleFilters() {
       this.filtersOpen = !this.filtersOpen
-    },
-    newItem() {
-      this.$router.push({ name: 'form', params: { schema: this.schema } })
     }
   },
   watch: {

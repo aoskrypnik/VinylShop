@@ -335,6 +335,7 @@ public class QueryBuilder {
 			.put("sumWithDiscount", List.of("sum_with_discount", NOT_STRING_TYPE_NAME))
 			.put("trackIds", List.of("track_catalog_num", STRING_TYPE_NAME))
 			.put("productBarcodes", List.of("bar_code", STRING_TYPE_NAME))
+			.put("customerPhoneNumbers", List.of("phone_number", STRING_TYPE_NAME))
 			.build();
 
 	private static final Map<String, List<String>> JAVA_PPK_NAME_TO_DATA_BASE_PPK_NAME_MAP = ImmutableMap.<String, List<String>>builder()

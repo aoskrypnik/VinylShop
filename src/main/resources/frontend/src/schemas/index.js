@@ -11,7 +11,8 @@ import RecordSchema from './definitions/record'
 import SalesmanSchema from './definitions/salesman'
 import CustomerSchema from './definitions/customer'
 import CheckSchema from './definitions/check'
-// TODO supplier
+import SupplierSchema from './definitions/supplier'
+
 
 export default {
   composer: ComposerSchema,
@@ -26,5 +27,6 @@ export default {
   record: RecordSchema,
   salesman: SalesmanSchema,
   customer: CustomerSchema,
-  check: CheckSchema
+  check: CheckSchema,
+  supplier: SupplierSchema
 }

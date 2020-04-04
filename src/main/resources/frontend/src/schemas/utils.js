@@ -103,7 +103,11 @@ export const isFilterVisible = (type) => {
   return !type.nofilter
 };
 
-export const isFormVisible = (type) => {
+export const isEditFormVisible = (type) => {
+  return !type.filterOnly && !type.readonly && !type.noedit
+};
+
+export const isNewFormVisible = (type) => {
   return !type.filterOnly && !type.readonly
 };
 
@@ -117,10 +121,11 @@ export const getKey = (schemaName) => (item) => {
   }
 };
 
-export const nullCheck = (schemaName, item) => {
+export const nullCheck = (schemaName, item, newItem) => {
   const schema = store.getters.getSchema(schemaName);
 
+
   return Object.entries(schema.props).filter(([prop, type]) => {
-    return isFormVisible(type) && !type.isNullable && (item[prop] === null || item[prop] === undefined)
+    return (newItem ? isNewFormVisible(type) : isEditFormVisible(type)) && !type.isNullable && (item[prop] === null || item[prop] === undefined)
   }).map(([prop]) => prop)
 };

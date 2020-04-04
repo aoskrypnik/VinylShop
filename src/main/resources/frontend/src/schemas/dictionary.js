@@ -453,6 +453,10 @@ export default {
         checksNum: {
           en: 'Checks',
           ua: 'Чеки'
+        },
+        customerPhoneNumbers: {
+          en: 'Phones',
+          ua: 'Телефони'
         }
       }
     },
@@ -491,6 +495,24 @@ export default {
         productBarcodes: {
           en: 'Records',
           ua: 'Платівки'
+        }
+      }
+    },
+    supplier: {
+      en: 'Supplier',
+      ua: 'Постачальник',
+      properties: {
+        edrpou: {
+          en: 'EDRPOU',
+          ua: 'ЄДРПОУ'
+        },
+        supplierAddress: {
+          en: 'Address',
+          ua: 'Адреса'
+        },
+        phoneNumber: {
+          en: 'Phone',
+          ua: 'Телефон'
         }
       }
     }

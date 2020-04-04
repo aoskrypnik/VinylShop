@@ -1,5 +1,5 @@
 <template>
-  <label class="boxContainer">
+  <label :class="['boxContainer', { ghost }]">
     <slot></slot>
     <input type="checkbox" :checked="value" :disabled="disabled" @change="onInput" id="blc">
     <span class="checkmark"></span>
@@ -9,7 +9,7 @@
 <script>
   export default {
     name: "BlackCheckbox",
-    props: ['value', 'disabled'],
+    props: ['value', 'disabled', 'ghost'],
     methods: {
       onInput(e) {
         this.$emit('input', e.target.checked)
@@ -33,6 +33,10 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  }
+
+  .boxContainer.ghost {
+    color: black;
   }
 
   /* Hide the browser's default checkbox */

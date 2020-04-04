@@ -89,18 +89,10 @@ export async function getItems(schema, limit, offset, sortField, sortDirection, 
           return
         }
 
-        if (type.joins) {
-          query.joins.push(...type.joins)
-        }
-
         query.betweens.push(`${prop}:${value.from || ''}:${value.to || ''}`)
       } else if (SchemaUtils.isString(type) && !SchemaUtils.isSchemaType(type)) {
         // Likes
         query.likes.push(`${prop}:${value}`)
-
-        if (type.joins) {
-          query.joins.push(...type.joins)
-        }
 
       } else {
         if (SchemaUtils.isSchemaType(type)) {

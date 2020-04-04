@@ -19,6 +19,13 @@ export default {
       filterOnly: true,
       isArray: true,
       joins: ['cheq']
+    },
+    customerPhoneNumbers: {
+      type: 'string',
+      isArray: 'true',
+      joins: ['customer_phone_number'],
+      isNullable: true,
+      typeConstraint: /^\+?\d+$/
     }
   },
   key: 'customerNum',

@@ -1,7 +1,7 @@
 <template>
   <div>
     <list-view v-if="type === 'list'" :schema="properties.schema" :multiple="properties.multiple" @itemSelection="itemSelection"></list-view>
-    <dialog-view v-if="type === 'dialog'" :title="properties.title" :text="properties.text" :buttons="properties.buttons"></dialog-view>
+    <dialog-view v-if="type === 'dialog'" :title="properties.title" :text="properties.text" :buttons="properties.buttons" @close="$emit('close')"></dialog-view>
   </div>
 </template>
 

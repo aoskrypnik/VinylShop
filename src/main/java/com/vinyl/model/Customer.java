@@ -21,5 +21,3 @@ public class Customer {
 	private Integer sumOfAllPurchases;
 	private List<String> customerPhoneNumbers;
 }
-
-

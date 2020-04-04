@@ -17,7 +17,7 @@
     components: {
       ItemEdit
     },
-    props: ['schema', 'value', 'wrongNullFields'],
+    props: ['schema', 'value', 'wrongNullFields', 'newitem'],
     data: function() {
       return {
 
@@ -41,7 +41,7 @@
         this.$emit('input', copy)
       },
       visible(prop) {
-        return SchemaUtils.isFormVisible(this.schemaProps[prop])
+        return (this.newitem ? SchemaUtils.isNewFormVisible : SchemaUtils.isEditFormVisible)(this.schemaProps[prop])
       }
     }
   }
