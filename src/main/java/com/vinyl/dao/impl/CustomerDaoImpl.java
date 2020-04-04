@@ -49,7 +49,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			PreparedStatement ps = connection.prepareStatement(createCustomerQuery, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, customer.getCustomerName());
 			ps.setString(2, customer.getCustomerEmail());
-			ps.setInt(3, customer.getCustomerDiscount());
+			ps.setInt(3, 0);
 			return ps;
 		}, keyHolder);
 
