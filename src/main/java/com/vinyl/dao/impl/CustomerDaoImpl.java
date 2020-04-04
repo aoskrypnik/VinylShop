@@ -35,15 +35,23 @@ public class CustomerDaoImpl implements CustomerDao {
 	private String updateDiscountQueryPath;
 	@Value("${sql.customer.get.sum.for.all.purchases.query.path}")
 	private String getSumForAllPurchasesQueryPath;
+	@Value("${sql.customer.create.customer.phone.numbers.query.path}")
+	private String createCustomerPhoneNumbersQueryPath;
+	@Value("${sql.customer.delete.customer.phone.numbers.query.path}")
+	private String deleteCustomerPhoneNumberQueryPath;
+	@Value("${sql.customer.get.phone.numbers.by.customer.query.path}")
+	private String getCustomerPhoneNumbersQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
 	@Resource
 	private RowMapper<Customer> customerRowMapper;
 
+	@Transactional
 	@Override
 	public int save(Customer customer) {
 		String createCustomerQuery = QuerySupplier.getQuery(createCustomerQueryPath);
+		String createCustomerPhoneNumbersQuery = QuerySupplier.getQuery(createCustomerPhoneNumbersQueryPath);
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(connection -> {
@@ -54,7 +62,11 @@ public class CustomerDaoImpl implements CustomerDao {
 			return ps;
 		}, keyHolder);
 
-		return KeyHolderUtils.extractInt(keyHolder, "customer_num");
+		List<String> customerPhoneNumbers = customer.getCustomerPhoneNumbers();
+		int customerNum = KeyHolderUtils.extractInt(keyHolder, "customer_num");
+		customerPhoneNumbers.forEach(phone -> jdbcTemplate.update(createCustomerPhoneNumbersQuery, phone, customerNum));
+
+		return customerNum;
 	}
 
 	@Transactional
@@ -65,21 +77,28 @@ public class CustomerDaoImpl implements CustomerDao {
 		return isEmpty(customers) ? null : customers.get(0);
 	}
 
+	@Transactional
 	@Override
 	public void update(Customer customer) {
 		String updateCustomerQuery = QuerySupplier.getQuery(updateCustomerQueryPath);
+		String deleteCustomerPhoneNumbersQuery = QuerySupplier.getQuery(deleteCustomerPhoneNumberQueryPath);
+		String createCustomerPhoneNumbersQuery = QuerySupplier.getQuery(createCustomerPhoneNumbersQueryPath);
 
 		int num = customer.getCustomerNum();
 		String name = customer.getCustomerName();
 		String email = customer.getCustomerEmail();
+		List<String> phoneNumbers = customer.getCustomerPhoneNumbers();
 
+		jdbcTemplate.update(deleteCustomerPhoneNumbersQuery, num);
 		jdbcTemplate.update(updateCustomerQuery, name, email, num);
+		phoneNumbers.forEach(phone -> jdbcTemplate.update(createCustomerPhoneNumbersQuery, phone, customer.getCustomerNum()));
 	}
 
 	@Override
 	public void deleteByNum(int num) {
 		String deleteCustomerQuery = QuerySupplier.getQuery(deleteCustomerQueryPath);
-
+		String deleteCustomerPhoneNumbersQuery = QuerySupplier.getQuery(deleteCustomerPhoneNumberQueryPath);
+		jdbcTemplate.update(deleteCustomerPhoneNumbersQuery, num);
 		jdbcTemplate.update(deleteCustomerQuery, num);
 	}
 

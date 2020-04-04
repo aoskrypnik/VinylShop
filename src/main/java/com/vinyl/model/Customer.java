@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,6 +19,7 @@ public class Customer {
 	private String customerEmail;
 	private Short customerDiscount;
 	private Integer sumOfAllPurchases;
+	private List<String> customerPhoneNumbers;
 }
 
 

@@ -1,0 +1,1 @@
+SELECT phone_number FROM customer_phone_number WHERE customer_num = ?
