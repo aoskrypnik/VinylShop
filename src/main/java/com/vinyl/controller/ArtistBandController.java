@@ -54,8 +54,11 @@ public class ArtistBandController {
 		return ResponseEntity.status(201).build();
 	}
 
-	@PutMapping
-	public ResponseEntity<?> updateParticipation(@RequestBody ArtistBandDto artistBandDto) {
+	@PutMapping("/{ids}")
+	public ResponseEntity<?> updateParticipation(@PathVariable String ids, @RequestBody ArtistBandDto artistBandDto) {
+		if (isNull(artistBandService.getArtistBandByPks(ids))) {
+			return ResponseEntity.notFound().build();
+		}
 		if (isFalse(artistBandService.validateArtistBand(artistBandDto))) {
 			return new ResponseEntity<>(new ApiResponse(false, DATES_MISMATCH_MESSAGE), HttpStatus.CONFLICT);
 		}
