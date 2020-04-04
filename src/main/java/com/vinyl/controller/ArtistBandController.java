@@ -39,9 +39,10 @@ public class ArtistBandController {
 		return ResponseEntity.ok(foundArtistBand);
 	}
 
-	@PostMapping("/{ids}")
-	public ResponseEntity<?> saveParticipation(@PathVariable String ids, @RequestBody ArtistBandDto artistBandDto) {
-		ArtistBandDto foundArtistBand = artistBandService.getArtistBandByPks(ids);
+	@PostMapping
+	public ResponseEntity<?> saveParticipation(@RequestBody ArtistBandDto artistBandDto) {
+		ArtistBandDto foundArtistBand = artistBandService
+				.getArtistBandByPks(artistBandDto.getParticipationArtistAlias() + "," + artistBandDto.getParticipationBandAlias());
 		if (isNull(foundArtistBand)) {
 			return ResponseEntity.badRequest().build();
 		}
