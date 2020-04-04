@@ -18,6 +18,7 @@ import java.sql.Statement;
 import java.util.List;
 
 import static java.util.Objects.isNull;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Repository
 public class CustomerDaoImpl implements CustomerDao {
@@ -61,7 +62,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	public Customer getCustomerByNum(int num) {
 		String getGetCustomerByNumQuery = QuerySupplier.getQuery(getCustomerByNumQueryPath);
 		List<Customer> customers = jdbcTemplate.query(getGetCustomerByNumQuery, new Object[]{num}, customerRowMapper);
-		return customers.size() == 0 ? null : customers.get(0);
+		return isEmpty(customers) ? null : customers.get(0);
 	}
 
 	@Override
@@ -69,10 +70,10 @@ public class CustomerDaoImpl implements CustomerDao {
 		String updateCustomerQuery = QuerySupplier.getQuery(updateCustomerQueryPath);
 
 		int num = customer.getCustomerNum();
+		String name = customer.getCustomerName();
 		String email = customer.getCustomerEmail();
-		int discount = customer.getCustomerDiscount();
 
-		jdbcTemplate.update(updateCustomerQuery, email, discount, num);
+		jdbcTemplate.update(updateCustomerQuery, name, email, num);
 	}
 
 	@Override

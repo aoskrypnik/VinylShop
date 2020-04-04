@@ -1,3 +1,3 @@
 UPDATE customer
-SET email = ?, discount = ?
+SET customer_name = ?, email = ?
 WHERE customer_num = ?
