@@ -56,6 +56,9 @@ public class ArtistBandController {
 
 	@PutMapping
 	public ResponseEntity<?> updateParticipation(@RequestBody ArtistBandDto artistBandDto) {
+		if (isFalse(artistBandService.validateArtistBand(artistBandDto))) {
+			return new ResponseEntity<>(new ApiResponse(false, DATES_MISMATCH_MESSAGE), HttpStatus.CONFLICT);
+		}
 		artistBandService.update(artistBandDto);
 		return ResponseEntity.status(202).build();
 	}

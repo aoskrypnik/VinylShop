@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
+import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
 
 @Service
@@ -68,11 +69,15 @@ public class ArtistBandServiceImpl implements ArtistBandService {
 		Band band = bandService.getBandByAlias(artistBandDto.getParticipationBandAlias());
 		Date joinDate = artistBandDto.getJoinDate();
 		Date exitDate = artistBandDto.getExitDate();
+		Date artistBirthDate = artist.getArtistBirthDate();
+		Date artistDeathDate = artist.getArtistDeathDate();
+		Date bandStartYear = band.getStartYear();
+		Date bandEndYear = band.getEndYear();
 
-		return isTrue(artist.getArtistBirthDate().before(joinDate)) &&
-				isTrue(artist.getArtistDeathDate().after(exitDate)) &&
-				isTrue(band.getEndYear().after(exitDate)) &&
-				isTrue(band.getStartYear().before(joinDate));
+		return isTrue(isNull(joinDate) || artistBirthDate.before(joinDate)) &&
+				isTrue(isNull(joinDate) || bandStartYear.before(joinDate)) &&
+				isTrue(isNull(artistDeathDate) || isNull(exitDate) || artistDeathDate.after(exitDate)) &&
+				isTrue(isNull(bandEndYear) || isNull(exitDate) || bandEndYear.after(exitDate));
 	}
 
 }
