@@ -27,4 +27,6 @@ public interface StatisticsService {
 	StatisticsDto getProceedsPeriod(Timestamp from, Timestamp to);
 
 	List<StatisticsDto> getSalesmanProceedsByPeriod(Timestamp from, Timestamp to);
+
+	Map<Integer, Map<String, Integer>> getStatisticsWithRecursiveByYear(String year);
 }

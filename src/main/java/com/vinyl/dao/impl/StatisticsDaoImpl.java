@@ -2,6 +2,7 @@ package com.vinyl.dao.impl;
 
 import com.vinyl.dao.StatisticsDao;
 import com.vinyl.dto.StatisticsDto;
+import com.vinyl.dto.StatisticsWithRecursiveDto;
 import com.vinyl.utils.QuerySupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,11 +33,15 @@ public class StatisticsDaoImpl implements StatisticsDao {
 	private String numberOfSalesmanChecksQueryPath;
 	@Value("${sql.statistics.salesman.proceeds.by.period.query.path}")
 	private String salesmanProceedsByPeriodQueryPath;
+	@Value("${sql.statistics.with.recursive.query.path}")
+	private String statisticsWithRecursiveQueryPath;
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
 	@Resource
 	private RowMapper<StatisticsDto> statisticsRowMapper;
+	@Resource
+	private RowMapper<StatisticsWithRecursiveDto> statisticsWithRecursiveDtoRowMapper;
 
 	@Transactional
 	@Override
@@ -89,6 +94,13 @@ public class StatisticsDaoImpl implements StatisticsDao {
 	public List<StatisticsDto> getSalesmanProceedsByPeriod(Timestamp from, Timestamp to) {
 		String salesmanProceedsByPeriodQuery = QuerySupplier.getQuery(salesmanProceedsByPeriodQueryPath);
 		return jdbcTemplate.query(salesmanProceedsByPeriodQuery, new Object[]{from, to}, statisticsRowMapper);
+	}
+
+	@Override
+	public List<StatisticsWithRecursiveDto> getStatisticsWithRecursiveByYear(String year) {
+		String statisticsWithRecursiveQuery = QuerySupplier.getQuery(statisticsWithRecursiveQueryPath);
+		return jdbcTemplate.query(statisticsWithRecursiveQuery,
+				new Object[]{year, year, year, year, year, year, year, year, year, year}, statisticsWithRecursiveDtoRowMapper);
 	}
 
 	private StatisticsDto getStatisticsDto(Timestamp from, Timestamp to, String queryPath) {

@@ -1,6 +1,7 @@
 package com.vinyl.dao;
 
 import com.vinyl.dto.StatisticsDto;
+import com.vinyl.dto.StatisticsWithRecursiveDto;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -22,5 +23,7 @@ public interface StatisticsDao {
 	StatisticsDto getProceedsPeriod(Timestamp from, Timestamp to);
 
 	List<StatisticsDto> getSalesmanProceedsByPeriod(Timestamp from, Timestamp to);
+
+	List<StatisticsWithRecursiveDto> getStatisticsWithRecursiveByYear(String year);
 
 }

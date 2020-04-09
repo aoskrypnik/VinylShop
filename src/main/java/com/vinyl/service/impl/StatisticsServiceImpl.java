@@ -2,6 +2,7 @@ package com.vinyl.service.impl;
 
 import com.vinyl.dao.StatisticsDao;
 import com.vinyl.dto.StatisticsDto;
+import com.vinyl.dto.StatisticsWithRecursiveDto;
 import com.vinyl.service.StatisticsService;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,14 @@ public class StatisticsServiceImpl implements StatisticsService {
 		statisticsMap.put("proceeds", proceeds.getStatisticsResult());
 
 
+		return statisticsMap;
+	}
+
+	@Override
+	public Map<Integer, Map<String, Integer>> getStatisticsWithRecursiveByYear(String year) {
+		List<StatisticsWithRecursiveDto> statisticsWithRecursiveDto = statisticsDao.getStatisticsWithRecursiveByYear(year);
+		Map<Integer, Map<String, Integer>> statisticsMap = new HashMap<>();
+		fillStatisticsWithRecursiveMap(statisticsMap, statisticsWithRecursiveDto, 1);
 		return statisticsMap;
 	}
 
@@ -69,6 +78,29 @@ public class StatisticsServiceImpl implements StatisticsService {
 				statisticsMap.put(statisticsDto.getSalesmanTabNum(), innerMap);
 			}
 		});
+	}
+
+	private void fillStatisticsWithRecursiveMap(Map<Integer, Map<String, Integer>> statisticsMap,
+												List<StatisticsWithRecursiveDto> statisticsWithRecursiveDtoList,
+												Integer statisticsMonthId) {
+		for (StatisticsWithRecursiveDto statisticsWithRecursiveDto : statisticsWithRecursiveDtoList) {
+			Map<String, Integer> innerMap = statisticsMap.get(statisticsMonthId);
+			if (isNull(innerMap)) {
+				Map<String, Integer> newInnerMap = new HashMap<>();
+				newInnerMap.put("checksNum", statisticsWithRecursiveDto.getCheckNum());
+				newInnerMap.put("income", statisticsWithRecursiveDto.getIncome());
+				newInnerMap.put("avgCheck", statisticsWithRecursiveDto.getAvgCheck());
+				newInnerMap.put("proceeds", statisticsWithRecursiveDto.getProceeds());
+				statisticsMap.put(statisticsMonthId, newInnerMap);
+			} else {
+				innerMap.put("checksNum", statisticsWithRecursiveDto.getCheckNum());
+				innerMap.put("income", statisticsWithRecursiveDto.getIncome());
+				innerMap.put("avgCheck", statisticsWithRecursiveDto.getAvgCheck());
+				innerMap.put("proceeds", statisticsWithRecursiveDto.getProceeds());
+				statisticsMap.put(statisticsMonthId, innerMap);
+			}
+			statisticsMonthId++;
+		}
 	}
 
 	@Override
@@ -110,4 +142,5 @@ public class StatisticsServiceImpl implements StatisticsService {
 	public List<StatisticsDto> getSalesmanProceedsByPeriod(Timestamp from, Timestamp to) {
 		return statisticsDao.getSalesmanProceedsByPeriod(from, to);
 	}
+
 }

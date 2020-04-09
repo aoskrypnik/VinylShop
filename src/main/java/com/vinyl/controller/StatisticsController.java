@@ -34,6 +34,15 @@ public class StatisticsController {
 		return ResponseEntity.ok(statisticsMap);
 	}
 
+	@GetMapping("/year")
+	public ResponseEntity<?> getYearStatistic(@RequestParam String year) {
+		Map<Integer, Map<String, Integer>> statisticsMap = statisticsService.getStatisticsWithRecursiveByYear(year);
+		if (isNull(statisticsMap)) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(statisticsMap);
+	}
+
 	@GetMapping("/salesmen")
 	public ResponseEntity<?> getAllSalesmenStatisticsByPeriod(@RequestParam String from, @RequestParam String to) throws ParseException {
 		Map<Integer, Map<String, Integer>> statisticsMap = statisticsService.getAllSalesmanStatistics(dateConverter(from), dateConverter(to));
