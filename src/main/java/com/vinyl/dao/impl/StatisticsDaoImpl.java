@@ -100,7 +100,7 @@ public class StatisticsDaoImpl implements StatisticsDao {
 	public List<StatisticsWithRecursiveDto> getStatisticsWithRecursiveByYear(String year) {
 		String statisticsWithRecursiveQuery = QuerySupplier.getQuery(statisticsWithRecursiveQueryPath);
 		return jdbcTemplate.query(statisticsWithRecursiveQuery,
-				new Object[]{year, year, year, year, year, year, year, year, year, year}, statisticsWithRecursiveDtoRowMapper);
+				new Object[]{year}, statisticsWithRecursiveDtoRowMapper);
 	}
 
 	private StatisticsDto getStatisticsDto(Timestamp from, Timestamp to, String queryPath) {
