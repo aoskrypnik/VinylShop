@@ -5,7 +5,8 @@
       <div class="scroller">
         <filter-form :schema="schema" v-model="filters"></filter-form>
         <div class="filtersButtonContainer">
-          <black-button @click="resetItems">{{$store.getters.getAppLocale('applyFilters')}}</black-button>
+          <black-button @click="resetItems" inline="true">{{$store.getters.getAppLocale('applyFilters')}}</black-button>
+          <black-button @click="resetFilters" inline="true">{{$store.getters.getAppLocale('resetFilters')}}</black-button>
         </div>
       </div>
     </div>
@@ -16,6 +17,7 @@
               class="mb-3"
               :schema="schema"
               :items="items"
+              :loading="loading"
               :sort-attribute="sortAttribute"
               :sort-direction="sortDirection"
 
@@ -85,9 +87,10 @@ export default {
 
         this.availableMore = newItems.length === Config.itemsPerPage
       }).catch((e) => {
+        this.loading = false
+        this.availableMore = false
         if (!e.response || e.response.status !== 404) {
           this.error = true
-          this.loading = false
         }
       })
     },
@@ -96,7 +99,10 @@ export default {
       this.loadMore()
     },
     resetFilters() {
-      this.filters = SchemaUtils.generateFilterObject(this.schema)
+      this.filters = {}
+      this.$nextTick(() => {
+        this.filters = SchemaUtils.generateFilterObject(this.schema)
+      })
     },
     itemSelection(key) {
       this.$emit('itemSelection', key)

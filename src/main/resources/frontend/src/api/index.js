@@ -17,10 +17,10 @@ function generateQueryString(params) {
   return entries.map(
       (([k, v]) => {
         if (Array.isArray(v)) {
-          return v.map(s => `${k}=${s}`).join('&')
+          return v.map(s => `${k}=${encodeURIComponent(s)}`).join('&')
         }
-        return `${k}=${v}`
-      })).join('&').replace('&&', '&').replace('&&', '&')
+        return `${k}=${encodeURIComponent(v)}`
+      })).join('&').replace(/&+/g, '&')
 }
 
 export async function auth(login, password) {
@@ -212,6 +212,29 @@ export async function statsBySalesmen(from, to) {
   const params = generateQueryString({from, to})
   return (await Axios.get(
       `${endpoint}/statistics/salesmen?${params}`,
+      {
+        headers: {
+          ...generateAuthHeader()
+        }
+      }
+  )).data
+}
+
+export async function statsByMonths(year) {
+  const params = generateQueryString({year})
+  return (await Axios.get(
+      `${endpoint}/statistics/year?${params}`,
+      {
+        headers: {
+          ...generateAuthHeader()
+        }
+      }
+  )).data
+}
+
+export async function customQuery() {
+  return (await Axios.get(
+      `${endpoint}/artist/sold-out`,
       {
         headers: {
           ...generateAuthHeader()

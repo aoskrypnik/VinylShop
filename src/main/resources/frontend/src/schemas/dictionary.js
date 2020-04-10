@@ -377,6 +377,10 @@ export default {
         stateCheckDate: {
           en: 'State check date',
           ua: 'Дата перевірки стану'
+        },
+        supplierEdrpou: {
+          en: 'Supplier',
+          ua: 'Постачальник'
         }
       }
     },

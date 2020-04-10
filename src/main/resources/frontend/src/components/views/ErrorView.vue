@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-4 col-6 img"><img src="@/assets/sad_record.png"></div>
     <div class="col-md-8 col-12">
-      <p class="errorTitle">{{errorMessage.title}}</p>
+      <p class="errorTitle error">{{errorMessage.title}}</p>
       <p>{{errorMessage.message}}</p>
       <black-button v-if="buttonType === 'retry'" @click="retry">{{$store.getters.getAppLocale('retryLoad')}}</black-button>
       <black-button v-if="buttonType === 'return'" @click="returnToList">{{$store.getters.getAppLocale('returnToList')}}</black-button>
@@ -54,7 +54,6 @@
   }
 
   .errorTitle {
-    color: #d87878;
     font-weight: bold;
     font-size: 36px;
   }

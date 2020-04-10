@@ -239,6 +239,10 @@ export default {
     en: 'Please verify the input data validity and try again. If the error persists, please contact support',
     ua: 'Будь-ласка, перевірте правильність введених даних та спробуйте знову. Якщо помилка повторюється, зверніться до служби підтримки'
   },
+  genericSaveError: {
+    en: 'Couldn\'t save entry',
+    ua: 'Не вдалося зберегти запис'
+  },
   returnToHome: {
     en: 'Return home',
     ua: 'Повернутися додому'
@@ -254,5 +258,25 @@ export default {
   nullValue: {
     en: 'N/A',
     ua: 'Не вказувати'
+  },
+  resetFilters: {
+    en: 'Reset',
+    ua: 'Скинути'
+  },
+  listNoItems: {
+    en: 'No items',
+    ua: 'Записів немає'
+  },
+  listNoItemsMessage: {
+    en: 'Try other search parameters or refresh the page to retry',
+    ua: 'Спробуйте інші параметри пошуку або повторіть пошук щоб показати нові записи'
+  },
+  customQuery: {
+    en: 'Sold-out artists',
+    ua: 'Виконавці, усі платівки яких були продані'
+  },
+  soldOut: {
+    en: 'Sold out!',
+    ua: 'Розпродані'
   }
 }

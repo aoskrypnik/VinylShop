@@ -42,8 +42,8 @@ public class ArtistBandServiceImpl implements ArtistBandService {
 
 	@Override
 	public ArtistBandDto getArtistBandByPks(String ids) {
-		String id1 = ids.split(",")[0];
-		String id2 = ids.split(",")[1];
+		String id1 = ids.split("@")[0];
+		String id2 = ids.split("@")[1];
 		return artistBandDao.getArtistBandByPks(id1, id2);
 	}
 
@@ -58,8 +58,8 @@ public class ArtistBandServiceImpl implements ArtistBandService {
 
 	@Override
 	public void deleteByIds(String ids) {
-		String id1 = ids.split(",")[0];
-		String id2 = ids.split(",")[1];
+		String id1 = ids.split("@")[0];
+		String id2 = ids.split("@")[1];
 		artistBandDao.deleteByIds(id1, id2);
 	}
 

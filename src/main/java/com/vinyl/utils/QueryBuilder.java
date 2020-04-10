@@ -136,7 +136,7 @@ public class QueryBuilder {
 				continue;
 
 			if (isPpkParam(splitParam[0])) {
-				String[] realValues = splitParam[1].split(",");
+				String[] realValues = splitParam[1].split("@");
 				List<String> realParams = ppkParams(splitParam[0]);
 
 				for (int i = 0; i < realValues.length; ++i) {
@@ -157,7 +157,7 @@ public class QueryBuilder {
 					stringBuilder.append("AND ").append(firstParam).append("=").append(secondParam).append(" ");
 				}
 			}
-			// TODO PPK
+
 		}
 
 		for (Map.Entry<String, List<Integer>> entry : repeatedWhereParamsMap.entrySet()) {
@@ -165,7 +165,7 @@ public class QueryBuilder {
 			for (Integer i : entry.getValue()) {
 				String[] splitParam = whereParams.get(i).split(":");
 				if (isPpkParam(splitParam[0])) {
-					String[] realValues = splitParam[1].split(",");
+					String[] realValues = splitParam[1].split("@");
 					List<String> realParams = ppkParams(splitParam[0]);
 
 					stringBuilder.append("(");
@@ -241,6 +241,7 @@ public class QueryBuilder {
 			.put("cheq record", " ON cheq.check_num=record.check_num")
 			.put("customer customer_phone_number", " ON customer.customer_num=customer_phone_number.customer_num")
 			.put("record release", " ON record.release_bar_code=release.bar_code")
+			.put("record supplier", " ON record.supplier_edrpou=supplier.edrpou")
 			.put("artist artist2band", " ON artist2band.artist_alias=artist.artist_alias")
 			.put("artist2band band", " ON artist2band.band_alias=band.band_alias")
 			.put("artist artist2track", " USING (artist_alias)")

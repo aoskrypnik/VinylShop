@@ -15,6 +15,13 @@ export default {
         route: {
           name: 'stats'
         }
+      },
+      {
+        icon: 'compact-disc',
+        label: 'soldOut',
+        route: {
+          name: 'custom'
+        }
       }
     ],
     ROLE_SALESMAN: [
@@ -27,6 +34,13 @@ export default {
           params: {
             schema: 'check'
           }
+        }
+      },
+      {
+        icon: 'compact-disc',
+        label: 'soldOut',
+        route: {
+          name: 'custom'
         }
       }
     ]

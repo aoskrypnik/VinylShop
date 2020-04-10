@@ -38,5 +38,6 @@ export default {
     }
   },
   key: 'checkNum',
+  noedit: true,
   display: (item) => item.checkNum
 }

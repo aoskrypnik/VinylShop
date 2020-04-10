@@ -1,6 +1,9 @@
 export default {
   props: {
-    albumCatalogNum: 'int',
+    albumCatalogNum: {
+      type: 'int',
+      noedit: true
+    },
     albumName: 'string',
     releaseYear: {
       type: 'int',

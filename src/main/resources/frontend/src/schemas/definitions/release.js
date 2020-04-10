@@ -1,6 +1,9 @@
 export default {
   props: {
-    releaseBarcode: 'string',
+    releaseBarcode: {
+      type: 'string',
+      noedit: true
+    },
     albumCatalogNum: {
       type: 'album',
       isSchema: true

@@ -31,7 +31,11 @@ export default {
       readonly: true
     },
     recordState: 'M|NM|VG+|VG|G|F',
-    stateCheckDate: 'date'
+    stateCheckDate: 'date',
+    supplierEdrpou: {
+      type: 'supplier',
+      isSchema: true
+    }
   },
   key: 'recordBarcode',
   display: (item) => `${item.recordBarcode}: ${item.releaseBarcodeFk} - ${item.recordState}`

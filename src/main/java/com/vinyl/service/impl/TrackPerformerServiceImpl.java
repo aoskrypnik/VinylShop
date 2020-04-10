@@ -44,7 +44,7 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 
 	@Override
 	public TrackArtistDto getTrackArtistByTrackNumAndArtistAlias(String trackNumAndArtistAlias) {
-		String[] names = trackNumAndArtistAlias.split(",");
+		String[] names = trackNumAndArtistAlias.split("@");
 		String trackCatalogNum = names[0];
 		String artistAlias = names[1];
 		return trackPerformerDao.getTrackArtistByTrackNameAndArtistAlias(trackCatalogNum, artistAlias);
@@ -52,7 +52,7 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 
 	@Override
 	public TrackBandDto getTrackBandByTrackNumAndBandAlias(String trackNumAndBandAlias) {
-		String[] names = trackNumAndBandAlias.split(",");
+		String[] names = trackNumAndBandAlias.split("@");
 		String trackCatalogNum = names[0];
 		String bandAlias = names[1];
 		return trackPerformerDao.getTrackBandByTrackNameAndBandAlias(trackCatalogNum, bandAlias);
@@ -88,13 +88,13 @@ public class TrackPerformerServiceImpl implements TrackPerformerService {
 
 	@Override
 	public boolean isNotEqualTrackNums(String trackAndAlias, String trackNumFromDto) {
-		String trackNum = trackAndAlias.split(",")[0];
+		String trackNum = trackAndAlias.split("@")[0];
 		return isFalse(trackNum.equals(trackNumFromDto));
 	}
 
 	@Override
 	public boolean isNotEqualArtistAliases(String trackAndAlias, String aliasFromDto) {
-		String alias = trackAndAlias.split(",")[1];
+		String alias = trackAndAlias.split("@")[1];
 		return isFalse(alias.equals(aliasFromDto));
 	}
 }

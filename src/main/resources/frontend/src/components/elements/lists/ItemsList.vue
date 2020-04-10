@@ -6,8 +6,8 @@
                 v-for="prop in listProps"
                 :key="prop"
                 :title="$store.getters.getAppLocale('sortTooltip')"
-                :class="{ desc: sortAttribute === prop && sortDirection === 1, asc: sortAttribute === prop && sortDirection === 0 }"
-                @click="sortChange(prop)"
+                :class="{ desc: sortAttribute === prop && sortDirection === 1, asc: sortAttribute === prop && sortDirection === 0, sortable: isSortable(prop) }"
+                @click="isSortable(prop) ? sortChange(prop): ''"
         >{{schemaDictionary[prop]}}</th>
       </tr>
       <tr v-for="(item, index) in items" :key="itemsKeys[index]" class="tableRow" @click="itemClick(index)">
@@ -16,8 +16,12 @@
         </td>
       </tr>
     </table>
-    <div>
-      <!-- TODO record -->
+    <div v-if="items.length === 0 && !loading" class="row">
+      <div class="col-md-4 col-6 img"><img src="@/assets/record.png"></div>
+      <div class="col-md-8 col-12 mt-5">
+        <p class="errorTitle">{{$store.getters.getAppLocale('listNoItems')}}</p>
+        <p>{{$store.getters.getAppLocale('listNoItemsMessage')}}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -26,8 +30,10 @@
 
 import Item from '../items/Item'
 
+import * as SchemaUtils from '@/schemas/utils'
+
 export default {
-  props: ['schema', 'items', 'sortAttribute', 'sortDirection'],
+  props: ['schema', 'items', 'sortAttribute', 'sortDirection', 'loading'],
   components: {
     Item
   },
@@ -40,7 +46,7 @@ export default {
     },
     itemsKeys() {
       if (typeof this.getKey === 'object') {
-        return this.items.map(item => this.getKey.map(k => item[k]).join(','))
+        return this.items.map(item => this.getKey.map(k => item[k]).join('@'))
       }
       return this.items.map(item => item[this.getKey])
     },
@@ -57,6 +63,9 @@ export default {
     },
     sortChange(attribute) {
       this.$emit('sortChange', attribute)
+    },
+    isSortable(prop) {
+      return SchemaUtils.isSortable(this.getProps[prop])
     }
   }
 }
@@ -81,10 +90,13 @@ export default {
 
   td, th {
     padding: 5px 10px;
+  }
+
+  td, .sortable {
     cursor: pointer;
   }
 
-  th:hover {
+  .sortable:hover {
     background: #595959;
   }
 
@@ -111,6 +123,16 @@ export default {
 
   .asc::after {
     content: "▲";
+  }
+
+
+  .img img {
+    width: 100%;
+  }
+
+  .errorTitle {
+    font-weight: bold;
+    font-size: 36px;
   }
 
 </style>

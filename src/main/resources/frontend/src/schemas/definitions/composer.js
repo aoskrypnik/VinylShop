@@ -1,6 +1,9 @@
 export default {
   props: {
-    composerName: 'string',
+    composerName: {
+      type: 'string',
+      noedit: true
+    },
     composerCountryCode: 'country',
     activityStart: {
       type: 'date',

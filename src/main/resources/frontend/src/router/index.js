@@ -66,6 +66,11 @@ const routes = [
     path: '/stats/salesmen',
     name: 'salesmen-stats',
     component: () => import(/* webpackChunkName: "stats" */ './pages/SalesmenStats.vue')
+  },
+  {
+    path: '/custom',
+    name: 'custom',
+    component: () => import(/* webpackChunkName: "custom" */ './pages/CustomQuery.vue')
   }
 ]
 

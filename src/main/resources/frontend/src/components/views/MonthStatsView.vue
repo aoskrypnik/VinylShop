@@ -62,24 +62,7 @@
     methods: {
       applyYear() {
         this.loading = true
-        const months = [...Array(12).keys()].map(m => `${this.selectedYear}-${(Number(m)+1 < 10 ? '0' : '') + (Number(m)+1)}-01`)
-        months.push(`${Number(this.selectedYear)+1}-01-01`);
-
-
-
-        const start = months.shift();
-
-        const monthPairs = [];
-
-        months.reduce((prev, next) => {
-              monthPairs.push([prev, next]);
-              return next
-            }, start);
-
-        const statsPromises = monthPairs.map(([prev, next]) => Api.statsByDate(prev, next));
-
-
-        Promise.all(statsPromises).then(values => {
+        Api.statsByMonths(`${this.selectedYear}-01-01`).then(values => {
           this.results = values;
           this.loading = false
         }).catch(e => {
@@ -106,9 +89,9 @@
           ...months
               .map((month, i) => [
                 month,
-                this.results[i].income/100 || 0,
-                this.results[i].avgIncome/100 || 0,
-                this.results[i].proceeds/100 || 0
+                this.results[i+1].income/100 || 0,
+                this.results[i+1].avgCheck/100 || 0,
+                this.results[i+1].proceeds/100 || 0
               ])
         ]
       },
@@ -125,7 +108,7 @@
           ...months
               .map((month, i) => [
                 month,
-                this.results[i].checksNum,
+                this.results[i+1].checksNum,
               ])
         ]
       }

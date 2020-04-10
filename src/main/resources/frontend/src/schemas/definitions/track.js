@@ -1,6 +1,9 @@
 export default {
   props: {
-    trackCatalogNum: 'int',
+    trackCatalogNum: {
+      type: 'int',
+      noedit: true
+    },
     trackName: 'string',
     duration: {
       type: 'int',

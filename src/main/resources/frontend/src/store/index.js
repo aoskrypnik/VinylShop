@@ -122,6 +122,8 @@ export default new Vuex.Store({
         switch(error.response.status) {
           case 404:
             return 'notfound'
+          case 405:
+          case 403:
           case 401:
             return 'forbidden'
           case 500:

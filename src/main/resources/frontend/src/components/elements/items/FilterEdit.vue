@@ -23,6 +23,7 @@
         if (SchemaUtils.isSchemaType(this.type)) {
           return {
             ...this.type,
+            isArray: true,
             isNullable: true
           }
         }

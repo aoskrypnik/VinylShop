@@ -19,7 +19,7 @@
         ></item>
       </div>
       <div class="buttonGroup">
-        <black-button @click="editEntry">{{$store.getters.getAppLocale('editEntry')}}</black-button>
+        <black-button v-if="isEditable" @click="editEntry">{{$store.getters.getAppLocale('editEntry')}}</black-button>
         <black-button @click="deleteEntry">{{$store.getters.getAppLocale('removeEntry')}}</black-button>
       </div>
     </div>
@@ -34,11 +34,11 @@
   import PageHeader from '../elements/typography/PageHeader'
   import Item from '../elements/items/Item'
   import ThreeDotsSpinner from '../elements/spinners/ThreeDotsSpinner'
+  import BlackButton from "@/components/elements/buttons/BlackButton";
+  import ErrorView from "@/components/views/ErrorView";
 
   import * as Api from '@/api'
   import * as SchemaUtils from '@/schemas/utils'
-  import BlackButton from "@/components/elements/buttons/BlackButton";
-  import ErrorView from "@/components/views/ErrorView";
 
   export default {
     components: {
@@ -73,6 +73,9 @@
       },
       schemaProps() {
         return this.$store.getters.getSchemaProps(this.schema)
+      },
+      isEditable() {
+        return SchemaUtils.isEditable(this.schema, this.values)
       }
     },
     methods: {

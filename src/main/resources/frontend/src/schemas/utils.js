@@ -21,6 +21,15 @@ export function getTypeString(type) {
   return type.type
 }
 
+export function getTypeStringRec(type) {
+  if (type.isSchema) {
+    const schema = store.getters.getSchema(type.type)
+    return getTypeStringRec(schema.props[schema.key])
+  }
+
+  return getTypeString(type)
+}
+
 function isType(type, desired) {
   if (type.isSchema) {
     const schema = store.getters.getSchema(type.type)
@@ -75,6 +84,15 @@ export const valueString = (schemaName, item) => {
   return schema.display(item)
 };
 
+export const isEditable = (schemaName, item) => {
+  const schema = store.getters.getSchema(schemaName);
+  if (schema.noedit) {
+    return false
+  }
+
+  return schemaName !== 'record' || item.available
+}
+
 export const isRangeType = (type) => {
   const typeString = getTypeString(type);
 
@@ -111,11 +129,26 @@ export const isNewFormVisible = (type) => {
   return !type.filterOnly && !type.readonly
 };
 
+export const isSortable = (type) => {
+  if (type.isArray) {
+    return false;
+  }
+
+  const typeString = getTypeStringRec(type)
+  return typeString === 'string' ||
+      typeString === 'int' ||
+      typeString === 'boolean' ||
+      typeString === 'money' ||
+      typeString === 'date' ||
+      typeString === 'country' ||
+      typeString === 'datetime'
+};
+
 export const getKey = (schemaName) => (item) => {
   const schema = store.getters.getSchema(schemaName);
 
   if (Array.isArray(schema.key)) {
-    return schema.key.map(k => item[k]).join(',')
+    return schema.key.map(k => item[k]).join('@')
   } else {
     return item[schema.key]
   }
