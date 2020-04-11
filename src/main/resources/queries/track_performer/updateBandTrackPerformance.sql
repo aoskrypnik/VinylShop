@@ -1,4 +1,3 @@
 UPDATE band2track
 SET featuring =?
-
-WHERE band_alias =?;
+WHERE track_catalog_num =? AND band_alias =?;

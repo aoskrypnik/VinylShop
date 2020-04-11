@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static org.springframework.util.CollectionUtils.isEmpty;
+
 @Repository
 public class TrackPerformerDaoImpl implements TrackPerformerDao {
 
@@ -57,14 +59,16 @@ public class TrackPerformerDaoImpl implements TrackPerformerDao {
 
 	@Override
 	public void update(TrackArtistDto trackArtistDto) {
-		String updateArtistTrackPerformanceQuery = QuerySupplier.getQuery(updateArtistTrackPerformanceQueryPath);
-		jdbcTemplate.update(updateArtistTrackPerformanceQuery, trackArtistDto.getIsFeaturing(), trackArtistDto.getArtistAlias());
+		String query = QuerySupplier.getQuery(updateArtistTrackPerformanceQueryPath);
+		jdbcTemplate.update(query, trackArtistDto.getIsFeaturing(),
+				trackArtistDto.getTrackCatalogNum(), trackArtistDto.getArtistAlias());
 	}
 
 	@Override
 	public void update(TrackBandDto trackBandDto) {
-		String updateBandTrackPerformanceQuery = QuerySupplier.getQuery(updateBandTrackPerformanceQueryPath);
-		jdbcTemplate.update(updateBandTrackPerformanceQuery, trackBandDto.getIsFeaturing(), trackBandDto.getBandAlias());
+		String query = QuerySupplier.getQuery(updateBandTrackPerformanceQueryPath);
+		jdbcTemplate.update(query, trackBandDto.getIsFeaturing(),
+				trackBandDto.getTrackCatalogNum(), trackBandDto.getBandAlias());
 	}
 
 	@Transactional
@@ -75,7 +79,7 @@ public class TrackPerformerDaoImpl implements TrackPerformerDao {
 		List<TrackArtistDto> trackArtistList = jdbcTemplate
 				.query(getArtistTrackPerformanceQuery, new Object[]{trackName, artistAlias}, trackArtistDtoRowMapper);
 
-		return trackArtistList.size() == 0 ? null : trackArtistList.get(0);
+		return isEmpty(trackArtistList) ? null : trackArtistList.get(0);
 	}
 
 	@Transactional
@@ -86,7 +90,7 @@ public class TrackPerformerDaoImpl implements TrackPerformerDao {
 		List<TrackBandDto> trackBandList = jdbcTemplate
 				.query(getBandTrackPerformanceQuery, new Object[]{trackName, bandAlias}, trackBandDtoRowMapper);
 
-		return trackBandList.size() == 0 ? null : trackBandList.get(0);
+		return isEmpty(trackBandList) ? null : trackBandList.get(0);
 	}
 
 	@Override
