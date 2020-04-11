@@ -1,3 +1,3 @@
 UPDATE artist2band
-SET exit_date = ?
-WHERE (artist_alias = ? AND band_alias = ? AND join_date = ?)
+SET join_date = ?, exit_date = ?
+WHERE (artist_alias = ? AND band_alias = ?)

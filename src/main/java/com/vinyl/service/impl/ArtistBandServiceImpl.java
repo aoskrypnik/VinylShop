@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
 
 @Service
@@ -42,9 +43,9 @@ public class ArtistBandServiceImpl implements ArtistBandService {
 
 	@Override
 	public ArtistBandDto getArtistBandByPks(String ids) {
-		String id1 = ids.split("@")[0];
-		String id2 = ids.split("@")[1];
-		return artistBandDao.getArtistBandByPks(id1, id2);
+		String artistAlias = ids.split("@")[0];
+		String bandAlias = ids.split("@")[1];
+		return artistBandDao.getArtistBandByPks(artistAlias, bandAlias);
 	}
 
 	@Override
@@ -64,7 +65,7 @@ public class ArtistBandServiceImpl implements ArtistBandService {
 	}
 
 	@Override
-	public boolean validateArtistBand(ArtistBandDto artistBandDto) {
+	public boolean isValidArtistBandDates(ArtistBandDto artistBandDto) {
 		Artist artist = artistService.getArtistByAlias(artistBandDto.getParticipationArtistAlias());
 		Band band = bandService.getBandByAlias(artistBandDto.getParticipationBandAlias());
 		Date joinDate = artistBandDto.getJoinDate();
@@ -74,10 +75,12 @@ public class ArtistBandServiceImpl implements ArtistBandService {
 		Date bandStartYear = band.getStartYear();
 		Date bandEndYear = band.getEndYear();
 
-		return isTrue(isNull(joinDate) || artistBirthDate.before(joinDate)) &&
-				isTrue(isNull(joinDate) || bandStartYear.before(joinDate)) &&
+		return nonNull(joinDate) &&
+				isTrue(artistBirthDate.before(joinDate)) &&
+				isTrue(bandStartYear.before(joinDate)) &&
 				isTrue(isNull(artistDeathDate) || isNull(exitDate) || artistDeathDate.after(exitDate)) &&
-				isTrue(isNull(bandEndYear) || isNull(exitDate) || bandEndYear.after(exitDate));
+				isTrue(isNull(bandEndYear) || isNull(exitDate) || bandEndYear.after(exitDate)) &&
+				isTrue(joinDate.before(exitDate));
 	}
 
 }

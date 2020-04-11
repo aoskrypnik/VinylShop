@@ -17,5 +17,5 @@ public interface ArtistBandService {
 
 	void deleteByIds(String ids);
 
-	boolean validateArtistBand(ArtistBandDto artistBandDto);
+	boolean isValidArtistBandDates(ArtistBandDto artistBandDto);
 }

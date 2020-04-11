@@ -13,6 +13,8 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
+import static org.springframework.util.CollectionUtils.isEmpty;
+
 @Repository
 public class ArtistBandDaoImpl implements ArtistBandDao {
 
@@ -45,15 +47,17 @@ public class ArtistBandDaoImpl implements ArtistBandDao {
 		String bandAlias = artistBandDto.getParticipationBandAlias();
 		Date joinDate = artistBandDto.getJoinDate();
 		Date exitDate = artistBandDto.getExitDate();
-		jdbcTemplate.update(updateArtistToBandQuery, exitDate, artistAlias, bandAlias, joinDate);
+
+		jdbcTemplate.update(updateArtistToBandQuery, joinDate, exitDate, artistAlias, bandAlias);
 	}
 
 	@Transactional
 	@Override
-	public ArtistBandDto getArtistBandByPks(String id1, String id2) {
+	public ArtistBandDto getArtistBandByPks(String artistAlias, String bandAlias) {
 		String getArtistBandByIdsQuery = QuerySupplier.getQuery(getArtistBandByIdsQueryPath);
-		List<ArtistBandDto> queryResult = jdbcTemplate.query(getArtistBandByIdsQuery, new Object[]{id1, id2}, artistToBandRowMapper);
-		return queryResult.size() == 0 ? null : queryResult.get(0);
+		List<ArtistBandDto> queryResult = jdbcTemplate
+				.query(getArtistBandByIdsQuery, new Object[]{artistAlias, bandAlias}, artistToBandRowMapper);
+		return isEmpty(queryResult) ? null : queryResult.get(0);
 	}
 
 	@Transactional
