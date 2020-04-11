@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
+import static org.springframework.util.CollectionUtils.isEmpty;
+
 @Repository
 public class TrackDaoImpl implements TrackDao {
 
@@ -57,9 +60,12 @@ public class TrackDaoImpl implements TrackDao {
 	}
 
 	private void performQueryOnListValuesForTrack(String trackCatalogNum, List<String> listValues, String query) {
-		for (String value : listValues) {
-			jdbcTemplate.update(query, trackCatalogNum, value);
+		if (isFalse(isEmpty(listValues))) {
+			for (String value : listValues) {
+				jdbcTemplate.update(query, trackCatalogNum, value);
+			}
 		}
+
 	}
 
 	@Transactional
