@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="pb-4">
     <h1 class="header mb-4">{{$store.getters.getAppLocale('welcome')}}, {{username}}</h1>
     <h2 class="sectionHeader">{{$store.getters.getAppLocale('quickActions')}}</h2>
-    <div class="buttonContainer s20 mb-4">
+    <div class="buttonContainer s20 mb-2">
       <square-button
               v-for="action in getQuickActions"
               :key="action.label"
@@ -69,6 +69,7 @@
 
   .buttonContainer.s20 > * {
      margin-right: 20px;
+     margin-bottom: 20px;
   }
 
   .buttonContainer.s10 > * {

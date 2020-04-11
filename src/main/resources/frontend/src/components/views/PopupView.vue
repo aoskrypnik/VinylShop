@@ -62,4 +62,14 @@
     max-height: calc(100vh - 180px);
   }
 
+  @media (max-width: 768px) {
+    .body {
+      padding: 20px 0;
+    }
+
+    .content {
+      padding: 0 20px;
+    }
+  }
+
 </style>

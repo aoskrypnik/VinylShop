@@ -31,6 +31,7 @@
   button.inline {
     display: inline-block;
     margin-right: 5px;
+    margin-bottom: 5px;
   }
 
   button:hover {

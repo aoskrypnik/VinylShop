@@ -21,6 +21,9 @@
 <style scoped>
   label {
     margin-bottom: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .boxContainer {

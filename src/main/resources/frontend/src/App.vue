@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
     <div class="row header">
-      <span class="logo col-md-6" @click="$router.push({name: 'home'})">MyVinyl</span>
+      <span class="logo col-md-6 col-3" @click="$router.push({name: 'home'})">MyVinyl</span>
       <span>
         <span class="headerLink" @click="$store.commit('toggleLanguage')">{{language === 'en' ? 'UA' : 'EN'}}</span>
         <router-link v-if="isAuthenticated()" class="headerLink" to="/password" tag="span">{{$store.getters.getAppLocale('changePassword')}}</router-link>
@@ -72,7 +72,8 @@ export default {
     line-height: 70px;
     cursor: pointer;
     user-select: none;
-    margin-left: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
   }
 
   .fade-enter-active {

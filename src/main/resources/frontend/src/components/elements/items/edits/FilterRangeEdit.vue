@@ -67,6 +67,8 @@
 
   .rangeContainer {
     display: flex;
+    flex-wrap: wrap;
+    width: 100%;
   }
 
   p {

@@ -2,7 +2,7 @@ import Axios from 'axios'
 import store from '@/store'
 import * as SchemaUtils from '@/schemas/utils'
 
-const endpoint = 'http://localhost:8087';
+const endpoint = 'http://192.168.88.71:8087';
 
 function generateAuthHeader() {
   return {

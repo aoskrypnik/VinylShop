@@ -11,7 +11,7 @@
       </div>
     </div>
     <black-button class="mb-3" @click="toggleFilters">{{ $store.getters.getAppLocale('showFilters') }}</black-button>
-    <black-button v-if="multiple" @click="selectAll">{{ $store.getters.getAppLocale('selectAll') }}</black-button>
+    <black-button class="mb-3" v-if="multiple" @click="selectAll">{{ $store.getters.getAppLocale('selectAll') }}</black-button>
     <div class="tableContainer">
       <items-list
               class="mb-3"
