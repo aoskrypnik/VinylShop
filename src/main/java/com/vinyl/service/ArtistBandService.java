@@ -18,4 +18,6 @@ public interface ArtistBandService {
 	void deleteByIds(String ids);
 
 	boolean isValidArtistBandDates(ArtistBandDto artistBandDto);
+
+	Boolean isValidArtistAliasAndBandAlias(String ids, ArtistBandDto artistBandDto);
 }

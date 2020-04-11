@@ -31,6 +31,7 @@ import static org.apache.commons.lang3.BooleanUtils.isFalse;
 public class ArtistBandController {
 
 	private static final String DATES_MISMATCH_MESSAGE = "Sorry, there is some conflict with dates";
+	private static final String DIFFERENT_ALIASES_PROVIDED = "Sorry, you gave different aliases in url and request body";
 	private static final String DUPLICATE_RECORD_IN_DB_MESSAGE = "Sorry, there is already such record in db";
 
 	@Resource
@@ -77,6 +78,9 @@ public class ArtistBandController {
 	@PutMapping("/{ids}")
 	public ResponseEntity<Object> updateParticipation(@PathVariable String ids,
 													  @RequestBody ArtistBandDto artistBandDto) {
+		if (isFalse(artistBandService.isValidArtistAliasAndBandAlias(ids, artistBandDto))) {
+			return new ResponseEntity<>(new ApiResponse(false, DIFFERENT_ALIASES_PROVIDED), HttpStatus.CONFLICT);
+		}
 		if (isNull(artistBandService.getArtistBandByPks(ids))) {
 			return ResponseEntity.notFound().build();
 		}

@@ -83,4 +83,15 @@ public class ArtistBandServiceImpl implements ArtistBandService {
 				isTrue(joinDate.before(exitDate));
 	}
 
+	@Override
+	public Boolean isValidArtistAliasAndBandAlias(String ids, ArtistBandDto artistBandDto) {
+		String artistAlias = artistBandDto.getParticipationArtistAlias();
+		String bandAlias = artistBandDto.getParticipationBandAlias();
+
+		String artistAliasFromUrl = ids.split("@")[0];
+		String bandAliasFromUrl = ids.split("@")[1];
+
+		return artistAlias.equals(artistAliasFromUrl) && bandAlias.equals(bandAliasFromUrl);
+	}
+
 }
