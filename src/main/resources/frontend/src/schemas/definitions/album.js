@@ -26,9 +26,15 @@ export default {
       isSchema: 'true',
       isArray: true,
       joins: ['track2album']
+    },
+    releaseBarcodes: {
+      readonly: true,
+      type: 'release',
+      isSchema: true,
+      isArray: true
     }
-    // TODO release
   },
   key: 'albumCatalogNum',
+  nodelete: true,
   display: (item) => `${item.albumName} #${item.albumCatalogNum}`
 }

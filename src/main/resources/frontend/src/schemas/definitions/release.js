@@ -30,5 +30,6 @@ export default {
     }
   },
   key: 'releaseBarcode',
+  nodelete: true,
   display: (item) => `${item.albumCatalogNum} ${item.releaseDate} ${item.label}`
 }

@@ -11,7 +11,6 @@ function generateAuthHeader() {
 }
 
 function generateQueryString(params) {
-  // TODO fix plus sign
   const entries = Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== []);
 
   return entries.map(
@@ -35,9 +34,7 @@ export async function auth(login, password) {
           'Content-Type': 'application/json',
           ...generateAuthHeader()
         }
-      },
-
-  );
+      });
 
   return {
     token: authData.data.accessToken,
@@ -45,9 +42,24 @@ export async function auth(login, password) {
   }
 }
 
+export async function changePassword(login, oldPassword, password) {
+  return Axios.put(`${endpoint}/credentials/sign-in`,
+      {
+        login,
+        oldPassword,
+        password,
+        password2: password
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          ...generateAuthHeader()
+        }
+      });
+}
+
 // eslint-disable-next-line no-unused-vars
 export async function getItems(schema, limit, offset, sortField, sortDirection, filters) {
-  // TODO fix money type
   let query = {
     limit,
     offset,
@@ -104,12 +116,11 @@ export async function getItems(schema, limit, offset, sortField, sortDirection, 
             query.joins.push(SchemaUtils.getTypeString(type))
           }
 
-          if (SchemaUtils.isArray(type)) {
+          if (Array.isArray(value)) {
             value.forEach(v => query.wheres.push(`${prop}:${v}`))
             return
           }
         }
-
         query.wheres.push(`${prop}:${value}`)
       }
     })

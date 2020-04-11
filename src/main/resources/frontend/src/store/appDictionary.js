@@ -278,5 +278,66 @@ export default {
   soldOut: {
     en: 'Sold out!',
     ua: 'Розпродані'
+  },
+  editSuccessful: {
+    en: 'Successfully changed item',
+    ua: 'Запис змінено успішно'
+  },
+  changePassword: {
+    en: 'Change password',
+    ua: 'Змінити пароль'
+  },
+  change: {
+    en: 'Change',
+    ua: 'Змінити'
+  },
+  oldPassword: {
+    en: 'Old password',
+    ua: 'Старий пароль'
+  },
+  newPassword: {
+    en: 'New password',
+    ua: 'Новий пароль'
+  },
+  passwordSuccessful: {
+    en: 'Password changed succesfully',
+    ua: 'Пароль було успішно змінено'
+  },
+  passwordError: {
+    en: 'Error updating password',
+    ua: 'Не вдалося змінити пароль'
+  },
+  passwordErrorMessage: {
+    en: 'Verify the old password correctness and try again',
+    ua: 'Перевірте правильність вводу паролю та спробуйте знову'
+  },
+  ais: {
+    en: 'Automated informational system',
+    ua: 'Автоматизована інформаційна система'
+  },
+  tabNum: {
+    en: 'Employee number',
+    ua: 'Табельний номер'
+  },
+  password: {
+    en: 'Password',
+    ua: 'Пароль'
+  },
+  username: {
+    en: 'Username',
+    ua: 'Логін'
+  },
+  signIn: {
+    en: 'Sign in',
+    ua: 'Вхід'
+  },
+  salesmanRegistration: {
+    en: 'Salesman registration',
+    ua: 'Реєстрація продавця'
+  },
+  repeatPassword: {
+    en: 'Repeat password',
+    ua: 'Повторити пароль'
   }
+
 }

@@ -2,7 +2,11 @@
   <div id="app" class="container">
     <div class="row header">
       <span class="logo col-md-6" @click="$router.push({name: 'home'})">MyVinyl</span>
-      <span v-if="isAuthenticated()" class="headerLink" @click="signOut">{{$store.getters.getAppLocale('signOut')}}</span>
+      <span>
+        <span class="headerLink" @click="$store.commit('toggleLanguage')">{{language === 'en' ? 'UA' : 'EN'}}</span>
+        <router-link v-if="isAuthenticated()" class="headerLink" to="/password" tag="span">{{$store.getters.getAppLocale('changePassword')}}</router-link>
+        <span v-if="isAuthenticated()" class="headerLink" @click="signOut">{{$store.getters.getAppLocale('signOut')}}</span>
+      </span>
     </div>
     <router-view/>
     <div class="popups">
@@ -23,7 +27,7 @@ export default {
     PopupView
   },
   computed: {
-    ...mapState(['popups']),
+    ...mapState(['popups', 'language']),
     ...mapGetters(['isAuthenticated'])
   },
   methods: {
@@ -51,7 +55,6 @@ export default {
   }
 
   .header {
-
     justify-content: space-between;
   }
 
@@ -68,6 +71,7 @@ export default {
     line-height: 70px;
     cursor: pointer;
     user-select: none;
+    margin-left: 20px;
   }
 
   .fade-enter-active {

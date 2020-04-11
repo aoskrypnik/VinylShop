@@ -3,11 +3,11 @@
     <router-link :to="{ name: 'register' }" class="grayLink">{{$store.getters.getAppLocale('registration')}}</router-link>
     <div class="vertMidCont">
       <div class="row vertMidEl">
-          <x-header class="col-md-6">Автоматизована інформаційна система</x-header>
+          <x-header class="col-md-6">{{$store.getters.getAppLocale('ais')}}</x-header>
           <div class="col-md-6 loginArea">
-            <black-input placeholder="Логін" :large="true" v-model="login"></black-input>
-            <black-input placeholder="Пароль" password="true" :large="true" v-model="password"></black-input>
-            <black-button large="true" @click="auth">Вхід</black-button>
+            <black-input :placeholder="$store.getters.getAppLocale('username')" :large="true" v-model="login"></black-input>
+            <black-input :placeholder="$store.getters.getAppLocale('password')" password="true" :large="true" v-model="password"></black-input>
+            <black-button large="true" @click="auth">{{$store.getters.getAppLocale('signIn')}}</black-button>
           </div>
       </div>
     </div>

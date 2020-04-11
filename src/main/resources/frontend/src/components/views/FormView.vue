@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link :to="{ name: 'entry', params: { schema, item } }" class="grayLink">{{$store.getters.getAppLocale('backToEntry')}}</router-link>
+    <router-link :to="{ name: newItem ? 'list' : 'entry', params: { schema, item } }" class="grayLink">{{$store.getters.getAppLocale(newItem ? 'backToList' : 'backToEntry')}}</router-link>
     <page-header  v-if="!error || errorOperation !== 'load'">{{schemaName + ' ' + (item ? itemString : $store.getters.getAppLocale('newEntry'))}}</page-header>
     <item-form v-if="!error || errorOperation !== 'load'" :schema="schema" :wrong-null-fields="wrongNullFields" :newitem="!item" v-model="values"></item-form>
     <black-button v-if="!error || errorOperation !== 'load'" @click="validate">{{$store.getters.getAppLocale('saveEntry')}}</black-button>
@@ -49,6 +49,9 @@ export default {
     },
     valid() {
       return SchemaUtils.getKey(this.schema)(this.values) !== undefined
+    },
+    newItem() {
+      return this.item === undefined
     }
   },
   methods: {
@@ -69,9 +72,6 @@ export default {
         this.values = {}
       }
     },
-    new() {
-      // TODO success popup
-    },
     validate() {
       this.wrongNullFields = new Set(SchemaUtils.nullCheck(this.schema, this.values))
 
@@ -89,6 +89,21 @@ export default {
                 item: SchemaUtils.getKey(this.schema)(this.values)
               }
             })
+            this.$store.dispatch(
+                'addPopup',
+                {
+                  type: 'dialog',
+                  properties: {
+                    title: this.$store.getters.getAppLocale('editSuccessful'),
+                    buttons: [
+                      {
+                        label: 'OK',
+                        onClick: () => {
+                        }
+                      }
+                    ]
+                  }
+                })
           }).catch(e => {
             this.error = true
             this.errorOperation = 'save'
@@ -108,8 +123,6 @@ export default {
                 }
             )
           }).catch(e => {
-            // eslint-disable-next-line
-            console.log(e)
             this.error = true
             this.errorOperation = 'save'
             this.errorType = this.$store.getters.getErrorType(e)

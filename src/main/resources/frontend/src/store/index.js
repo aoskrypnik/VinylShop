@@ -17,7 +17,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    language: 'ua',
+    language: window.localStorage.getItem('language') || 'ua',
     schemas: Schemas,
     schemaDictionary: SchemaDictionary,
     appDictionary: AppDictionary,
@@ -49,6 +49,10 @@ export default new Vuex.Store({
       window.localStorage.removeItem('authToken');
       window.localStorage.removeItem('authRole');
       window.localStorage.removeItem('authUsername')
+    },
+    toggleLanguage (state) {
+      state.language = state.language === 'ua' ? 'en' : 'ua'
+      window.localStorage.setItem('language', state.language);
     }
   },
   getters: {
@@ -117,7 +121,6 @@ export default new Vuex.Store({
       }
     },
     getErrorType: () => (error) => {
-      // TODO elaborate error types
       if (error.response) {
         switch(error.response.status) {
           case 404:
@@ -125,6 +128,7 @@ export default new Vuex.Store({
           case 405:
           case 403:
           case 401:
+          case 409:
             return 'forbidden'
           case 500:
             return 'internal'
@@ -146,6 +150,12 @@ export default new Vuex.Store({
         ...dict,
         [schema]: state.schemaDictionary.schemas[schema][state.language]
       }), {})
+    },
+    isDirector: (state) => {
+      return state.role === 'ROLE_DIRECTOR';
+    },
+    username: (state) => {
+      return state.username
     }
   },
   actions: {

@@ -20,7 +20,7 @@
       </div>
       <div class="buttonGroup">
         <black-button v-if="isEditable" @click="editEntry">{{$store.getters.getAppLocale('editEntry')}}</black-button>
-        <black-button @click="deleteEntry">{{$store.getters.getAppLocale('removeEntry')}}</black-button>
+        <black-button v-if="isDeletable" @click="deleteEntry">{{$store.getters.getAppLocale('removeEntry')}}</black-button>
       </div>
     </div>
     <div v-if="error">
@@ -55,7 +55,8 @@
         values: null,
         wrongNullFields: new Set(),
         errorType: null,
-        error: false
+        error: false,
+        errorOperation: 'load'
       }
     },
     computed: {
@@ -76,6 +77,9 @@
       },
       isEditable() {
         return SchemaUtils.isEditable(this.schema, this.values)
+      },
+      isDeletable() {
+        return SchemaUtils.isDeletable(this.schema, this.values)
       }
     },
     methods: {
@@ -89,6 +93,7 @@
           this.errorType = this.$store.getters.getErrorType(e)
           this.loading = false
           this.values = null
+          this.errorOperation = 'load'
         })
       },
       visible(prop) {
@@ -128,8 +133,12 @@
                             schema: this.schema
                           }
                         })
-                      }).catch(() => {
-                        // TODO Handle deletion error
+                      }).catch((e) => {
+                        this.error = true;
+                        this.errorType = this.$store.getters.getErrorType(e);
+                        this.loading = false;
+                        this.values = null
+                        this.errorOperation = 'load'
                       })
                     }
                   }

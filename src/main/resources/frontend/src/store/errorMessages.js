@@ -40,5 +40,11 @@ export default {
       title: 'forbiddenError',
       message: 'forbiddenErrorMessage'
     }
+  },
+  password: {
+    generic: {
+      title: 'passwordError',
+      message: 'passwordErrorMessage'
+    }
   }
 }

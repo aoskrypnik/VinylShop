@@ -285,6 +285,7 @@ public class QueryBuilder {
 			.put("albumGenres", List.of("genre_name", STRING_TYPE_NAME))
 			.put("languages", List.of("lang_name", STRING_TYPE_NAME))
 			.put("releaseBarcode", List.of("bar_code", STRING_TYPE_NAME))
+			.put("releaseBarcodes", List.of("bar_code", STRING_TYPE_NAME))
 			.put("releaseDate", List.of("release_date", STRING_TYPE_NAME))
 			.put("recordSize", List.of("record_size", STRING_TYPE_NAME))
 			.put("recordSpeed", List.of("record_speed", STRING_TYPE_NAME))

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from './pages/Login.vue'
 import Register from './pages/Register'
+import ChangePassword from './pages/ChangePassword'
 import Store from '@/store'
 
 Vue.use(VueRouter)
@@ -71,12 +72,17 @@ const routes = [
     path: '/custom',
     name: 'custom',
     component: () => import(/* webpackChunkName: "custom" */ './pages/CustomQuery.vue')
+  },
+  {
+    path: '/password',
+    name: 'password',
+    component: ChangePassword
   }
-]
+];
 
 const router = new VueRouter({
   routes
-})
+});
 
 router.beforeEach((to, from, next) => {
   if (to.name !== 'login' && to.name !== 'register') {

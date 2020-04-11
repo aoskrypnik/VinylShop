@@ -25,7 +25,7 @@
               @sortChange="sortChange"
       ></items-list>
     </div>
-    <router-link :to="{ name: 'form-new', params: { schema }}">
+    <router-link v-if="isCreatable" :to="{ name: 'form-new', params: { schema }}">
       <black-button>+</black-button>
     </router-link>
     <three-dots-spinner v-if="loading"></three-dots-spinner>
@@ -57,6 +57,9 @@ export default {
   computed: {
     schemaName() {
       return this.$store.getters.getSchemaLocale(this.schema)
+    },
+    isCreatable() {
+      return SchemaUtils.isCreatable(this.schema)
     }
   },
   data: function() {

@@ -22,7 +22,6 @@
         return this.$store.getters.getErrorMessage(this.operation, this.type)
       },
       buttonType() {
-        // TODO implement home button (and home itself)
         switch(this.type) {
           case 'notfound':
             return 'return'

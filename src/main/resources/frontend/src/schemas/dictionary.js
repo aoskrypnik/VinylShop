@@ -297,6 +297,10 @@ export default {
         funk: {
           en: 'Funk',
           ua: 'Фанк'
+        },
+        releaseBarcodes: {
+          en: 'Releases',
+          ua: 'Релізи'
         }
       }
     },

@@ -93,6 +93,16 @@ export const isEditable = (schemaName, item) => {
   return schemaName !== 'record' || item.available
 }
 
+export const isDeletable = (schemaName) => {
+  const schema = store.getters.getSchema(schemaName);
+  return !schema.nodelete
+}
+
+export const isCreatable = (schemaName) => {
+  const isDirector = store.getters.isDirector;
+  return schemaName !== 'check' || !isDirector
+}
+
 export const isRangeType = (type) => {
   const typeString = getTypeString(type);
 

@@ -41,5 +41,6 @@ export default {
     }
   },
   key: 'tabNum',
+  nodelete: true,
   display: (item) => item.salesmanName
 }

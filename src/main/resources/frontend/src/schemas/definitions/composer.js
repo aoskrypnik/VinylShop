@@ -27,5 +27,6 @@ export default {
     }
   },
   key: 'composerName',
+  nodelete: true,
   display: (item) => item.composerName
 }

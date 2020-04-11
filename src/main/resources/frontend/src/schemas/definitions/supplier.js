@@ -13,5 +13,6 @@ export default {
     }
   },
   key: 'edrpou',
+  nodelete: true,
   display: item => item.edrpou
 }

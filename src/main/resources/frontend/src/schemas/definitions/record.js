@@ -38,5 +38,6 @@ export default {
     }
   },
   key: 'recordBarcode',
+  nodelete: true,
   display: (item) => `${item.recordBarcode}: ${item.releaseBarcodeFk} - ${item.recordState}`
 }
