@@ -65,7 +65,6 @@ public class TrackDaoImpl implements TrackDao {
 				jdbcTemplate.update(query, trackCatalogNum, value);
 			}
 		}
-
 	}
 
 	@Transactional
@@ -73,7 +72,7 @@ public class TrackDaoImpl implements TrackDao {
 	public Track getTrackByCatalogNum(String catalogNum) {
 		String getTrackByCatalogNumQuery = QuerySupplier.getQuery(getTrackByCatalogNumQueryPath);
 		List<Track> tracks = jdbcTemplate.query(getTrackByCatalogNumQuery, new Object[]{catalogNum}, trackRowMapper);
-		return tracks.size() == 0 ? null : tracks.get(0);
+		return isEmpty(tracks) ? null : tracks.get(0);
 	}
 
 	@Override
