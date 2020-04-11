@@ -14,6 +14,7 @@
         <PopupView v-for="content in popups" :key="content.key" :type="content.type" :properties="content.properties" @close="closePopup" transition="fade"></PopupView>
       </transition-group>
     </div>
+    <p class="bottomPrint">{{$store.getters.getAppLocale('generated') + ' ' + new Date().toUTCString()}}</p>
   </div>
 </template>
 
@@ -126,6 +127,35 @@ export default {
 
   .error {
     color: #d87878;
+  }
+
+  @page {
+    size: auto;
+    margin: 0;
+  }
+
+  .bottomPrint {
+    display: none;
+  }
+
+  @media print {
+    body {
+
+    }
+
+    table td,th {
+      border: 1px black solid;
+    }
+
+    .headerLink, .grayLink, button {
+      display: none !important;
+    }
+
+    .bottomPrint {
+      display: block;
+      position: absolute;
+      bottom: 10px;
+    }
   }
 
 </style>

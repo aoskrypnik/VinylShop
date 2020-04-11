@@ -38,6 +38,12 @@ export default {
       typeConstraint: {
         from: 0
       }
+    },
+    checks: {
+      type: 'check',
+      isSchema: true,
+      filterOnly: true,
+      joins: ['cheq']
     }
   },
   key: 'tabNum',

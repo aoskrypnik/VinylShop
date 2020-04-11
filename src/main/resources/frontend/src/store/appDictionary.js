@@ -338,6 +338,10 @@ export default {
   repeatPassword: {
     en: 'Repeat password',
     ua: 'Повторити пароль'
+  },
+  generated: {
+    en: 'Generated on',
+    ua: 'Звіт згенеровано'
   }
 
 }

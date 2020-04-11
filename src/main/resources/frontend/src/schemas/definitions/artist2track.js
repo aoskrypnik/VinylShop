@@ -2,11 +2,13 @@ export default {
   props: {
     trackCatalogNum: {
       type: 'track',
-      isSchema: true
+      isSchema: true,
+      noedit: true
     },
     artistAlias: {
       type: 'artist',
-      isSchema: true
+      isSchema: true,
+      noedit: true
     },
     isFeaturing: 'boolean'
   },

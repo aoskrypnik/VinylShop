@@ -25,7 +25,7 @@
               @sortChange="sortChange"
       ></items-list>
     </div>
-    <router-link v-if="isCreatable" :to="{ name: 'form-new', params: { schema }}">
+    <router-link class="newLink" v-if="isCreatable" :to="{ name: 'form-new', params: { schema }}">
       <black-button>+</black-button>
     </router-link>
     <three-dots-spinner v-if="loading"></three-dots-spinner>
@@ -167,18 +167,23 @@ export default {
     transform-style: flat;
   }
 
-  .filtersContainer > .scroller {
-    transform: translateY(0);
-    transition: transform 1s ease-in-out;
-  }
-
-  .filtersContainer.closed > .scroller {
-    transform: translateY(-100%);
+  .filtersContainer.closed {
+    display: none;
   }
 
   .filtersButtonContainer {
     margin-top: 30px;
     display: flex;
+  }
+
+  @media print {
+    .newLink {
+      display: none;
+    }
+
+    .filtersContainer {
+      display: block !important;
+    }
   }
 
 </style>

@@ -70,6 +70,10 @@ export default {
           ua: 'Зв\'язки з виконавцями',
           en: 'Artists bindings'
         },
+        bandBindings: {
+          ua: 'Зв\'язки з групами',
+          en: 'Bands bindings'
+        },
         albumIds: {
           ua: 'Альбоми',
           en: 'Albums'
@@ -435,6 +439,10 @@ export default {
         salary: {
           en: 'Salary',
           ua: 'З/п'
+        },
+        checks: {
+          en: 'Checks',
+          ua: 'Чеки'
         }
       }
     },
@@ -521,6 +529,10 @@ export default {
         phoneNumber: {
           en: 'Phone',
           ua: 'Телефон'
+        },
+        records: {
+          en: 'Records',
+          ua: 'Платівки'
         }
       }
     }

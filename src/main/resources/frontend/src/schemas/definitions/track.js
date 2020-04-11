@@ -61,6 +61,12 @@ export default {
       isSchema: true,
       isArray: true,
       filterOnly: true
+    },
+    bandBindings: {
+      type: 'band2track',
+      isSchema: true,
+      isArray: true,
+      filterOnly: true
     }
   },
   key: 'trackCatalogNum',

@@ -2,11 +2,13 @@ export default {
   props: {
     trackCatalogNum: {
       type: 'track',
-      isSchema: true
+      isSchema: true,
+      noedit: true
     },
     bandAlias: {
       type: 'band',
-      isSchema: true
+      isSchema: true,
+      noedit: true
     },
     isFeaturing: 'boolean'
   },

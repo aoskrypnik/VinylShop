@@ -10,6 +10,11 @@ export default {
     phoneNumber: {
       type: 'string',
       typeConstraint: /^\+?\d+$/
+    },
+    records: {
+      type: 'record',
+      isSchema: true,
+      filterOnly: true
     }
   },
   key: 'edrpou',

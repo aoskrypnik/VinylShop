@@ -295,6 +295,7 @@ public class QueryBuilder {
 			.put("albumIds", List.of("album_catalog_num", STRING_TYPE_NAME))
 			.put("composerIds", List.of("composer_name", STRING_TYPE_NAME))
 			.put("recordBarcode", List.of("record.bar_code", STRING_TYPE_NAME))
+			.put("records", List.of("record.bar_code", STRING_TYPE_NAME))
 			.put("releaseBarcodeFk", List.of("release_bar_code", STRING_TYPE_NAME))
 			.put("supplierEdrpou", List.of("supplier_edrpou", STRING_TYPE_NAME))
 			.put("purchaseDate", List.of("purchase_date", STRING_TYPE_NAME))
@@ -323,6 +324,7 @@ public class QueryBuilder {
 			.put("salary", List.of("salary", NOT_STRING_TYPE_NAME))
 			.put("salesmanLogin", List.of("login", STRING_TYPE_NAME))
 			.put("checkNum", List.of("check_num", NOT_STRING_TYPE_NAME))
+			.put("checks", List.of("check_num", NOT_STRING_TYPE_NAME))
 			.put("dateTime", List.of("date_time", NOT_STRING_TYPE_NAME))
 			.put("salesmanTabNum", List.of("salesman_tab_num", NOT_STRING_TYPE_NAME))
 			.put("overallSum", List.of("overall_sum", NOT_STRING_TYPE_NAME))
@@ -338,10 +340,12 @@ public class QueryBuilder {
 			.put("trackIds", List.of("track_catalog_num", STRING_TYPE_NAME))
 			.put("productBarcodes", List.of("bar_code", STRING_TYPE_NAME))
 			.put("customerPhoneNumbers", List.of("phone_number", STRING_TYPE_NAME))
+			.put("bandIds", List.of("band2track.band_alias", STRING_TYPE_NAME))
 			.build();
 
 	private static final Map<String, List<String>> JAVA_PPK_NAME_TO_DATA_BASE_PPK_NAME_MAP = ImmutableMap.<String, List<String>>builder()
 			.put("artistBindings", List.of("bindingTrackCatalogNum", "artistIds"))
+			.put("bandBindings", List.of("bindingTrackCatalogNum", "bandIds"))
 			.put("participations", List.of("participationArtistAlias", "participationBandAlias"))
 			.build();
 

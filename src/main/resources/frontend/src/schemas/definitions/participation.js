@@ -3,18 +3,21 @@ export default {
     participationArtistAlias: {
       type: 'artist',
       isSchema: true,
-      joins: []
+      joins: [],
+      noedit: true
     },
     participationBandAlias: {
       type: 'band',
       isSchema: true,
-      joins: []
+      joins: [],
+      noedit: true
     },
     joinDate: {
       type: 'date',
       typeConstraint: {
         to: []
-      }
+      },
+      noedit: true
     },
     exitDate: {
       type: 'date',
