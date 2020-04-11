@@ -80,7 +80,7 @@ public class ArtistBandServiceImpl implements ArtistBandService {
 				isTrue(bandStartYear.before(joinDate)) &&
 				isTrue(isNull(artistDeathDate) || isNull(exitDate) || artistDeathDate.after(exitDate)) &&
 				isTrue(isNull(bandEndYear) || isNull(exitDate) || bandEndYear.after(exitDate)) &&
-				isTrue(joinDate.before(exitDate));
+				isTrue(isNull(exitDate) || joinDate.before(exitDate));
 	}
 
 	@Override
